@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+        Title="MainWindow" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Grid Background="Green">
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Settings" Click="MenuSettings_Click" />
+                    <Separator />
+                    <MenuItem Header="_Exit" Click="MenuExit_Click"/>
+                </MenuItem>
+            </Menu>
+            <TextBox AcceptsReturn="True" Name="txtEditor" />
+        </DockPanel>
+
+
     </Grid>
 </Window>

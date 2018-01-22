@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,30 +11,31 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace FactoryOrganizerOfficeProgram
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Settings : Window
     {
-        public MainWindow()
+        DataTable availableConnections;
+        public Settings()
         {
             InitializeComponent();
         }
-        //MenuSettings_Click
-        private void MenuSettings_Click(object sender, RoutedEventArgs e)
-        {
-            var settings = new Settings();
-            settings.ShowDialog();
-        }
 
-        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        private void SearchForSQLConnections_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            try
+            {
+                availableConnections = SQLConnection.SqlTestInfo();
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show(error.ToString());
+            }
         }
     }
 }

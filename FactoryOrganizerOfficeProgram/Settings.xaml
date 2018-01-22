@@ -1,0 +1,21 @@
+﻿<Window x:Class="FactoryOrganizerOfficeProgram.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
+        mc:Ignorable="d"
+        Title="Settings" Height="500" Width="700" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="270" />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <DataGrid ItemsSource="{Binding availableConnections}" />
+        <Button Name="SearchForSQLConnections" Click="SearchForSQLConnections_Click" Grid.Column="1" Grid.Row="1" Content="Search"/>
+    </Grid>
+</Window>
