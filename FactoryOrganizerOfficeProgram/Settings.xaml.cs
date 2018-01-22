@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -20,22 +21,35 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class Settings : Window
     {
-        DataTable availableConnections;
+        public string localConnection = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        public ObservableCollection<string> GatheredConnections = new ObservableCollection<string>();
         public Settings()
         {
             InitializeComponent();
+            AvailableConnections.ItemsSource = GatheredConnections;
         }
 
         private void SearchForSQLConnections_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                availableConnections = SQLConnection.SqlTestInfo();
+                RetrieveServerNames(SQLConnection.SqlTestInfo());
             }
             catch (Exception error)
             {
                 MessageBox.Show(error.ToString());
             }
+        }
+        
+        private void RetrieveServerNames(DataTable connectionsToCheck)
+        {
+            string serverName;
+            foreach(DataRow server in connectionsToCheck.Rows)
+            {
+                serverName = server["ServerName"].ToString();
+                this.GatheredConnections.Add(serverName);
+            }
+            AvailableConnections.ItemsSource = GatheredConnections;
         }
     }
 }

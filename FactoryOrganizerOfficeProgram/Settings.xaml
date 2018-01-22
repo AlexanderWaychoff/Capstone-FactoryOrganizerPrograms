@@ -15,7 +15,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <DataGrid ItemsSource="{Binding availableConnections}" />
+        <TextBlock Text="Enter the connection string below.  Click search to see available connections on this network." TextWrapping="Wrap" />
+        <ComboBox Name="AvailableConnections" IsEditable="True" Grid.Row="1" Grid.Column="0">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Fill="{Binding Name}" Width="16" Height="16" Margin="0,2,5,2" />
+                        <TextBlock Text="{Binding Name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <Button Name="SearchForSQLConnections" Click="SearchForSQLConnections_Click" Grid.Column="1" Grid.Row="1" Content="Search"/>
     </Grid>
 </Window>
