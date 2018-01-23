@@ -33,7 +33,17 @@ namespace FactoryOrganizerOfficeProgram
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
         {
+            int indexOfProductOperations = ProductOperations.ToList().FindIndex(x => x == ((sender as FrameworkElement).DataContext as ProductOperation));
+            string operationNumber = ProductOperations[indexOfProductOperations].Operation.ToString();
             ProductOperations.Remove((sender as FrameworkElement).DataContext as ProductOperation);
+
+            for (int n = filesForOperations.Items.Count - 1; n >= 0; --n)
+            {
+                if (filesForOperations.Items[n].ToString().Contains(operationNumber))
+                {
+                    filesForOperations.Items.RemoveAt(n);
+                }
+            }
         }
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
