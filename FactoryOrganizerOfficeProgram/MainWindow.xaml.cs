@@ -35,5 +35,11 @@ namespace FactoryOrganizerOfficeProgram
         {
             this.Close();
         }
+
+        private void CreateProduct_Click(object sender, RoutedEventArgs e)
+        {
+            var createProduct = new CreateProduct();
+            createProduct.ShowDialog();
+        }
     }
 }

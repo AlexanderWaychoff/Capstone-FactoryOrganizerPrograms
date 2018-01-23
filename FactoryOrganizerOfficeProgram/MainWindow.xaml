@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
-    <Grid Background="Green">
+    <Grid Background="LemonChiffon">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
@@ -16,7 +19,11 @@
                 </MenuItem>
             </Menu>
             <TextBox AcceptsReturn="True" Name="txtEditor" />
+
+            <Button Name="CreateProduct" Width="150" Height="100" Content="Create Product" Click="CreateProduct_Click"/>
         </DockPanel>
+
+        
 
 
     </Grid>

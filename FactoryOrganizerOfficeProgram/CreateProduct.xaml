@@ -1,0 +1,67 @@
+﻿<Window x:Class="FactoryOrganizerOfficeProgram.CreateProduct"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+
+    <StackPanel>
+        <ItemsControl Name="lstMachineFunctions">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine Function"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Number of Machines"/>
+                            <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">X</Button>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description}"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Operation}"/>
+                        </Grid>
+
+                        <ItemsControl ItemsSource="{Binding ScaleUnits}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="12,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
+                                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                        <Button VerticalAlignment="Center" Click="OnAddScaleUnit">Add Scale Unit</Button>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button HorizontalAlignment="Left" Click="OnAddMachineFunction">Add Machine Function</Button>
+    </StackPanel>
+</Window>
