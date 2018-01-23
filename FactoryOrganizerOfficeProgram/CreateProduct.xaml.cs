@@ -53,6 +53,9 @@ namespace FactoryOrganizerOfficeProgram
                     int indexOfSenderInProductOperations = ProductOperations.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductOperation);
                     filesForOperations.Items.Add("Operation: " + 
                         ProductOperations[indexOfSenderInProductOperations].Operation + 
+                        "    Description: " +
+                        ProductOperations[indexOfSenderInProductOperations].Description +
+                        "    File: " +
                         System.IO.Path.GetFileName(filename));
                 }
                 //txtEditor.Text = File.ReadAllText(openFileDialog.FileName);

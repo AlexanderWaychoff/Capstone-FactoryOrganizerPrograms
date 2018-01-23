@@ -5,63 +5,80 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Create Product" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
 
-    <StackPanel>
-        <ItemsControl Name="lstMachineFunctions">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
-                            <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">X</Button>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
-                        </Grid>
+    <Grid Margin="0,0,0,-29">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="50"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="360"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="2">
 
-                        <ItemsControl ItemsSource="{Binding ScaleUnits}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="12,0,0,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
-                                        <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
-                                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
-                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                        </ItemsControl>
-                        <Button VerticalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <ListBox Name="filesForOperations" />
-        <Button HorizontalAlignment="Left" Click="OnAddMachineFunction">Add Product Operation</Button>
-    </StackPanel>
+            <ItemsControl Name="lstMachineFunctions">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="18"/>
+                                        <RowDefinition Height="18"/>
+                                        <RowDefinition Height="18"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
+                                    <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
+                                <Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>
+
+                            </Grid>
+
+                                <ItemsControl ItemsSource="{Binding ScaleUnits}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="12,0,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
+                                                <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
+                                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
+                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+                <Button HorizontalAlignment="Left" Click="OnAddMachineFunction">Add Product Operation</Button>
+        </StackPanel>
+        <ListBox Grid.Column="2" Grid.Row="2" Name="filesForOperations" />
+    </Grid>
 </Window>
