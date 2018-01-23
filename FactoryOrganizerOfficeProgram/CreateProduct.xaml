@@ -61,7 +61,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <TextBox Name="txtEditor" />
+        <ListBox Name="filesForOperations" />
         <Button HorizontalAlignment="Left" Click="OnAddMachineFunction">Add Product Operation</Button>
     </StackPanel>
 </Window>

@@ -45,10 +45,17 @@ namespace FactoryOrganizerOfficeProgram
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt;*.rtf)|*.txt;*rtf|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (openFileDialog.ShowDialog() == true)
             {
-
-                txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
+                foreach (string filename in openFileDialog.FileNames)
+                {
+                    int indexOfSenderInProductOperations = ProductOperations.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductOperation);
+                    filesForOperations.Items.Add("Operation: " + 
+                        ProductOperations[indexOfSenderInProductOperations].Operation + 
+                        System.IO.Path.GetFileName(filename));
+                }
+                //txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
             }
         //var mf = (sender as FrameworkElement).DataContext as ProductOperation;
 
