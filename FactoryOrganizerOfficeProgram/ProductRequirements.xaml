@@ -5,15 +5,88 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Product Requirements" Height="500" Width="300">
-    <Grid>
+        Title="Product Requirements" Height="500" Width="600">
+    <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
-            
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="570"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="330"/>
+            <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        <TextBox Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Entries here will allow you to specify information regarding the product later." TextWrapping="Wrap" />
+        <Border Grid.Column="1" Grid.Row="1">
+            <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
+                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Description 1 describes an attribute your product has that is important.  Description 2 is optional, but you might put an acronym here to be specific.
+                 &#x0a;&#x0a;Example: My product has a weight and I would like to measure it in pounds.
+                 &#x0a;Description 1 = Weight.    Description 2 = Lbs"  />
+            <!-- Hexidecimal &#x0a; will insert break -->
+        </Border>
+        <Border Grid.Column="1" Grid.Row="3">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Grid.Column="1" Grid.Row="3" Background="White">
+                    <ItemsControl Name="lstMachineFunctions">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="120"/>
+                                            <ColumnDefinition Width="150"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="18"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
+                                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
+                                        <Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>
 
+                                    </Grid>
+
+                                    <ItemsControl ItemsSource="{Binding ScaleUnits}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="12,0,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
+                                                    <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
+                                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
+                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>
