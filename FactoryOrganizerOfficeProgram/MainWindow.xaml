@@ -10,7 +10,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Settings" Click="MenuSettings_Click" />
@@ -19,11 +23,11 @@
                 </MenuItem>
             </Menu>
             <TextBox AcceptsReturn="True" Name="txtEditor" />
-
-            <Button Name="CreateProduct" Width="150" Height="100" Content="Create Product" Click="CreateProduct_Click"/>
         </DockPanel>
+        <Button Name="CreateProduct" Grid.Row="1" Width="150" Height="100" Content="Create Product" Click="CreateProduct_Click"/>
 
-        
+
+
 
 
     </Grid>
