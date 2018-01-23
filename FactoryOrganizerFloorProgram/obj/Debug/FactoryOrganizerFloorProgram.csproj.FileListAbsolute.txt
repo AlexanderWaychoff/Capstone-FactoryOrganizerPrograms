@@ -1,6 +1,7 @@
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\bin\Debug\FactoryOrganizerFloorProgram.exe.config
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\bin\Debug\FactoryOrganizerFloorProgram.exe
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\bin\Debug\FactoryOrganizerFloorProgram.pdb
+C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\obj\Debug\FactoryOrganizerFloorProgram.csprojResolveAssemblyReference.cache
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\obj\Debug\MainWindow.g.cs
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\obj\Debug\App.g.cs
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerFloorProgram\obj\Debug\FactoryOrganizerFloorProgram_MarkupCompile.cache

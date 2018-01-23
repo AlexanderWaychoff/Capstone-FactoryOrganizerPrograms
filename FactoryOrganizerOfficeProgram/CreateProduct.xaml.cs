@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,31 +22,38 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class CreateProduct : Window
     {
-            public ObservableCollection<ProductOperation> ProductOperations { get; set; }
+        public ObservableCollection<ProductOperation> ProductOperations { get; set; }
 
-            public CreateProduct()
+        public CreateProduct()
+        {
+            InitializeComponent();
+
+            lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
+        }
+
+        private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
+        {
+            ProductOperations.Remove((sender as FrameworkElement).DataContext as ProductOperation);
+        }
+
+        private void OnAddMachineFunction(object sender, RoutedEventArgs e)
+        {
+            ProductOperations.Add(new ProductOperation());
+        }
+
+        private void OnAddScaleUnit(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt;*.rtf)|*.txt;*rtf|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
             {
-                InitializeComponent();
 
-                lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
+                txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
             }
+        //var mf = (sender as FrameworkElement).DataContext as ProductOperation;
 
-            private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
-            {
-                ProductOperations.Remove((sender as FrameworkElement).DataContext as ProductOperation);
-            }
-
-            private void OnAddMachineFunction(object sender, RoutedEventArgs e)
-            {
-                ProductOperations.Add(new ProductOperation());
-            }
-
-            private void OnAddScaleUnit(object sender, RoutedEventArgs e)
-            {
-                var mf = (sender as FrameworkElement).DataContext as ProductOperation;
-
-                mf.ScaleUnits.Add(new ScaleUnit(mf.ScaleUnits.Count));
-            }
+        //    mf.ScaleUnits.Add(new ScaleUnit(mf.ScaleUnits.Count));
+        }
 
         private void OnDeleteScaleUnit(object sender, RoutedEventArgs e)
         {

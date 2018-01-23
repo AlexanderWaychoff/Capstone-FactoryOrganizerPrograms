@@ -23,11 +23,11 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine Function"/>
-                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Number of Machines"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
                             <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">X</Button>
-                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Description}"/>
-                            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Operation}"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
+                            <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
                         </Grid>
 
                         <ItemsControl ItemsSource="{Binding ScaleUnits}">
@@ -56,12 +56,12 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
-                        <Button VerticalAlignment="Center" Click="OnAddScaleUnit">Add Scale Unit</Button>
+                        <Button VerticalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-
-        <Button HorizontalAlignment="Left" Click="OnAddMachineFunction">Add Machine Function</Button>
+        <TextBox Name="txtEditor" />
+        <Button HorizontalAlignment="Left" Click="OnAddMachineFunction">Add Product Operation</Button>
     </StackPanel>
 </Window>
