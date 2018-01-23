@@ -21,8 +21,8 @@
         </Grid.RowDefinitions>
         <Border Grid.Column="1" Grid.Row="1">
             <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
-                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Description 1 describes an attribute your product has that is important.  Description 2 is optional, but you might put an acronym here to be specific.
-                 &#x0a;&#x0a;Example: My product has a weight and I would like to measure it in pounds.
+                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Description 1 describes an attribute your product has that is important.  Description 2 is optional, but you might put a type/acronym here to be specific.
+                 &#x0a;&#x0a;Example: My product has a weight and I would like to save it's weight in pounds.
                  &#x0a;Description 1 = Weight.    Description 2 = Lbs"  />
             <!-- Hexidecimal &#x0a; will insert break -->
         </Border>
@@ -47,10 +47,10 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
                                         <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
-                                        <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
+                                        <!--<Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>-->
                                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
                                         <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
-                                        <Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>
+                                        <!--<Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>-->
 
                                     </Grid>
 
@@ -68,7 +68,7 @@
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
                                                     <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
-                                                    <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
+                                                    <!--<Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>-->
                                                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
                                                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
                                                 </Grid>
@@ -85,6 +85,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <!--<Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Information</Button>-->
                 </StackPanel>
             </ScrollViewer>
         </Border>

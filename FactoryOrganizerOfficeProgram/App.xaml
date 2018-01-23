@@ -6,24 +6,25 @@
     
     <Application.Resources>
         <!--<SolidColorBrush x:Key="backgroundBrush" Color="Gray"/>-->
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="BorderBrush">
-                <Setter.Value>
-                    <SolidColorBrush Color="#FF00C3BA"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0.8" CornerRadius="3">
-                            <Border.Effect>
-                                <DropShadowEffect Color="#FF72FFE5" ShadowDepth="0"/>
-                            </Border.Effect>
-                            <TextBlock Foreground="{TemplateBinding BorderBrush}" Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
+        <Style TargetType="{x:Type Button}">
+            <!--<Setter Property="Border"
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="Background" Value="DodgerBlue"/>-->
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="7" Background="DodgerBlue" BorderThickness="1" Padding="2">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsPressed" Value="True" >
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+                    </Setter.Value>
+                </Setter>
+
         </Style>
         <Style TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="Black"/>
