@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Product Requirements" Height="505" Width="605">
+        Title="Product Requirements" Height="505" Width="605" WindowStartupLocation="CenterScreen">
     <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -21,12 +21,18 @@
         </Grid.RowDefinitions>
         <Border Grid.Column="1" Grid.Row="1">
             <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
-                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Description 1 describes an attribute your product has that is important.  Description 2 is optional, but you might put a type/acronym here to be specific.
+                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Detail describes an attribute your product has that is important.  Description is optional, but you might put a type/acronym here to be specific.
                  &#x0a;&#x0a;Example: My product has a weight and I would like to save it's weight in pounds.
-                 &#x0a;Description 1 = Weight.    Description 2 = Lbs"  />
+                 &#x0a;Detail = Weight.    Description = Lbs"  />
             <!-- Hexidecimal &#x0a; will insert break -->
         </Border>
-        <Border Grid.Column="1" Grid.Row="3">
+        <Grid Grid.Row="3" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="306"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Grid.Row="3">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Grid.Column="1" Grid.Row="3" Background="White">
                     <ItemsControl Name="lstMachineFunctions">
@@ -35,7 +41,8 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="60"/>
+                                                <ColumnDefinition Width="2"/>
+                                                <ColumnDefinition Width="60"/>
                                             <ColumnDefinition Width="120"/>
                                             <ColumnDefinition Width="120"/>
                                             <ColumnDefinition Width="150"/>
@@ -45,49 +52,25 @@
                                             <RowDefinition Height="18"/>
                                             <RowDefinition Height="18"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
-                                        <!--<Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>-->
-                                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
-                                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Detail" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Description" HorizontalAlignment="Center"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource RedButton}" Click="OnDeleteMachineFunction">Remove</Button>
+                                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Detail}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding DescriptionOfDetail}"/>
                                         <!--<Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>-->
 
                                     </Grid>
 
-                                    <ItemsControl ItemsSource="{Binding ScaleUnits}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="12,0,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
-                                                    <!--<Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>-->
-                                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
-                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
+                                    
                                 </StackPanel>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Information</Button>
+                    <Button HorizontalAlignment="Center" Style="{StaticResource CyanButton}"  Click="OnAddMachineFunction">Add Product Detail</Button>
                 </StackPanel>
             </ScrollViewer>
         </Border>
+        </Grid>
     </Grid>
 </Window>

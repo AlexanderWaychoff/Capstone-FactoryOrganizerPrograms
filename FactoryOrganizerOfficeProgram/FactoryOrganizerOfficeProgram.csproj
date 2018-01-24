@@ -71,6 +71,7 @@
       <DependentUpon>CreateProductInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomerInformation.cs" />
+    <Compile Include="ProductBaseInformation.cs" />
     <Compile Include="ProductProductionCode.cs" />
     <Compile Include="ProductOperation.cs" />
     <Compile Include="ProductRequirements.xaml.cs">

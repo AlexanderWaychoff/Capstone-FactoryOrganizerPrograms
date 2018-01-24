@@ -21,21 +21,21 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class ProductRequirements : Window
     {
-        public ObservableCollection<ProductOperation> ProductOperations { get; set; }
+        public ObservableCollection<ProductBaseInformation> ProductDetails { get; set; }
 
         public ProductRequirements()
         {
             InitializeComponent();
 
-            lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
+            lstMachineFunctions.ItemsSource = ProductDetails = new ObservableCollection<ProductBaseInformation>();
 
         }
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
         {
-            int indexOfProductOperations = ProductOperations.ToList().FindIndex(x => x == ((sender as FrameworkElement).DataContext as ProductOperation));
-            string operationNumber = ProductOperations[indexOfProductOperations].Operation.ToString();
-            ProductOperations.Remove((sender as FrameworkElement).DataContext as ProductOperation);
+            int indexOfProductOperations = ProductDetails.ToList().FindIndex(x => x == ((sender as FrameworkElement).DataContext as ProductBaseInformation));
+            string operationNumber = ProductDetails[indexOfProductOperations].Detail.ToString();
+            ProductDetails.Remove((sender as FrameworkElement).DataContext as ProductBaseInformation);
 
             //for (int n = filesForOperations.Items.Count - 1; n >= 0; --n)
             //{
@@ -48,7 +48,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
         {
-            ProductOperations.Add(new ProductOperation());
+            ProductDetails.Add(new ProductBaseInformation());
         }
 
         private void OnAddScaleUnit(object sender, RoutedEventArgs e)
@@ -60,7 +60,7 @@ namespace FactoryOrganizerOfficeProgram
             {
                 foreach (string filename in openFileDialog.FileNames)
                 {
-                    int indexOfSenderInProductOperations = ProductOperations.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductOperation);
+                    int indexOfSenderInProductOperations = ProductDetails.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductBaseInformation);
                     //filesForOperations.Items.Add("Operation: " +
                     //    ProductOperations[indexOfSenderInProductOperations].Operation +
                     //    "    Description: " +
@@ -75,21 +75,21 @@ namespace FactoryOrganizerOfficeProgram
             //    mf.ScaleUnits.Add(new ScaleUnit(mf.ScaleUnits.Count));
         }
 
-        private void OnDeleteScaleUnit(object sender, RoutedEventArgs e)
-        {
-            var delScaleUnit = (sender as FrameworkElement).DataContext as ScaleUnit;
+        //private void OnDeleteScaleUnit(object sender, RoutedEventArgs e)
+        //{
+        //    var delScaleUnit = (sender as FrameworkElement).DataContext as ScaleUnit;
 
-            var mf = ProductOperations.FirstOrDefault(_ => _.ScaleUnits.Contains(delScaleUnit));
+        //    var mf = ProductDetails.FirstOrDefault(_ => _.ScaleUnits.Contains(delScaleUnit));
 
-            if (mf != null)
-            {
-                mf.ScaleUnits.Remove(delScaleUnit);
+        //    if (mf != null)
+        //    {
+        //        mf.ScaleUnits.Remove(delScaleUnit);
 
-                foreach (var scaleUnit in mf.ScaleUnits)
-                {
-                    scaleUnit.Index = mf.ScaleUnits.IndexOf(scaleUnit);
-                }
-            }
-        }
+        //        foreach (var scaleUnit in mf.ScaleUnits)
+        //        {
+        //            scaleUnit.Index = mf.ScaleUnits.IndexOf(scaleUnit);
+        //        }
+        //    }
+        //}
     }
 }
