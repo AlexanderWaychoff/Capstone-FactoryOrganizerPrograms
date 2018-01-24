@@ -12,8 +12,8 @@
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="475"/>
             <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="390"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -22,6 +22,9 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
+        <Button Name="Info" Style="{StaticResource TurquoiseButton}" Grid.Row="0" Grid.Column="5" Click="Info_Click">
+            <TextBlock Text="Help" FontWeight="Bold" FontSize="18"/>
+        </Button>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70"/>
@@ -57,10 +60,16 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
-            <StackPanel Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Name="Sort" Click="Sort_Click">*Sort*</Button>
-                <Button Name="Info" Click="Info_Click">*Info*</Button>
-            </StackPanel>
+            <Grid Grid.Row="2" Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="140"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="Sort" Grid.Column="1" Style="{StaticResource DodgerBlueButton}" Click="Sort_Click">Sort</Button>
+                <Button Name="SubmitBaseInformation" Grid.Column="3" Style="{StaticResource GreenButton}" Click="SubmitBaseInformation_Click">Submit Basic Information</Button>
+            </Grid>
         </Grid>
         <Border 
             BorderBrush="Black"
@@ -95,12 +104,12 @@
                                         <TextBlock Grid.Row="0" Grid.Column="2" Text="Description" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Row="0" Grid.Column="3" Text="Cycle Time" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Row="0" Grid.Column="4" Text="Required" HorizontalAlignment="Center"/>
-                                        <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
+                                        <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Click="OnDeleteMachineFunction">Remove</Button>
                                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
                                         <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Description}"/> 
                                         <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding CycleTime}"/>
                                         <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsChecked="{Binding RequiredToReport}"/>
-                                        <Button Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" Click="OnAddScaleUnit">Add Printable File</Button>
+                                        <Button Grid.Column="5" Grid.Row="1" Style="{StaticResource DodgerBlueButton}" HorizontalAlignment="Right" Click="OnAddScaleUnit">Add Printable File</Button>
 
                                     </Grid>
 
@@ -135,7 +144,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Operation</Button>
+                    <Button HorizontalAlignment="Center" Style="{StaticResource CyanButton}" Click="OnAddMachineFunction">Add Product Operation</Button>
                 </StackPanel>
             </ScrollViewer>
         </Border>
@@ -171,7 +180,7 @@
                 </ScrollViewer>
             </Border>
         </Grid>
-        <Button Name="SubmitFile" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="3" Width="100" Click="SubmitFile_Click">Submit File</Button>
-        <Button Name="SubmitImage" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Width="100" Click="SubmitImage_Click" Content="Submit Image &#x0a; For Website"/>
+        <Button Name="SubmitFile" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="3" Style="{StaticResource DodgerBlueButton}" Width="100" Click="SubmitFile_Click">Submit File</Button>
+        <Button Name="SubmitImage" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Style="{StaticResource GreenButton}" Width="100" Click="SubmitImage_Click" Content="Submit Image &#x0a; For Website"/>
     </Grid>
 </Window>
