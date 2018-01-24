@@ -9,18 +9,53 @@
 
     <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="425"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="475"/>
             <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="50"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="360"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="225"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Customer:" TextWrapping="Wrap" HorizontalAlignment="Left" />
+            <!--<ItemsControl Name="CustomerList" Grid.Row="1" Grid.Column="1">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>-->
+            <ComboBox Name="CustomerList" Grid.Row="0" Grid.Column="1" IsEditable="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Name}" Width="16" Height="16" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <!--</DataTemplate>
+                </ItemsControl.ItemTemplate>
+                            
+            </ItemsControl>-->
+            <StackPanel Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Name="Sort" Click="Sort_Click">*Sort*</Button>
+                <Button Name="Info" Click="Info_Click">*Info*</Button>
+            </StackPanel>
+        </Grid>
         <Border 
             BorderBrush="Black"
             BorderThickness="1"
@@ -30,68 +65,74 @@
         >
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="2" Background="White">
 
-            <StackPanel>
+                <StackPanel>
 
-            <ItemsControl Name="lstMachineFunctions">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60"/>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="120"/>
-                                        <ColumnDefinition Width="150"/>
-                                </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="18"/>
-                                        <RowDefinition Height="18"/>
-                                        <RowDefinition Height="18"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation Number"/>
-                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
-                                    <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
-                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
-                                    <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
-                                <Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>
+                    <ItemsControl Name="lstMachineFunctions">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="110"/>
+                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="100"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="18"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Cycle Time"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Text="Required"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
+                                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding CycleTime}"/>
+                                        <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsChecked="{Binding RequiredToReport}"/>
+                                        <Button Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" Click="OnAddScaleUnit">Add Printable File</Button>
 
-                            </Grid>
+                                    </Grid>
 
-                                <ItemsControl ItemsSource="{Binding ScaleUnits}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid Margin="12,0,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition/>
-                                                    <RowDefinition/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
-                                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
-                                                <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
-                                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
-                                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
-                        </StackPanel>
-                            
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-                <Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Operation</Button>
-        </StackPanel>
-        </ScrollViewer>
-            </Border>
+                                    <ItemsControl ItemsSource="{Binding ScaleUnits}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="12,0,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Machine/Scale Unit"/>
+                                                    <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteScaleUnit">X</Button>
+                                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
+                                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Index, StringFormat='Scale Unit {0}'}"/>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Operation</Button>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
         <Grid Grid.Column="3" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>

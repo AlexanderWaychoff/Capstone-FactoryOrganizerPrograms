@@ -5,15 +5,11 @@
              StartupUri="MainWindow.xaml">
     
     <Application.Resources>
-        <!--<SolidColorBrush x:Key="backgroundBrush" Color="Gray"/>-->
         <Style TargetType="{x:Type Button}">
-            <!--<Setter Property="Border"
-            <Setter Property="BorderBrush" Value="Black" />
-            <Setter Property="Background" Value="DodgerBlue"/>-->
-                <Setter Property="Template">
+            <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="7" Background="DodgerBlue" BorderThickness="1" Padding="2">
+                            <Border CornerRadius="7" Background="DodgerBlue" BorderThickness="1">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>
                         <ControlTemplate.Triggers>
@@ -24,8 +20,8 @@
                     </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-
         </Style>
+
         <Style TargetType="{x:Type Border}">
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="1"/>

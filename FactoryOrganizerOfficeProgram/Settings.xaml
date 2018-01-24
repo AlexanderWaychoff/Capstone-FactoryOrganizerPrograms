@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Enter the connection string below.  Click search to see available connections on this network." TextWrapping="Wrap" />
+        <TextBlock Text="Enter the connection string below or click search to see available connections on this network." TextWrapping="Wrap" />
         <ComboBox Name="AvailableConnections" IsEditable="True" Grid.Row="1" Grid.Column="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

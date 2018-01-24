@@ -67,6 +67,10 @@
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateProductInformation.xaml.cs">
+      <DependentUpon>CreateProductInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerInformation.cs" />
     <Compile Include="ProductOperation.cs" />
     <Compile Include="ProductRequirements.xaml.cs">
       <DependentUpon>ProductRequirements.xaml</DependentUpon>
@@ -77,6 +81,10 @@
     </Compile>
     <Compile Include="SQLConnection.cs" />
     <Page Include="CreateProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreateProductInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -23,12 +23,26 @@ namespace FactoryOrganizerOfficeProgram
     public partial class CreateProduct : Window
     {
         public ObservableCollection<ProductOperation> ProductOperations { get; set; }
+        public ObservableCollection<CustomerInformation> AllCustomers { get; set; }
+        public CustomerInformation Customer;
 
         public CreateProduct()
         {
             InitializeComponent();
 
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
+            CustomerList.ItemsSource = AllCustomers = new ObservableCollection<CustomerInformation>();
+            //Info.Background = new SolidColorBrush(Colors.GreenYellow);
+            RetrieveAllCustomers();
+        }
+
+        private void RetrieveAllCustomers()
+        {
+            Customer = new CustomerInformation();
+            Customer.Name = "Baldor";
+            this.AllCustomers.Add(Customer);
+            //this.AllCustomers.Add("McMillan");
+            CustomerList.ItemsSource = AllCustomers;
         }
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
@@ -90,6 +104,19 @@ namespace FactoryOrganizerOfficeProgram
                     scaleUnit.Index = mf.ScaleUnits.IndexOf(scaleUnit);
                 }
             }
+        }
+
+        private void Sort_Click(object sender, RoutedEventArgs e)
+        {
+            ProductOperations = new ObservableCollection<ProductOperation>(from i in ProductOperations orderby i.Operation select i);
+
+            lstMachineFunctions.ItemsSource = ProductOperations;
+        }
+
+        private void Info_Click(object sender, RoutedEventArgs e)
+        {
+            var createProductInformation = new CreateProductInformation();
+            createProductInformation.ShowDialog();
         }
     }
 }
