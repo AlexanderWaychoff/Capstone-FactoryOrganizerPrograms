@@ -51,5 +51,17 @@ namespace FactoryOrganizerOfficeProgram
             }
             AvailableConnections.ItemsSource = GatheredConnections;
         }
+
+        private void SetupProductDetails_Click(object sender, RoutedEventArgs e)
+        {
+            var productRequirements = new ProductRequirements();
+            productRequirements.ShowDialog();
+            this.Close();
+        }
+
+        private void ManageCells_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

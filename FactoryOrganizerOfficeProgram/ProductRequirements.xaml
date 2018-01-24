@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Product Requirements" Height="500" Width="600">
+        Title="Product Requirements" Height="505" Width="605">
     <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -85,7 +85,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <!--<Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Information</Button>-->
+                    <Button HorizontalAlignment="Center" Click="OnAddMachineFunction">Add Product Information</Button>
                 </StackPanel>
             </ScrollViewer>
         </Border>

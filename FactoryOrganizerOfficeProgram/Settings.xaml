@@ -5,27 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Settings" Height="500" Width="700" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
-    <Grid>
+        Title="Settings" Height="410" Width="297" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="270" />
             <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="5"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="38" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="38" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="38" />
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="10"/>
+            
         </Grid.RowDefinitions>
-        <TextBlock Text="Enter the connection string below or click search to see available connections on this network." TextWrapping="Wrap" />
-        <ComboBox Name="AvailableConnections" IsEditable="True" Grid.Row="1" Grid.Column="0">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Fill="{Binding Name}" Width="16" Height="16" Margin="0,2,5,2" />
-                        <TextBlock Text="{Binding Name}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
-        <Button Name="SearchForSQLConnections" Click="SearchForSQLConnections_Click" Grid.Column="1" Grid.Row="1" Content="Search"/>
+        <Border 
+            BorderBrush="Black"
+            BorderThickness="1"
+            Background="White"
+            Grid.Column="1"
+            Grid.Row="1"
+        >
+            <TextBlock Text="Enter the connection string below or click search to see available connections on this network." TextWrapping="Wrap" />
+        </Border>
+        <Border 
+            BorderBrush="Black"
+            BorderThickness="1"
+            Background="White"
+            Grid.Column="1"
+            Grid.Row="3"
+        >
+            <ComboBox Name="AvailableConnections" IsEditable="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Name}" Width="16" Height="16" Margin="0,2,5,2" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Border>
+        <Button Name="SearchForSQLConnections" Click="SearchForSQLConnections_Click" Grid.Column="1" Grid.Row="5" Style="{StaticResource CyanButton}" Width="110" Content="Search Connections"/>
+        <Border 
+            BorderBrush="Black"
+            BorderThickness="1"
+            Background="White"
+            Grid.Column="1"
+            Grid.Row="7"
+        >
+            <TextBlock Text="Set up fields that describe the product here to be entered when you 'Create' a product later." TextWrapping="Wrap" />
+        </Border>
+        <Button Name="SetupProductDetails" Grid.Row="9" Grid.Column="1" Style="{StaticResource CyanButton}" Content="Set up Product Details" Width="125" Click="SetupProductDetails_Click"/>
+        <Border 
+            BorderBrush="Black"
+            BorderThickness="1"
+            Background="White"
+            Grid.Column="1"
+            Grid.Row="11"
+        >
+            <TextBlock Text="Manage your Cells here.  A cell is a collection of operations that can speed up production.  " TextWrapping="Wrap" />
+        </Border>
+        <Button Name="ManageCells" Grid.Row="13" Grid.Column="1" Style="{StaticResource CyanButton}" Content="Manage Cells" Width="80" Click="ManageCells_Click"/>
     </Grid>
 </Window>
