@@ -29,6 +29,9 @@ namespace FactoryOrganizerOfficeProgram
         public CustomerInformation UserSubmittedCustomer;
         public ProductProductionCode UserSubmittedProductID = new ProductProductionCode();
 
+        bool HasWebsiteImage = false;
+        string websiteFileString;
+
         int productWasAdded = 0;
         string saveProductID;
 
@@ -95,7 +98,6 @@ namespace FactoryOrganizerOfficeProgram
                         "    File: " +
                         System.IO.Path.GetFileName(filename));
                 }
-                //txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
             }
         //var mf = (sender as FrameworkElement).DataContext as ProductOperation;
 
@@ -189,7 +191,51 @@ namespace FactoryOrganizerOfficeProgram
 
         private void SubmitImage_Click(object sender, RoutedEventArgs e)
         {
+            if (HasWebsiteImage)
+            {
+                ReplaceWebsiteImage(sender);
+            }
+            else
+            { 
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Image files (*.jpeg;*.png)|*.jpeg;*png";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    HasWebsiteImage = true;
+                    foreach (string filename in openFileDialog.FileNames)
+                    {
+                        websiteFileString = System.IO.Path.GetFileName(filename);
+                        filesForOperations.Items.Add("Website Image: " +
+                            System.IO.Path.GetFileName(filename));
+                    }
+                }
+            }
+        }
 
+        private void ReplaceWebsiteImage(object sender)
+        {
+            MessageBox.Show("A website image has already been submitted.  If you load another image it will replace the previous one.  If you'd like to add a image that won't go to the website, click 'Submit File' instead.", "Replace Website Image");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpeg;*.png)|*.jpeg;*png";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                for (int n = filesForOperations.Items.Count - 1; n >= 0; n--)
+                {
+                    if (filesForOperations.Items[n].ToString().Contains(websiteFileString))
+                    {
+                        filesForOperations.Items.RemoveAt(n);
+                    }
+                }
+                foreach (string filename in openFileDialog.FileNames)
+                {
+                    //int indexOfSenderInProductOperations = ProductOperations.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductOperation);
+                    filesForOperations.Items.Add("Website Image: " +
+                        System.IO.Path.GetFileName(filename));
+                }
+            }
         }
 
         private void SubmitBaseInformation_Click(object sender, RoutedEventArgs e)
