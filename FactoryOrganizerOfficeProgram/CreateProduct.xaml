@@ -19,7 +19,8 @@
             <RowDefinition Height="40"/>
             <RowDefinition Height="60"/>
             <RowDefinition Height="360"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -34,10 +35,7 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Customer:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <!--<ItemsControl Name="CustomerList" Grid.Row="1" Grid.Column="1">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>-->
-            <ComboBox Name="CustomerList" Grid.Row="0" Grid.Column="1" IsEditable="True">
+            <ComboBox Name="CustomerList" Grid.Row="0" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name" KeyDown="CustomerList_KeyDown">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -47,10 +45,18 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <!--</DataTemplate>
-                </ItemsControl.ItemTemplate>
-                            
-            </ItemsControl>-->
+            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Product ID:" TextWrapping="Wrap" HorizontalAlignment="Left" />
+            <ComboBox Name="CustomerProducts" Grid.Row="2" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="ProductID" KeyDown="ProductID_KeyDown">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding ProductID}" Width="16" Height="16" />
+                            <TextBlock Text="{Binding ProductID}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
             <StackPanel Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" Orientation="Horizontal">
                 <Button Name="Sort" Click="Sort_Click">*Sort*</Button>
                 <Button Name="Info" Click="Info_Click">*Info*</Button>
@@ -85,13 +91,13 @@
                                             <RowDefinition Height="18"/>
                                             <RowDefinition Height="18"/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Description"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Cycle Time"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="4" Text="Required"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Operation" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Description" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="Cycle Time" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="4" Text="Required" HorizontalAlignment="Center"/>
                                         <Button Grid.Row="1" Grid.Column="0" Click="OnDeleteMachineFunction">Remove</Button>
                                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
-                                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Description}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Description}"/> 
                                         <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding CycleTime}"/>
                                         <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsChecked="{Binding RequiredToReport}"/>
                                         <Button Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" Click="OnAddScaleUnit">Add Printable File</Button>
@@ -165,5 +171,7 @@
                 </ScrollViewer>
             </Border>
         </Grid>
+        <Button Name="SubmitFile" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="3" Width="100" Click="SubmitFile_Click">Submit File</Button>
+        <Button Name="SubmitImage" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Width="100" Click="SubmitImage_Click" Content="Submit Image &#x0a; For Website"/>
     </Grid>
 </Window>

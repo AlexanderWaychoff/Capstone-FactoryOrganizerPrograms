@@ -24,7 +24,13 @@ namespace FactoryOrganizerOfficeProgram
     {
         public ObservableCollection<ProductOperation> ProductOperations { get; set; }
         public ObservableCollection<CustomerInformation> AllCustomers { get; set; }
+        public ObservableCollection<ProductProductionCode> AllProductsForCustomer { get; set; }
         public CustomerInformation Customer;
+        public CustomerInformation UserSubmittedCustomer;
+        public ProductProductionCode UserSubmittedProductID = new ProductProductionCode();
+
+        int productWasAdded = 0;
+        string saveProductID;
 
         public CreateProduct()
         {
@@ -32,6 +38,8 @@ namespace FactoryOrganizerOfficeProgram
 
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
             CustomerList.ItemsSource = AllCustomers = new ObservableCollection<CustomerInformation>();
+            CustomerProducts.ItemsSource = AllProductsForCustomer = new ObservableCollection<ProductProductionCode>();
+
             //Info.Background = new SolidColorBrush(Colors.GreenYellow);
             RetrieveAllCustomers();
         }
@@ -43,6 +51,11 @@ namespace FactoryOrganizerOfficeProgram
             this.AllCustomers.Add(Customer);
             //this.AllCustomers.Add("McMillan");
             CustomerList.ItemsSource = AllCustomers;
+        }
+        
+        private void RetrieveAllProducts()
+        {
+
         }
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
@@ -117,6 +130,66 @@ namespace FactoryOrganizerOfficeProgram
         {
             var createProductInformation = new CreateProductInformation();
             createProductInformation.ShowDialog();
+        }
+
+        private void CustomerList_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key == Key.Return)
+            {
+                UserSubmittedCustomer = new CustomerInformation();
+                string content = CustomerList.Text;
+                UserSubmittedCustomer.Name = content;
+                int indexTest = AllCustomers.IndexOf(UserSubmittedCustomer);
+                if(indexTest == -1 && !AllCustomers.Contains(UserSubmittedCustomer))
+                {
+                    AllCustomers.Add(UserSubmittedCustomer);
+                    CustomerList.ItemsSource = AllCustomers;
+                }
+            }
+        }
+
+        private void ProductID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(productWasAdded == 1)
+            {
+                string content = CustomerProducts.Text;
+                int index = AllProductsForCustomer.IndexOf(UserSubmittedProductID);
+                AllProductsForCustomer[index].ProductID = content;
+                //UserSubmittedProductID.ProductID = content;
+                CustomerProducts.ItemsSource = AllProductsForCustomer;
+            }
+            if (e.Key == Key.Return)
+            {
+                string content = CustomerProducts.Text;
+                UserSubmittedProductID.ProductID = content;
+                int indexTest = AllProductsForCustomer.IndexOf(UserSubmittedProductID);
+                if (indexTest == -1 && productWasAdded < 1)
+                {
+                    saveProductID = content;
+                    AllProductsForCustomer.Add(UserSubmittedProductID);
+                    CustomerProducts.ItemsSource = AllProductsForCustomer;
+                    productWasAdded++;
+                }
+                else if(saveProductID == null)
+                {
+                    MessageBox.Show("The product you entered is already created.  If you want to make changes to this item go to 'Edit'.", "Duplicate Product ID");
+                }
+                else
+                {
+                    MessageBox.Show("You already created a Product ID (shown below).  Use the Product ID or restart the Create menu: \n\n" + saveProductID,"Product ID already created");
+                }
+            }
+        }
+
+        private void SubmitFile_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SubmitImage_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

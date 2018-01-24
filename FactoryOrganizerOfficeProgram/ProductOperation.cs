@@ -20,6 +20,7 @@ namespace FactoryOrganizerOfficeProgram
         public ProductOperation()
         {
             ScaleUnits = new ObservableCollection<ScaleUnit>();
+            Description = "-Enter Description-";
         }
     }
 }
