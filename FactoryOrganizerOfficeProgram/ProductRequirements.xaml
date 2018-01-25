@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Border Grid.Column="1" Grid.Row="1">
             <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
-                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Detail describes an attribute your product has that is important.  Description is optional, but you might put a type/acronym here to be specific.
+                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Detail describes an attribute your product has that is important.  Description is optional, but you might put a type/acronym here to be specific about your detail.
                  &#x0a;&#x0a;Example: My product has a weight and I would like to save it's weight in pounds.
                  &#x0a;Detail = Weight.    Description = Lbs"  />
             <!-- Hexidecimal &#x0a; will insert break -->
@@ -30,7 +30,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="306"/>
                 <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Grid.Row="3">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -71,6 +71,51 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
+            <Grid Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="245"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="45"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="65"/>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="55"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Text="Detail Set:"/>
+                    <ComboBox Name="DetailSet" Grid.Row="0" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name" Text="Default">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Rectangle Fill="{Binding Name}" Width="16" Height="16" />
+                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button Grid.Column="2" Style="{StaticResource DodgerBlueButton}" VerticalAlignment="Center" Width="40">
+                        <TextBlock Text="Load"/>
+                    </Button>
+                </Grid>
+                <Border Grid.Row="2">
+                </Border>
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="Save" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Width="95" Click="Save_Click">
+                        <TextBlock Text="Save" VerticalAlignment="Center" FontSize="40"/>
+                    </Button>
+                    <Button Name="Close" Grid.Column="2" Style="{StaticResource RedButton}" Width="105" Click="Close_Click">
+                        <TextBlock Text="Close" VerticalAlignment="Center" FontSize="40"/>
+                    </Button>
+                </Grid>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

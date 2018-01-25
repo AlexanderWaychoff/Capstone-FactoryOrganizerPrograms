@@ -75,6 +75,16 @@ namespace FactoryOrganizerOfficeProgram
             //    mf.ScaleUnits.Add(new ScaleUnit(mf.ScaleUnits.Count));
         }
 
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         //private void OnDeleteScaleUnit(object sender, RoutedEventArgs e)
         //{
         //    var delScaleUnit = (sender as FrameworkElement).DataContext as ScaleUnit;
