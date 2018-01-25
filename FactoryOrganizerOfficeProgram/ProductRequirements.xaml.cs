@@ -28,12 +28,13 @@ namespace FactoryOrganizerOfficeProgram
     {
         public ObservableCollection<ProductBaseInformation> ProductDetails { get; set; }
         public ObservableCollection<FileName> LoadedDetailSets { get; set; }
+        public ObservableCollection<FileName> DuplicateProductDetailsToVerifyChanges { get; set; }
 
         public FileName FileForDetailSet;
 
         string baseDetailSetFilePath;
         string settingsFolder = "Settings";
-        string productBaseInformation = "Base Detail Sets";
+        string productBaseInformationFolder = "Base Detail Sets";
 
         public ProductRequirements()
         {
@@ -42,38 +43,22 @@ namespace FactoryOrganizerOfficeProgram
             lstMachineFunctions.ItemsSource = ProductDetails = new ObservableCollection<ProductBaseInformation>();
             DetailSet.ItemsSource = LoadedDetailSets = new ObservableCollection<FileName>();
 
-            baseDetailSetFilePath = @".\" + settingsFolder + @"\" + productBaseInformation;
+            baseDetailSetFilePath = @".\" + settingsFolder + @"\" + productBaseInformationFolder;
 
-            CheckForDirectory(settingsFolder);
-            CheckForDirectory(settingsFolder + @"\" + productBaseInformation);
+            ExternalFile.CheckForDirectory(settingsFolder);
+            ExternalFile.CheckForDirectory(settingsFolder + @"\" + productBaseInformationFolder);
+
             LoadDetailSets();
         }
 
         private void LoadDetailSets()
         {
-            string[] files = Directory.GetFiles(@".\" + settingsFolder + @"\" + productBaseInformation);
+            string[] files = ExternalFile.RetrieveAllFileNamesInDirectory(settingsFolder + @"\" + productBaseInformationFolder);
             foreach (string file in files)
             {
                 FileForDetailSet = new FileName();
                 FileForDetailSet.Name = file;
                 LoadedDetailSets.Add(FileForDetailSet);
-            }
-        }
-
-        private bool CheckForDirectory(string directoryPath)
-        {
-            bool directoryExists = true;
-            string settingsFolderName = @".\" + directoryPath;
-            if (Directory.Exists(settingsFolderName))
-            {
-                directoryExists = true;
-                return directoryExists;
-            }
-            else
-            {
-                Directory.CreateDirectory(settingsFolderName);
-                directoryExists = false;
-                return directoryExists; 
             }
         }
 
@@ -110,18 +95,8 @@ namespace FactoryOrganizerOfficeProgram
                 foreach (string filename in openFileDialog.FileNames)
                 {
                     int indexOfSenderInProductOperations = ProductDetails.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductBaseInformation);
-                    //filesForOperations.Items.Add("Operation: " +
-                    //    ProductOperations[indexOfSenderInProductOperations].Operation +
-                    //    "    Description: " +
-                    //    ProductOperations[indexOfSenderInProductOperations].Description +
-                    //    "    File: " +
-                    //    System.IO.Path.GetFileName(filename));
                 }
-                //txtEditor.Text = File.ReadAllText(openFileDialog.FileName);
             }
-            //var mf = (sender as FrameworkElement).DataContext as ProductOperation;
-
-            //    mf.ScaleUnits.Add(new ScaleUnit(mf.ScaleUnits.Count));
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -133,25 +108,27 @@ namespace FactoryOrganizerOfficeProgram
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             
-            CheckForDirectory(settingsFolder + @"\" + productBaseInformation);
             string detailSetName = DetailSet.Text;
-            bool DetailSetExists = CheckForDirectory(settingsFolder + @"\" + productBaseInformation + @"\" + detailSetName);
+            bool DetailSetExists = ExternalFile.CheckForFile(settingsFolder + @"\" + productBaseInformationFolder, DetailSet.Text);
 
             if (DetailSetExists)
             {
-                if (MessageBox.Show("Current changes affect an existing Detail set.  Saved changes here will replace the previous entries.  Proceed?", "Detail Set exists", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                //add check to see if changes were made and tell user which detail set is being saved
+                if (MessageBox.Show("Current changes affect the Detail Set ' " + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     //do no stuff
                 }
                 else
                 {
                     SaveDetailsToCSV();
+                    this.Close();
                 }
             }
             else
             {
-                MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
                 SaveDetailsToCSV();
+                MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
+                this.Close();
             }
 
         }
@@ -170,7 +147,6 @@ namespace FactoryOrganizerOfficeProgram
                 csv.AppendLine(newLine);
             }
             File.WriteAllText(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv", csv.ToString());
-            this.Close();
         }
 
         private void LoadDetails_Click(object sender, RoutedEventArgs e)

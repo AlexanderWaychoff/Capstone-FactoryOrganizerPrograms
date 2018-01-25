@@ -73,6 +73,7 @@
       <DependentUpon>CreateProductInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomerInformation.cs" />
+    <Compile Include="ExternalFile.cs" />
     <Compile Include="FileName.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="ProductBaseInformation.cs" />
