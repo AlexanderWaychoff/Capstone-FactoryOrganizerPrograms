@@ -96,7 +96,7 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Grid.Column="2" Style="{StaticResource DodgerBlueButton}" VerticalAlignment="Center" Width="40">
+                    <Button Name="LoadDetails" Grid.Column="2" Style="{StaticResource DodgerBlueButton}" VerticalAlignment="Center" Width="40" Click="LoadDetails_Click">
                         <TextBlock Text="Load"/>
                     </Button>
                 </Grid>
