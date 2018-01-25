@@ -12,7 +12,7 @@ namespace FactoryOrganizerOfficeProgram
         public string Customer { get; set; }
         public int Operation { get; set; }
         public string Description { get; set; }
-        public float CycleTime { get; set; }
+        public float? CycleTime { get; set; }
         public bool RequiredToReport { get; set; }
 
         public ObservableCollection<ScaleUnit> ScaleUnits { get; set; }

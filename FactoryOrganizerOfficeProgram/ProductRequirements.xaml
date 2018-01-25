@@ -74,8 +74,8 @@
             <Grid Grid.Column="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="245"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="225"/>
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="45"/>
                 </Grid.RowDefinitions>
@@ -100,7 +100,12 @@
                         <TextBlock Text="Load"/>
                     </Button>
                 </Grid>
+                <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Text="Detail Changes:"/>
                 <Border Grid.Row="2">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                        <ListBox Name="productDetailChanges" />
+                    </ScrollViewer>
                 </Border>
                 <Grid Grid.Row="5">
                     <Grid.ColumnDefinitions>

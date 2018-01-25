@@ -28,7 +28,7 @@ namespace FactoryOrganizerOfficeProgram
     {
         public ObservableCollection<ProductBaseInformation> ProductDetails { get; set; }
         public ObservableCollection<FileName> LoadedDetailSets { get; set; }
-        public ObservableCollection<FileName> DuplicateProductDetailsToVerifyChanges { get; set; }
+        public ObservableCollection<ProductBaseInformation> DuplicateProductDetailsToVerifyChanges = new ObservableCollection<ProductBaseInformation>();
 
         public FileName FileForDetailSet;
 
@@ -64,6 +64,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
         {
+            ChangeLogAddRemoveDetail(sender);
             ProductDetails.Remove((sender as FrameworkElement).DataContext as ProductBaseInformation);
         }
 
@@ -81,6 +82,7 @@ namespace FactoryOrganizerOfficeProgram
             }
             if(DetailsAreValid)
             {
+                ChangeLogAddNewBlankDetail();
                 ProductDetails.Add(new ProductBaseInformation());
             }
         }
@@ -110,27 +112,56 @@ namespace FactoryOrganizerOfficeProgram
             
             string detailSetName = DetailSet.Text;
             bool DetailSetExists = ExternalFile.CheckForFile(settingsFolder + @"\" + productBaseInformationFolder, DetailSet.Text);
+            bool HasNullValue = CheckProductDetailsForNullValue();
 
-            if (DetailSetExists)
+            if (!HasNullValue)
             {
-                //add check to see if changes were made and tell user which detail set is being saved
-                if (MessageBox.Show("Current changes affect the Detail Set ' " + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (DetailSetExists)
                 {
-                    //do no stuff
+                    bool changesWereMade = CompareDuplicateAndProductDetails();
+                    
+                    if (changesWereMade)
+                    {
+                        //add check to see if changes were made and tell user which detail set is being saved
+                        if (MessageBox.Show("Current changes affect the Detail Set ' " + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                        {
+                            //do no stuff
+                        }
+                        else
+                        {
+                            SaveDetailsToCSV();
+                            this.Close();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No changes are being made to '" + DetailSet.Text + "'.  Save canceled.", "Nothing to Save.");
+                    }
                 }
                 else
                 {
                     SaveDetailsToCSV();
+                    MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
                     this.Close();
                 }
             }
             else
             {
-                SaveDetailsToCSV();
-                MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
-                this.Close();
+                MessageBox.Show("At least one Detail field is empty.  Please enter a value in that field before saving or remove it.", "Empty Detail Value");
             }
+        }
 
+        private bool CheckProductDetailsForNullValue()
+        {
+            bool hasNullDetail = false;
+            for(int i = 0; i < ProductDetails.Count; i++)
+            {
+                if(ProductDetails[i].Detail == null)
+                {
+                    hasNullDetail = true;
+                }
+            }
+            return hasNullDetail;
         }
 
         private void SaveDetailsToCSV()
@@ -151,11 +182,19 @@ namespace FactoryOrganizerOfficeProgram
 
         private void LoadDetails_Click(object sender, RoutedEventArgs e)
         {
-            ProductDetails.Clear();
-
             bool fileExists = File.Exists(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv");
             if (fileExists)
             {
+                bool changesWereMade = CompareDuplicateAndProductDetails();
+
+                if (changesWereMade)
+                {
+                    if (MessageBox.Show("Changes were made to ' " + DetailSet.Text + "' that weren't saved.  Loading a Detail Set will undo any entries/deletions done.  Proceed?", "Load attempt with edit done to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
+                ProductDetails.Clear();
                 using (TextFieldParser parser = new TextFieldParser(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv"))
                 {
                     parser.TextFieldType = FieldType.Delimited;
@@ -173,8 +212,72 @@ namespace FactoryOrganizerOfficeProgram
                         productBaseInformation.Detail = fields[0];
                         productBaseInformation.DescriptionOfDetail = fields[1];
                         ProductDetails.Add(productBaseInformation);
+                        FillDuplicateProductDetailsToVerifyChanges();
+                        productDetailChanges.Items.Clear();
+                    }
+                }                
+            }
+        }
+
+        private void FillDuplicateProductDetailsToVerifyChanges()
+        {
+            DuplicateProductDetailsToVerifyChanges.Clear();
+            foreach(ProductBaseInformation detail in ProductDetails)
+            {
+                DuplicateProductDetailsToVerifyChanges.Add(detail);
+            }
+        }
+
+        private bool CompareDuplicateAndProductDetails()
+        {
+            bool changesWereMade = false;
+            if (ProductDetails.Count.Equals(DuplicateProductDetailsToVerifyChanges.Count))
+            {
+                int longerCollectionCount;
+                if (ProductDetails.Count > DuplicateProductDetailsToVerifyChanges.Count)
+                {
+                    longerCollectionCount = ProductDetails.Count;
+                }
+                else
+                {
+                    longerCollectionCount = DuplicateProductDetailsToVerifyChanges.Count;
+                }
+                for (int i = 0; i < ProductDetails.Count; i++)
+                {
+                    if (ProductDetails[i].Detail.Equals(DuplicateProductDetailsToVerifyChanges[i].Detail) && ProductDetails[i].DescriptionOfDetail.Equals(DuplicateProductDetailsToVerifyChanges[i].DescriptionOfDetail))
+                    {
+
+                    }
+                    else
+                    {
+                        changesWereMade = true;
+                        i += ProductDetails.Count;
                     }
                 }
+            }
+            else
+            {
+                changesWereMade = true;
+            }
+            return changesWereMade;
+        }
+
+        private void ChangeLogAddNewBlankDetail()
+        {
+            productDetailChanges.Items.Add("::New blank detail added.");
+        }
+
+        private void ChangeLogAddRemoveDetail(object sender)
+        {
+            ProductBaseInformation test;
+            test = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            if (test.Detail != null)
+            {
+                productDetailChanges.Items.Add("::" + test.Detail + " detail removed.");
+            }
+            else
+            {
+                productDetailChanges.Items.Add("::Blank detail removed.");
             }
         }
     }
