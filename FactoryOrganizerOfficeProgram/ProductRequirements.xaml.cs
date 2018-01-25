@@ -31,10 +31,14 @@ namespace FactoryOrganizerOfficeProgram
         public ObservableCollection<ProductBaseInformation> DuplicateProductDetailsToVerifyChanges = new ObservableCollection<ProductBaseInformation>();
 
         public FileName FileForDetailSet;
+        ProductBaseInformation inheritSender;
 
         string baseDetailSetFilePath;
         string settingsFolder = "Settings";
         string productBaseInformationFolder = "Base Detail Sets";
+        string logChange;
+
+        bool hasCheckedOnce = false;
 
         public ProductRequirements()
         {
@@ -71,19 +75,26 @@ namespace FactoryOrganizerOfficeProgram
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
         {
             bool DetailsAreValid = true;
-            for(int i = 0; i < ProductDetails.Count; i++)
+            if (DetailSet.Text == "")
             {
-                if(ProductDetails[i].Detail == null)
-                {
-                    DetailsAreValid = false;
-                    MessageBox.Show("At least one Detail field is empty.  Please enter a value in that field before adding more.", "Empty Detail Field");
-                    i += ProductDetails.Count;
-                }
+                MessageBox.Show("No Detail Set is selected.  Select one from the drop down list and load it, or type a new Detail Set into the field.", "No Detail Set Selected");
             }
-            if(DetailsAreValid)
+            else
             {
-                ChangeLogAddNewBlankDetail();
-                ProductDetails.Add(new ProductBaseInformation());
+                for (int i = 0; i < ProductDetails.Count; i++)
+                {
+                    if (ProductDetails[i].Detail == null)
+                    {
+                        DetailsAreValid = false;
+                        MessageBox.Show("At least one Detail field is empty.  Please enter a value in that field before adding more.", "Empty Detail Field");
+                        i += ProductDetails.Count;
+                    }
+                }
+                if (DetailsAreValid)
+                {
+                    ChangeLogAddNewBlankDetail();
+                    ProductDetails.Add(new ProductBaseInformation());
+                }
             }
         }
 
@@ -123,7 +134,7 @@ namespace FactoryOrganizerOfficeProgram
                     if (changesWereMade)
                     {
                         //add check to see if changes were made and tell user which detail set is being saved
-                        if (MessageBox.Show("Current changes affect the Detail Set ' " + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                        if (MessageBox.Show("Current changes affect the Detail Set '" + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                         {
                             //do no stuff
                         }
@@ -173,7 +184,11 @@ namespace FactoryOrganizerOfficeProgram
             foreach(ProductBaseInformation information in sortedDetails)
             {
                 var detail = information.Detail;
-                var description = information.DescriptionOfDetail;
+                var description = "-";
+                if (information.DescriptionOfDetail != "")
+                {
+                    description = information.DescriptionOfDetail;
+                }
                 var newLine = string.Format("{0},{1}", detail, description);
                 csv.AppendLine(newLine);
             }
@@ -222,10 +237,14 @@ namespace FactoryOrganizerOfficeProgram
 
         private void FillDuplicateProductDetailsToVerifyChanges()
         {
+            ProductBaseInformation duplicate;
             DuplicateProductDetailsToVerifyChanges.Clear();
             foreach(ProductBaseInformation detail in ProductDetails)
             {
-                DuplicateProductDetailsToVerifyChanges.Add(detail);
+                duplicate = new ProductBaseInformation();
+                duplicate.Detail = detail.Detail;
+                duplicate.DescriptionOfDetail = detail.DescriptionOfDetail;
+                DuplicateProductDetailsToVerifyChanges.Add(duplicate);
             }
         }
 
@@ -270,15 +289,84 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ChangeLogAddRemoveDetail(object sender)
         {
-            ProductBaseInformation test;
-            test = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
-            if (test.Detail != null)
+            ProductBaseInformation inheritSender;
+            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            if (inheritSender.Detail != null)
             {
-                productDetailChanges.Items.Add("::" + test.Detail + " detail removed.");
+                productDetailChanges.Items.Add("::" + inheritSender.Detail + " detail removed.");
             }
             else
             {
                 productDetailChanges.Items.Add("::Blank detail removed.");
+            }
+        }
+
+        //Need to change logic on both ChangeLogs.  else if activates at wrong times.
+        private void ChangeLogAddChangeDetail(ProductBaseInformation changedSender)
+        {
+            if (logChange == null)
+            {
+                productDetailChanges.Items.Add("::Blank Detail is now " + changedSender.Detail + ".");
+            }
+            else if (logChange == "")
+            {
+                productDetailChanges.Items.Add("::Detail " + logChange + " is now Blank.");
+            }
+            else
+            {
+                productDetailChanges.Items.Add("::" + logChange + " changed to " + changedSender.Detail + ".");
+            }
+        }
+
+        private void ChangeLogAddChangeDescriptionOfDetail(ProductBaseInformation changedSender)
+        {
+            if (logChange == null)
+            {
+                productDetailChanges.Items.Add("::Blank Description is now " + changedSender.DescriptionOfDetail + ".");
+            }
+            else if (logChange == "")
+            {
+                productDetailChanges.Items.Add("::Description " + changedSender.DescriptionOfDetail + " is now Blank.");
+            }
+            else
+            {
+                productDetailChanges.Items.Add("::" + logChange + " changed to " + changedSender.DescriptionOfDetail + ".");
+            }
+        }
+
+        private void detailTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            logChange = inheritSender.Detail;
+        }
+
+        private void detailTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ProductBaseInformation changedSender;
+            changedSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+
+            if (changedSender.Detail != logChange)
+            {
+                ChangeLogAddChangeDetail(changedSender);
+                hasCheckedOnce = false;
+            }
+        }
+
+        private void descriptionOfDetailTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            logChange = inheritSender.DescriptionOfDetail;
+        }
+
+        private void descriptionOfDetailTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ProductBaseInformation changedSender;
+            changedSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+
+            if (changedSender.DescriptionOfDetail != logChange)
+            {
+                ChangeLogAddChangeDescriptionOfDetail(changedSender);
+                hasCheckedOnce = false;
             }
         }
     }

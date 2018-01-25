@@ -63,5 +63,10 @@ namespace FactoryOrganizerOfficeProgram
         {
 
         }
+
+        private void SetScrap_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

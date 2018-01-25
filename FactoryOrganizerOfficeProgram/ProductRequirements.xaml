@@ -55,8 +55,8 @@
                                         <TextBlock Grid.Row="0" Grid.Column="2" Text="Detail" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Row="0" Grid.Column="3" Text="Description" HorizontalAlignment="Center"/>
                                         <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource RedButton}" Click="OnDeleteMachineFunction">Remove</Button>
-                                        <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Detail}"/>
-                                        <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding DescriptionOfDetail}"/>
+                                        <TextBox Name="detailTextBox" Grid.Row="1" Grid.Column="2" GotFocus="detailTextBox_GotFocus" LostFocus="detailTextBox_LostFocus"  Text="{Binding Detail}"/>
+                                        <TextBox Name="descriptionOfDetailTextBox" Grid.Row="1" Grid.Column="3" GotFocus="descriptionOfDetailTextBox_GotFocus" LostFocus="descriptionOfDetailTextBox_LostFocus" Text="{Binding DescriptionOfDetail}"/>
                                         <!--<Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>-->
 
                                     </Grid>
@@ -86,7 +86,7 @@
                         <ColumnDefinition Width="55"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Text="Detail Set:"/>
-                    <ComboBox Name="DetailSet" Grid.Row="0" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name" Text="Default">
+                    <ComboBox Name="DetailSet" Grid.Row="0" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

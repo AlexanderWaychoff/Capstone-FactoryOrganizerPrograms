@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Settings" Height="410" Width="297" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Settings" Height="475" Width="297" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="5"/>
@@ -20,11 +20,15 @@
             <RowDefinition Height="25" />
             <RowDefinition Height="5"/>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="38" />
             <RowDefinition Height="5"/>
             <RowDefinition Height="40" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="38" />
+            <RowDefinition Height="5"/>
             <RowDefinition Height="40" />
+            <RowDefinition Height="20"/>
             <RowDefinition Height="38" />
             <RowDefinition Height="5"/>
             <RowDefinition Height="40" />
@@ -58,7 +62,8 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </Border>
-        <Button Name="SearchForSQLConnections" Click="SearchForSQLConnections_Click" Grid.Column="1" Grid.Row="5" Style="{StaticResource CyanButton}" Width="110" Content="Search Connections"/>
+        <Button Name="SearchForSQLConnections" Click="SearchForSQLConnections_Click" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" Style="{StaticResource CyanButton}" Width="115" Content="Search Connections"/>
+        <Button Name="ConnectToSql" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Style="{StaticResource DodgerBlueButton}" Width="65" Content="Connect"/>
         <Border 
             BorderBrush="Black"
             BorderThickness="1"
@@ -79,5 +84,9 @@
             <TextBlock Text="Manage your Cells here.  A cell is a collection of operations that can speed up production.  " TextWrapping="Wrap" />
         </Border>
         <Button Name="ManageCells" Grid.Row="13" Grid.Column="1" Style="{StaticResource CyanButton}" Content="Manage Cells" Width="80" Click="ManageCells_Click"/>
+        <Border Grid.Row="15" Grid.Column="1">
+        <TextBlock Text="Set all scrap types here.  These will be used by floor employees later for analytics." TextWrapping="Wrap" />
+        </Border>
+        <Button Name="SetScrap" Grid.Row="17" Grid.Column="1" Style="{StaticResource CyanButton}" Content="Set Scrap Type" Width="85" Click="SetScrap_Click"/>
     </Grid>
 </Window>

@@ -231,7 +231,6 @@ namespace FactoryOrganizerOfficeProgram
                 }
                 foreach (string filename in openFileDialog.FileNames)
                 {
-                    //int indexOfSenderInProductOperations = ProductOperations.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductOperation);
                     filesForOperations.Items.Add("Website Image: " +
                         System.IO.Path.GetFileName(filename));
                 }
