@@ -214,6 +214,7 @@ namespace FactoryOrganizerOfficeProgram
                         ProductDetails.Add(productBaseInformation);
                         FillDuplicateProductDetailsToVerifyChanges();
                         productDetailChanges.Items.Clear();
+                        productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
                     }
                 }                
             }
