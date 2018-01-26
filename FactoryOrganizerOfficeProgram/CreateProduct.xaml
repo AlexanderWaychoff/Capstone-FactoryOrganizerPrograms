@@ -163,7 +163,13 @@
             Grid.Row="1"
             >
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                    <ListBox Name="productRequirements" Height="225" />
+                    <ListBox Name="baseInformation" Height="155">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding JoinedString}" FontSize="20"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </ScrollViewer>
             </Border>
             <TextBlock Text="Files Uploaded: " Grid.Row="2"/>

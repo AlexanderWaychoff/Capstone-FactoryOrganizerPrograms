@@ -69,5 +69,19 @@ namespace FactoryOrganizerOfficeProgram
             }
             return filesNameOnly.ToArray();
         }
+
+        /// <summary>
+        /// Deletes all files in target folder.  Do not use on a directory (folder with folders inside).
+        /// </summary>
+        /// <param name="filePath">Enter file path here.  Seperate each directory with @"\".</param>
+        public static void RemoveAllFilesFromFolder(string filePath)
+        {
+            System.IO.DirectoryInfo di = new DirectoryInfo(filePath);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+        }
     }
 }

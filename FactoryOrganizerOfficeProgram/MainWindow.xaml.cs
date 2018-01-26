@@ -20,6 +20,7 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class MainWindow : Window
     {
+        FolderNames folderNames = new FolderNames();
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +39,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void CreateProduct_Click(object sender, RoutedEventArgs e)
         {
+            ExternalFile.RemoveAllFilesFromFolder(@".\" + folderNames.CustomersFolder + @"\" + folderNames.TemporaryFolder);
             var createProduct = new CreateProduct();
             createProduct.ShowDialog();
         }

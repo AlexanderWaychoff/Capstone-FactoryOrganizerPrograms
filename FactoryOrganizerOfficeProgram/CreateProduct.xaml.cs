@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.VisualBasic.FileIO;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,8 @@ namespace FactoryOrganizerOfficeProgram
         public ObservableCollection<ProductOperation> ProductOperations { get; set; }
         public ObservableCollection<CustomerInformation> AllCustomers { get; set; }
         public ObservableCollection<ProductProductionCode> AllProductsForCustomer { get; set; }
+        public ObservableCollection<ConcatenateString> BaseInformation { get; set; }
+
         public CustomerInformation Customer;
         public CustomerInformation UserSubmittedCustomer;
         public ProductProductionCode UserSubmittedProductID = new ProductProductionCode();
@@ -35,6 +38,15 @@ namespace FactoryOrganizerOfficeProgram
         int productWasAdded = 0;
         string saveProductID;
 
+        string csvName = "temporary";
+
+        string basePathForTemporaryFolder;
+        //base folder Customers
+        string customerFolder = "Customers";
+        string unassignedProductsFolder = "Unassigned Products";
+        string temporaryFolder = "Temporary Create Holder";
+
+
         public CreateProduct()
         {
             InitializeComponent();
@@ -42,8 +54,13 @@ namespace FactoryOrganizerOfficeProgram
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
             CustomerList.ItemsSource = AllCustomers = new ObservableCollection<CustomerInformation>();
             CustomerProducts.ItemsSource = AllProductsForCustomer = new ObservableCollection<ProductProductionCode>();
+            baseInformation.ItemsSource = BaseInformation = new ObservableCollection<ConcatenateString>();
 
-            //Info.Background = new SolidColorBrush(Colors.GreenYellow);
+            basePathForTemporaryFolder = @".\" + customerFolder + @"\" + temporaryFolder;
+
+            ExternalFile.CheckForDirectory(customerFolder);
+            ExternalFile.CheckForDirectory(customerFolder + @"\" + unassignedProductsFolder);
+            ExternalFile.CheckForDirectory(customerFolder + @"\" + temporaryFolder);
             RetrieveAllCustomers();
         }
 
@@ -241,6 +258,36 @@ namespace FactoryOrganizerOfficeProgram
         {
             var submitBaseInformation = new SubmitBaseInformation();
             submitBaseInformation.ShowDialog();
+            //enter csv loader here for temporary.csv
+            bool fileExists = File.Exists(basePathForTemporaryFolder + @"\" + csvName + ".csv");
+            if (fileExists)
+            {
+                BaseInformation.Clear();
+                using (TextFieldParser parser = new TextFieldParser(basePathForTemporaryFolder + @"\" + csvName + ".csv"))
+                {
+                    ConcatenateString BaseInformationEntry;
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    while (!parser.EndOfData)
+                    {
+                        string[] fields = parser.ReadFields();
+                        string baseInformationEntry = "";
+
+                        if (fields[2] != "-")
+                        {
+                            BaseInformationEntry = new ConcatenateString();
+                            if(fields[1] == "-")
+                            {
+                                fields[1] = "";
+                            }
+                            baseInformationEntry += fields[0] + ": " + fields[2] + " " + fields[1];
+
+                            BaseInformationEntry.JoinedString = baseInformationEntry.Trim();
+                            BaseInformation.Add(BaseInformationEntry);
+                        }
+                    }
+                }
+            }
         }
     }
 }

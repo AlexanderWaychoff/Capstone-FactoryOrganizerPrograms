@@ -30,6 +30,7 @@ namespace FactoryOrganizerOfficeProgram
 
         FileName FileForDetailSet;
 
+        //csvName used in Create Product to read it too
         string csvName = "temporary";
 
         string baseDetailSetFilePath;
@@ -140,7 +141,7 @@ namespace FactoryOrganizerOfficeProgram
                 csv.AppendLine(newLine);
             }
             File.WriteAllText(baseCustomerTemporaryFilePath + @"\" + csvName + ".csv", csv.ToString());
-
+            MessageBox.Show("Entries saved.  Base Information in Create Product window will update once this window is closed.","Saved Base Information");
         }
     }
 }

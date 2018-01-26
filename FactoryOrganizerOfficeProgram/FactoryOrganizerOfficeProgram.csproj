@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConcatenateString.cs" />
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
     </Compile>
@@ -75,6 +76,7 @@
     <Compile Include="CustomerInformation.cs" />
     <Compile Include="ExternalFile.cs" />
     <Compile Include="FileName.cs" />
+    <Compile Include="FolderNames.cs" />
     <Compile Include="Folder.cs" />
     <Compile Include="SetupInformation.cs" />
     <Compile Include="ProductProductionCode.cs" />
