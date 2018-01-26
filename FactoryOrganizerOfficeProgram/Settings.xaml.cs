@@ -56,7 +56,6 @@ namespace FactoryOrganizerOfficeProgram
         {
             var productRequirements = new ProductRequirements();
             productRequirements.ShowDialog();
-            this.Close();
         }
 
         private void ManageCells_Click(object sender, RoutedEventArgs e)

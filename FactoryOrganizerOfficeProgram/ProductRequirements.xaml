@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Product Requirements" Height="505" Width="605" WindowStartupLocation="CenterScreen">
+        Title="Product Requirements" Height="505" Width="605" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    
     <Grid Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -86,7 +87,7 @@
                         <ColumnDefinition Width="55"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Text="Detail Set:"/>
-                    <ComboBox Name="DetailSet" Grid.Row="0" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name">
+                    <ComboBox Name="DetailSet" Grid.Row="0" Grid.Column="1" IsEditable="True" LostKeyboardFocus="DetailSet_LostKeyboardFocus" DropDownClosed="DetailSet_DropDownClosed" TextSearch.TextPath ="Name">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

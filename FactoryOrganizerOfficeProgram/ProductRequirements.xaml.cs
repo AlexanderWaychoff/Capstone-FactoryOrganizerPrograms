@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -38,7 +39,11 @@ namespace FactoryOrganizerOfficeProgram
         string productBaseInformationFolder = "Base Detail Sets";
         string logChange;
 
-        bool hasCheckedOnce = false;
+        string[] files;
+
+        bool currentDetailSetIsLoaded = true;
+        bool checkedComboBoxTextOnceForNewDetailSet = false;
+        bool isConfirmedToClose = false;
 
         public ProductRequirements()
         {
@@ -57,7 +62,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void LoadDetailSets()
         {
-            string[] files = ExternalFile.RetrieveAllFileNamesInDirectory(settingsFolder + @"\" + productBaseInformationFolder);
+            files = ExternalFile.RetrieveAllFileNamesInDirectory(settingsFolder + @"\" + productBaseInformationFolder);
             foreach (string file in files)
             {
                 FileForDetailSet = new FileName();
@@ -74,27 +79,40 @@ namespace FactoryOrganizerOfficeProgram
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
         {
-            bool DetailsAreValid = true;
-            if (DetailSet.Text == "")
+            if (currentDetailSetIsLoaded)
             {
-                MessageBox.Show("No Detail Set is selected.  Select one from the drop down list and load it, or type a new Detail Set into the field.", "No Detail Set Selected");
+                bool DetailsAreValid = true;
+                if (DetailSet.Text == "")
+                {
+                    MessageBox.Show("No Detail Set is selected.  Select one from the drop down list and load it, or type a new Detail Set into the field.", "No Detail Set Selected");
+                }
+                else
+                {
+                    if(!checkedComboBoxTextOnceForNewDetailSet)
+                    {
+                        checkedComboBoxTextOnceForNewDetailSet = true;
+                        DetailSet.IsEnabled = false;
+                        productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
+                    }
+                    for (int i = 0; i < ProductDetails.Count; i++)
+                    {
+                        if (ProductDetails[i].Detail == null || ProductDetails[i].Detail == "")
+                        {
+                            DetailsAreValid = false;
+                            MessageBox.Show("At least one Detail field is empty.  Please enter a value in that field before adding more.", "Empty Detail Field");
+                            i += ProductDetails.Count;
+                        }
+                    }
+                    if (DetailsAreValid)
+                    {
+                        ChangeLogAddNewBlankDetail();
+                        ProductDetails.Add(new ProductBaseInformation());
+                    }
+                }
             }
             else
             {
-                for (int i = 0; i < ProductDetails.Count; i++)
-                {
-                    if (ProductDetails[i].Detail == null)
-                    {
-                        DetailsAreValid = false;
-                        MessageBox.Show("At least one Detail field is empty.  Please enter a value in that field before adding more.", "Empty Detail Field");
-                        i += ProductDetails.Count;
-                    }
-                }
-                if (DetailsAreValid)
-                {
-                    ChangeLogAddNewBlankDetail();
-                    ProductDetails.Add(new ProductBaseInformation());
-                }
+                MessageBox.Show("You selected a detail set from the drop down menu, but didn't load it.  Please load the selected detail set before adding a Product Detail or type a new name for Detail Set to make a new one.", "Detail Set not Loaded");
             }
         }
 
@@ -114,7 +132,6 @@ namespace FactoryOrganizerOfficeProgram
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            //add check to see if any details aren't saved
             this.Close();
         }
 
@@ -133,7 +150,6 @@ namespace FactoryOrganizerOfficeProgram
                     
                     if (changesWereMade)
                     {
-                        //add check to see if changes were made and tell user which detail set is being saved
                         if (MessageBox.Show("Current changes affect the Detail Set '" + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                         {
                             //do no stuff
@@ -227,10 +243,12 @@ namespace FactoryOrganizerOfficeProgram
                         productBaseInformation.Detail = fields[0];
                         productBaseInformation.DescriptionOfDetail = fields[1];
                         ProductDetails.Add(productBaseInformation);
-                        FillDuplicateProductDetailsToVerifyChanges();
-                        productDetailChanges.Items.Clear();
-                        productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
                     }
+                    FillDuplicateProductDetailsToVerifyChanges();
+                    productDetailChanges.Items.Clear();
+                    productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
+                    currentDetailSetIsLoaded = true;
+                    DetailSet.IsEnabled = false;
                 }                
             }
         }
@@ -301,14 +319,13 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        //Need to change logic on both ChangeLogs.  else if activates at wrong times.
         private void ChangeLogAddChangeDetail(ProductBaseInformation changedSender)
         {
-            if (logChange == null)
+            if (logChange == null || logChange == "")
             {
                 productDetailChanges.Items.Add("::Blank Detail is now " + changedSender.Detail + ".");
             }
-            else if (logChange == "")
+            else if (changedSender.Detail == "")
             {
                 productDetailChanges.Items.Add("::Detail " + logChange + " is now Blank.");
             }
@@ -324,9 +341,9 @@ namespace FactoryOrganizerOfficeProgram
             {
                 productDetailChanges.Items.Add("::Blank Description is now " + changedSender.DescriptionOfDetail + ".");
             }
-            else if (logChange == "")
+            else if (changedSender.DescriptionOfDetail == "")
             {
-                productDetailChanges.Items.Add("::Description " + changedSender.DescriptionOfDetail + " is now Blank.");
+                productDetailChanges.Items.Add("::Description " + logChange + " is now Blank.");
             }
             else
             {
@@ -348,7 +365,6 @@ namespace FactoryOrganizerOfficeProgram
             if (changedSender.Detail != logChange)
             {
                 ChangeLogAddChangeDetail(changedSender);
-                hasCheckedOnce = false;
             }
         }
 
@@ -366,7 +382,57 @@ namespace FactoryOrganizerOfficeProgram
             if (changedSender.DescriptionOfDetail != logChange)
             {
                 ChangeLogAddChangeDescriptionOfDetail(changedSender);
-                hasCheckedOnce = false;
+            }
+        }
+
+        private void DetailSet_DropDownClosed(object sender, EventArgs e)
+        {
+            if(DetailSet.Text != "" || CheckDetailSetTextForMatches())
+            {
+                currentDetailSetIsLoaded = false;
+            }
+        }
+
+        private void DetailSet_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            currentDetailSetIsLoaded = CheckDetailSetTextForMatches();
+        }
+
+        private bool CheckDetailSetTextForMatches()
+        {
+            foreach (string file in files)
+            {
+                if (file == DetailSet.Text)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
+            bool changesWereMade = CompareDuplicateAndProductDetails();
+
+            if (changesWereMade)
+            {
+                if (MessageBox.Show("Current changes affect the Detail Set '" + DetailSet.Text + "'.  Closing now won't save these changes.  Proceed?", "Unsaved Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    //do nothing
+                }
+                else
+                {
+                    isConfirmedToClose = true;
+                }
+            }
+            else
+            {
+                isConfirmedToClose = true;
+            }
+            if (!isConfirmedToClose)
+            {
+                e.Cancel = true;
             }
         }
     }
