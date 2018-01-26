@@ -17,12 +17,14 @@
             <RowDefinition Height="98"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="0"/>
-            <RowDefinition Height="370"/>
+            <RowDefinition Height="365"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
         <Border Grid.Column="1" Grid.Row="1">
             <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
-                 Text="First load a Detail Set you created (if you haven't created one go to the main menu: &#x0a;File > Settings > Set up Product Details &#x0a;&#x0a;Once loaded, enter information into the fields (can be left blank) and click the Save button below."/>
+                 Text="First load a Detail Set you created.  If you haven't created one go to the main menu: &#x0a;File > Settings > Set up Product Details &#x0a;&#x0a;Once loaded, enter information into the fields (can be left blank) and click the Save button below."/>
             <!-- Hexidecimal &#x0a; will insert break -->
         </Border>
         <Grid Grid.Row="2" Grid.Column="1">
@@ -79,5 +81,18 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
+        <Grid Grid.Row="6" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="117"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Save" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Width="95" Click="Save_Click">
+                <TextBlock Text="Save" VerticalAlignment="Center" FontSize="40"/>
+            </Button>
+            <Button Name="CloseButton" Grid.Column="2" Style="{StaticResource RedButton}" Width="105" Click="CloseButton_Click">
+                <TextBlock Text="Close" VerticalAlignment="Center" FontSize="40"/>
+            </Button>
+        </Grid>
     </Grid>
 </Window>

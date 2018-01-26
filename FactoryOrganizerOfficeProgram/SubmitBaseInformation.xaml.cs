@@ -33,6 +33,9 @@ namespace FactoryOrganizerOfficeProgram
         string baseDetailSetFilePath;
         string settingsFolder = "Settings";
         string productBaseInformationFolder = "Base Detail Sets";
+        string productsFolder = "Products";
+        string customerFolder = "Customer";
+        string temporaryFolder = "Temporary Create Holder";
 
         string[] files;
 
@@ -97,5 +100,31 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            var csv = new StringBuilder();
+            var sortedDetails = ProductDetails.OrderBy(x => x.Detail);
+            sortedDetails.ToList();
+
+            foreach (SetupInformation information in sortedDetails)
+            {
+                var detail = information.Detail;
+                var description = "-";
+                if (information.DescriptionOfDetail != "")
+                {
+                    description = information.DescriptionOfDetail;
+                }
+                var saveInformation = information.SaveValue;
+                var newLine = string.Format("{0},{1},{2}", detail, description, saveInformation);
+                csv.AppendLine(newLine);
+            }
+            File.WriteAllText(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv", csv.ToString());
+
+        }
     }
 }
