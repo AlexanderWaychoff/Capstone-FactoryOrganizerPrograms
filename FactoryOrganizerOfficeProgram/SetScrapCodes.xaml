@@ -36,7 +36,7 @@
             <Border Grid.Column="0" Grid.Row="3">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Grid.Column="1" Grid.Row="3" Background="White">
-                        <ItemsControl Name="lstMachineFunctions">
+                        <ItemsControl Name="scrapCodeEntries">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -87,7 +87,7 @@
                         <ColumnDefinition Width="55"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Text="Detail Set:"/>
-                    <ComboBox Name="DetailSet" Grid.Row="0" Grid.Column="1" IsEditable="True" LostKeyboardFocus="DetailSet_LostKeyboardFocus" DropDownClosed="DetailSet_DropDownClosed" TextSearch.TextPath ="Name">
+                    <ComboBox Name="ScrapCodeSet" Grid.Row="0" Grid.Column="1" IsEditable="True" LostKeyboardFocus="DetailSet_LostKeyboardFocus" DropDownClosed="DetailSet_DropDownClosed" TextSearch.TextPath ="Name">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">

@@ -27,12 +27,12 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class ProductRequirements : Window
     {
-        public ObservableCollection<ProductBaseInformation> ProductDetails { get; set; }
+        public ObservableCollection<SetupInformation> ProductDetails { get; set; }
         public ObservableCollection<FileName> LoadedDetailSets { get; set; }
-        public ObservableCollection<ProductBaseInformation> DuplicateProductDetailsToVerifyChanges = new ObservableCollection<ProductBaseInformation>();
+        public ObservableCollection<SetupInformation> DuplicateProductDetailsToVerifyChanges = new ObservableCollection<SetupInformation>();
 
         public FileName FileForDetailSet;
-        ProductBaseInformation inheritSender;
+        SetupInformation inheritSender;
 
         string baseDetailSetFilePath;
         string settingsFolder = "Settings";
@@ -49,7 +49,7 @@ namespace FactoryOrganizerOfficeProgram
         {
             InitializeComponent();
 
-            lstMachineFunctions.ItemsSource = ProductDetails = new ObservableCollection<ProductBaseInformation>();
+            lstMachineFunctions.ItemsSource = ProductDetails = new ObservableCollection<SetupInformation>();
             DetailSet.ItemsSource = LoadedDetailSets = new ObservableCollection<FileName>();
 
             baseDetailSetFilePath = @".\" + settingsFolder + @"\" + productBaseInformationFolder;
@@ -74,7 +74,7 @@ namespace FactoryOrganizerOfficeProgram
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
         {
             ChangeLogAddRemoveDetail(sender);
-            ProductDetails.Remove((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            ProductDetails.Remove((sender as FrameworkElement).DataContext as SetupInformation);
         }
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
@@ -106,7 +106,7 @@ namespace FactoryOrganizerOfficeProgram
                     if (DetailsAreValid)
                     {
                         ChangeLogAddNewBlankDetail();
-                        ProductDetails.Add(new ProductBaseInformation());
+                        ProductDetails.Add(new SetupInformation());
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace FactoryOrganizerOfficeProgram
             {
                 foreach (string filename in openFileDialog.FileNames)
                 {
-                    int indexOfSenderInProductOperations = ProductDetails.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductBaseInformation);
+                    int indexOfSenderInProductOperations = ProductDetails.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as SetupInformation);
                 }
             }
         }
@@ -157,7 +157,6 @@ namespace FactoryOrganizerOfficeProgram
                         else
                         {
                             SaveDetailsToCSV();
-                            this.Close();
                         }
                     }
                     else
@@ -169,7 +168,6 @@ namespace FactoryOrganizerOfficeProgram
                 {
                     SaveDetailsToCSV();
                     MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
-                    this.Close();
                 }
             }
             else
@@ -197,7 +195,7 @@ namespace FactoryOrganizerOfficeProgram
             var sortedDetails = ProductDetails.OrderBy(x => x.Detail);
             sortedDetails.ToList();
 
-            foreach(ProductBaseInformation information in sortedDetails)
+            foreach(SetupInformation information in sortedDetails)
             {
                 var detail = information.Detail;
                 var description = "-";
@@ -209,6 +207,8 @@ namespace FactoryOrganizerOfficeProgram
                 csv.AppendLine(newLine);
             }
             File.WriteAllText(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv", csv.ToString());
+            DuplicateProductDetailsToVerifyChanges = ProductDetails;
+            productDetailChanges.Items.Add("*" + DetailSet.Text + " Detail Set has been saved*");
         }
 
         private void LoadDetails_Click(object sender, RoutedEventArgs e)
@@ -230,7 +230,7 @@ namespace FactoryOrganizerOfficeProgram
                 {
                     parser.TextFieldType = FieldType.Delimited;
                     parser.SetDelimiters(",");
-                    ProductBaseInformation productBaseInformation;
+                    SetupInformation productBaseInformation;
                     while (!parser.EndOfData)
                     {
                         string[] fields = parser.ReadFields();
@@ -239,7 +239,7 @@ namespace FactoryOrganizerOfficeProgram
                             Console.WriteLine("We found an empty value in your CSV. Please check your file and try again.\nPress any key to return to main menu.");
                             Console.ReadKey(true);
                         }
-                        productBaseInformation = new ProductBaseInformation();
+                        productBaseInformation = new SetupInformation();
                         productBaseInformation.Detail = fields[0];
                         productBaseInformation.DescriptionOfDetail = fields[1];
                         ProductDetails.Add(productBaseInformation);
@@ -255,11 +255,11 @@ namespace FactoryOrganizerOfficeProgram
 
         private void FillDuplicateProductDetailsToVerifyChanges()
         {
-            ProductBaseInformation duplicate;
+            SetupInformation duplicate;
             DuplicateProductDetailsToVerifyChanges.Clear();
-            foreach(ProductBaseInformation detail in ProductDetails)
+            foreach(SetupInformation detail in ProductDetails)
             {
-                duplicate = new ProductBaseInformation();
+                duplicate = new SetupInformation();
                 duplicate.Detail = detail.Detail;
                 duplicate.DescriptionOfDetail = detail.DescriptionOfDetail;
                 DuplicateProductDetailsToVerifyChanges.Add(duplicate);
@@ -271,15 +271,6 @@ namespace FactoryOrganizerOfficeProgram
             bool changesWereMade = false;
             if (ProductDetails.Count.Equals(DuplicateProductDetailsToVerifyChanges.Count))
             {
-                int longerCollectionCount;
-                if (ProductDetails.Count > DuplicateProductDetailsToVerifyChanges.Count)
-                {
-                    longerCollectionCount = ProductDetails.Count;
-                }
-                else
-                {
-                    longerCollectionCount = DuplicateProductDetailsToVerifyChanges.Count;
-                }
                 for (int i = 0; i < ProductDetails.Count; i++)
                 {
                     if (ProductDetails[i].Detail.Equals(DuplicateProductDetailsToVerifyChanges[i].Detail) && ProductDetails[i].DescriptionOfDetail.Equals(DuplicateProductDetailsToVerifyChanges[i].DescriptionOfDetail))
@@ -307,8 +298,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ChangeLogAddRemoveDetail(object sender)
         {
-            ProductBaseInformation inheritSender;
-            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            SetupInformation inheritSender;
+            inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             if (inheritSender.Detail != null)
             {
                 productDetailChanges.Items.Add("::" + inheritSender.Detail + " detail removed.");
@@ -319,7 +310,7 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        private void ChangeLogAddChangeDetail(ProductBaseInformation changedSender)
+        private void ChangeLogAddChangeDetail(SetupInformation changedSender)
         {
             if (logChange == null || logChange == "")
             {
@@ -335,7 +326,7 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        private void ChangeLogAddChangeDescriptionOfDetail(ProductBaseInformation changedSender)
+        private void ChangeLogAddChangeDescriptionOfDetail(SetupInformation changedSender)
         {
             if (logChange == null)
             {
@@ -353,14 +344,14 @@ namespace FactoryOrganizerOfficeProgram
 
         private void detailTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             logChange = inheritSender.Detail;
         }
 
         private void detailTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ProductBaseInformation changedSender;
-            changedSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            SetupInformation changedSender;
+            changedSender = ((sender as FrameworkElement).DataContext as SetupInformation);
 
             if (changedSender.Detail != logChange)
             {
@@ -370,14 +361,14 @@ namespace FactoryOrganizerOfficeProgram
 
         private void descriptionOfDetailTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             logChange = inheritSender.DescriptionOfDetail;
         }
 
         private void descriptionOfDetailTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ProductBaseInformation changedSender;
-            changedSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            SetupInformation changedSender;
+            changedSender = ((sender as FrameworkElement).DataContext as SetupInformation);
 
             if (changedSender.DescriptionOfDetail != logChange)
             {

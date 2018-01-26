@@ -76,7 +76,7 @@
     <Compile Include="ExternalFile.cs" />
     <Compile Include="FileName.cs" />
     <Compile Include="Folder.cs" />
-    <Compile Include="ProductBaseInformation.cs" />
+    <Compile Include="SetupInformation.cs" />
     <Compile Include="ProductProductionCode.cs" />
     <Compile Include="ProductOperation.cs" />
     <Compile Include="ProductRequirements.xaml.cs">

@@ -27,86 +27,86 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class SetScrapCodes : Window
     {
-        public ObservableCollection<ProductBaseInformation> ProductDetails { get; set; }
-        public ObservableCollection<FileName> LoadedDetailSets { get; set; }
-        public ObservableCollection<ProductBaseInformation> DuplicateProductDetailsToVerifyChanges = new ObservableCollection<ProductBaseInformation>();
+        public ObservableCollection<SetupInformation> ScrapCodes { get; set; }
+        public ObservableCollection<FileName> LoadedScrapSets { get; set; }
+        public ObservableCollection<SetupInformation> DuplicateScrapCodesToVerifyChanges = new ObservableCollection<SetupInformation>();
 
         public FileName FileForDetailSet;
-        ProductBaseInformation inheritSender;
+        SetupInformation inheritSender;
 
         string baseDetailSetFilePath;
         string settingsFolder = "Settings";
-        string productBaseInformationFolder = "Base Detail Sets";
+        string scrapCodeFolder = "Scrap Codes";
         string logChange;
 
         string[] files;
 
-        bool currentDetailSetIsLoaded = true;
-        bool checkedComboBoxTextOnceForNewDetailSet = false;
+        bool currentScrapSetIsLoaded = true;
+        bool checkedComboBoxTextOnceForNewScrapSet = false;
         bool isConfirmedToClose = false;
 
         public SetScrapCodes()
         {
             InitializeComponent();
 
-            lstMachineFunctions.ItemsSource = ProductDetails = new ObservableCollection<ProductBaseInformation>();
-            DetailSet.ItemsSource = LoadedDetailSets = new ObservableCollection<FileName>();
+            scrapCodeEntries.ItemsSource = ScrapCodes = new ObservableCollection<SetupInformation>();
+            ScrapCodeSet.ItemsSource = LoadedScrapSets = new ObservableCollection<FileName>();
 
-            baseDetailSetFilePath = @".\" + settingsFolder + @"\" + productBaseInformationFolder;
+            baseDetailSetFilePath = @".\" + settingsFolder + @"\" + scrapCodeFolder;
 
             ExternalFile.CheckForDirectory(settingsFolder);
-            ExternalFile.CheckForDirectory(settingsFolder + @"\" + productBaseInformationFolder);
+            ExternalFile.CheckForDirectory(settingsFolder + @"\" + scrapCodeFolder);
 
             LoadDetailSets();
         }
 
         private void LoadDetailSets()
         {
-            files = ExternalFile.RetrieveAllFileNamesInDirectory(settingsFolder + @"\" + productBaseInformationFolder);
+            files = ExternalFile.RetrieveAllFileNamesInDirectory(settingsFolder + @"\" + scrapCodeFolder);
             foreach (string file in files)
             {
                 FileForDetailSet = new FileName();
                 FileForDetailSet.Name = file;
-                LoadedDetailSets.Add(FileForDetailSet);
+                LoadedScrapSets.Add(FileForDetailSet);
             }
         }
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
         {
             ChangeLogAddRemoveDetail(sender);
-            ProductDetails.Remove((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            ScrapCodes.Remove((sender as FrameworkElement).DataContext as SetupInformation);
         }
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
         {
-            if (currentDetailSetIsLoaded)
+            if (currentScrapSetIsLoaded)
             {
                 bool DetailsAreValid = true;
-                if (DetailSet.Text == "")
+                if (ScrapCodeSet.Text == "")
                 {
                     MessageBox.Show("No Detail Set is selected.  Select one from the drop down list and load it, or type a new Detail Set into the field.", "No Detail Set Selected");
                 }
                 else
                 {
-                    if (!checkedComboBoxTextOnceForNewDetailSet)
+                    if (!checkedComboBoxTextOnceForNewScrapSet)
                     {
-                        checkedComboBoxTextOnceForNewDetailSet = true;
-                        DetailSet.IsEnabled = false;
-                        productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
+                        checkedComboBoxTextOnceForNewScrapSet = true;
+                        ScrapCodeSet.IsEnabled = false;
+                        productDetailChanges.Items.Add("Changes made to " + ScrapCodeSet.Text + ":");
                     }
-                    for (int i = 0; i < ProductDetails.Count; i++)
+                    for (int i = 0; i < ScrapCodes.Count; i++)
                     {
-                        if (ProductDetails[i].Detail == null || ProductDetails[i].Detail == "")
+                        if (ScrapCodes[i].Detail == null || ScrapCodes[i].Detail == "")
                         {
                             DetailsAreValid = false;
                             MessageBox.Show("At least one Detail field is empty.  Please enter a value in that field before adding more.", "Empty Detail Field");
-                            i += ProductDetails.Count;
+                            i += ScrapCodes.Count;
                         }
                     }
                     if (DetailsAreValid)
                     {
                         ChangeLogAddNewBlankDetail();
-                        ProductDetails.Add(new ProductBaseInformation());
+                        ScrapCodes.Add(new SetupInformation());
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace FactoryOrganizerOfficeProgram
             {
                 foreach (string filename in openFileDialog.FileNames)
                 {
-                    int indexOfSenderInProductOperations = ProductDetails.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as ProductBaseInformation);
+                    int indexOfSenderInProductOperations = ScrapCodes.ToList().FindIndex(x => x == (sender as FrameworkElement).DataContext as SetupInformation);
                 }
             }
         }
@@ -138,8 +138,8 @@ namespace FactoryOrganizerOfficeProgram
         private void Save_Click(object sender, RoutedEventArgs e)
         {
 
-            string detailSetName = DetailSet.Text;
-            bool DetailSetExists = ExternalFile.CheckForFile(settingsFolder + @"\" + productBaseInformationFolder, DetailSet.Text);
+            string detailSetName = ScrapCodeSet.Text;
+            bool DetailSetExists = ExternalFile.CheckForFile(settingsFolder + @"\" + scrapCodeFolder, ScrapCodeSet.Text);
             bool HasNullValue = CheckProductDetailsForNullValue();
 
             if (!HasNullValue)
@@ -150,26 +150,24 @@ namespace FactoryOrganizerOfficeProgram
 
                     if (changesWereMade)
                     {
-                        if (MessageBox.Show("Current changes affect the Detail Set '" + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                        if (MessageBox.Show("Current changes affect the Detail Set '" + ScrapCodeSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + ScrapCodeSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                         {
                             //do no stuff
                         }
                         else
                         {
                             SaveDetailsToCSV();
-                            this.Close();
                         }
                     }
                     else
                     {
-                        MessageBox.Show("No changes are being made to '" + DetailSet.Text + "'.  Save canceled.", "Nothing to Save.");
+                        MessageBox.Show("No changes are being made to '" + ScrapCodeSet.Text + "'.  Save canceled.", "Nothing to Save.");
                     }
                 }
                 else
                 {
                     SaveDetailsToCSV();
                     MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
-                    this.Close();
                 }
             }
             else
@@ -181,9 +179,9 @@ namespace FactoryOrganizerOfficeProgram
         private bool CheckProductDetailsForNullValue()
         {
             bool hasNullDetail = false;
-            for (int i = 0; i < ProductDetails.Count; i++)
+            for (int i = 0; i < ScrapCodes.Count; i++)
             {
-                if (ProductDetails[i].Detail == null)
+                if (ScrapCodes[i].Detail == null)
                 {
                     hasNullDetail = true;
                 }
@@ -194,10 +192,10 @@ namespace FactoryOrganizerOfficeProgram
         private void SaveDetailsToCSV()
         {
             var csv = new StringBuilder();
-            var sortedDetails = ProductDetails.OrderBy(x => x.Detail);
+            var sortedDetails = ScrapCodes.OrderBy(x => x.Detail);
             sortedDetails.ToList();
 
-            foreach (ProductBaseInformation information in sortedDetails)
+            foreach (SetupInformation information in sortedDetails)
             {
                 var detail = information.Detail;
                 var description = "-";
@@ -208,29 +206,29 @@ namespace FactoryOrganizerOfficeProgram
                 var newLine = string.Format("{0},{1}", detail, description);
                 csv.AppendLine(newLine);
             }
-            File.WriteAllText(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv", csv.ToString());
+            File.WriteAllText(baseDetailSetFilePath + @"\" + ScrapCodeSet.Text + ".csv", csv.ToString());
         }
 
         private void LoadDetails_Click(object sender, RoutedEventArgs e)
         {
-            bool fileExists = File.Exists(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv");
+            bool fileExists = File.Exists(baseDetailSetFilePath + @"\" + ScrapCodeSet.Text + ".csv");
             if (fileExists)
             {
                 bool changesWereMade = CompareDuplicateAndProductDetails();
 
                 if (changesWereMade)
                 {
-                    if (MessageBox.Show("Changes were made to ' " + DetailSet.Text + "' that weren't saved.  Loading a Detail Set will undo any entries/deletions done.  Proceed?", "Load attempt with edit done to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    if (MessageBox.Show("Changes were made to ' " + ScrapCodeSet.Text + "' that weren't saved.  Loading a Detail Set will undo any entries/deletions done.  Proceed?", "Load attempt with edit done to " + ScrapCodeSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                     {
                         return;
                     }
                 }
-                ProductDetails.Clear();
-                using (TextFieldParser parser = new TextFieldParser(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv"))
+                ScrapCodes.Clear();
+                using (TextFieldParser parser = new TextFieldParser(baseDetailSetFilePath + @"\" + ScrapCodeSet.Text + ".csv"))
                 {
                     parser.TextFieldType = FieldType.Delimited;
                     parser.SetDelimiters(",");
-                    ProductBaseInformation productBaseInformation;
+                    SetupInformation productBaseInformation;
                     while (!parser.EndOfData)
                     {
                         string[] fields = parser.ReadFields();
@@ -239,57 +237,57 @@ namespace FactoryOrganizerOfficeProgram
                             Console.WriteLine("We found an empty value in your CSV. Please check your file and try again.\nPress any key to return to main menu.");
                             Console.ReadKey(true);
                         }
-                        productBaseInformation = new ProductBaseInformation();
+                        productBaseInformation = new SetupInformation();
                         productBaseInformation.Detail = fields[0];
                         productBaseInformation.DescriptionOfDetail = fields[1];
-                        ProductDetails.Add(productBaseInformation);
+                        ScrapCodes.Add(productBaseInformation);
                     }
                     FillDuplicateProductDetailsToVerifyChanges();
                     productDetailChanges.Items.Clear();
-                    productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
-                    currentDetailSetIsLoaded = true;
-                    DetailSet.IsEnabled = false;
+                    productDetailChanges.Items.Add("Changes made to " + ScrapCodeSet.Text + ":");
+                    currentScrapSetIsLoaded = true;
+                    ScrapCodeSet.IsEnabled = false;
                 }
             }
         }
 
         private void FillDuplicateProductDetailsToVerifyChanges()
         {
-            ProductBaseInformation duplicate;
-            DuplicateProductDetailsToVerifyChanges.Clear();
-            foreach (ProductBaseInformation detail in ProductDetails)
+            SetupInformation duplicate;
+            DuplicateScrapCodesToVerifyChanges.Clear();
+            foreach (SetupInformation detail in ScrapCodes)
             {
-                duplicate = new ProductBaseInformation();
+                duplicate = new SetupInformation();
                 duplicate.Detail = detail.Detail;
                 duplicate.DescriptionOfDetail = detail.DescriptionOfDetail;
-                DuplicateProductDetailsToVerifyChanges.Add(duplicate);
+                DuplicateScrapCodesToVerifyChanges.Add(duplicate);
             }
         }
 
         private bool CompareDuplicateAndProductDetails()
         {
             bool changesWereMade = false;
-            if (ProductDetails.Count.Equals(DuplicateProductDetailsToVerifyChanges.Count))
+            if (ScrapCodes.Count.Equals(DuplicateScrapCodesToVerifyChanges.Count))
             {
                 int longerCollectionCount;
-                if (ProductDetails.Count > DuplicateProductDetailsToVerifyChanges.Count)
+                if (ScrapCodes.Count > DuplicateScrapCodesToVerifyChanges.Count)
                 {
-                    longerCollectionCount = ProductDetails.Count;
+                    longerCollectionCount = ScrapCodes.Count;
                 }
                 else
                 {
-                    longerCollectionCount = DuplicateProductDetailsToVerifyChanges.Count;
+                    longerCollectionCount = DuplicateScrapCodesToVerifyChanges.Count;
                 }
-                for (int i = 0; i < ProductDetails.Count; i++)
+                for (int i = 0; i < ScrapCodes.Count; i++)
                 {
-                    if (ProductDetails[i].Detail.Equals(DuplicateProductDetailsToVerifyChanges[i].Detail) && ProductDetails[i].DescriptionOfDetail.Equals(DuplicateProductDetailsToVerifyChanges[i].DescriptionOfDetail))
+                    if (ScrapCodes[i].Detail.Equals(DuplicateScrapCodesToVerifyChanges[i].Detail) && ScrapCodes[i].DescriptionOfDetail.Equals(DuplicateScrapCodesToVerifyChanges[i].DescriptionOfDetail))
                     {
 
                     }
                     else
                     {
                         changesWereMade = true;
-                        i += ProductDetails.Count;
+                        i += ScrapCodes.Count;
                     }
                 }
             }
@@ -307,8 +305,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ChangeLogAddRemoveDetail(object sender)
         {
-            ProductBaseInformation inheritSender;
-            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            SetupInformation inheritSender;
+            inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             if (inheritSender.Detail != null)
             {
                 productDetailChanges.Items.Add("::" + inheritSender.Detail + " detail removed.");
@@ -319,7 +317,7 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        private void ChangeLogAddChangeDetail(ProductBaseInformation changedSender)
+        private void ChangeLogAddChangeDetail(SetupInformation changedSender)
         {
             if (logChange == null || logChange == "")
             {
@@ -335,7 +333,7 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        private void ChangeLogAddChangeDescriptionOfDetail(ProductBaseInformation changedSender)
+        private void ChangeLogAddChangeDescriptionOfDetail(SetupInformation changedSender)
         {
             if (logChange == null)
             {
@@ -353,14 +351,14 @@ namespace FactoryOrganizerOfficeProgram
 
         private void detailTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             logChange = inheritSender.Detail;
         }
 
         private void detailTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ProductBaseInformation changedSender;
-            changedSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            SetupInformation changedSender;
+            changedSender = ((sender as FrameworkElement).DataContext as SetupInformation);
 
             if (changedSender.Detail != logChange)
             {
@@ -370,14 +368,14 @@ namespace FactoryOrganizerOfficeProgram
 
         private void descriptionOfDetailTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            inheritSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             logChange = inheritSender.DescriptionOfDetail;
         }
 
         private void descriptionOfDetailTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            ProductBaseInformation changedSender;
-            changedSender = ((sender as FrameworkElement).DataContext as ProductBaseInformation);
+            SetupInformation changedSender;
+            changedSender = ((sender as FrameworkElement).DataContext as SetupInformation);
 
             if (changedSender.DescriptionOfDetail != logChange)
             {
@@ -387,22 +385,22 @@ namespace FactoryOrganizerOfficeProgram
 
         private void DetailSet_DropDownClosed(object sender, EventArgs e)
         {
-            if (DetailSet.Text != "" || CheckDetailSetTextForMatches())
+            if (ScrapCodeSet.Text != "" || CheckDetailSetTextForMatches())
             {
-                currentDetailSetIsLoaded = false;
+                currentScrapSetIsLoaded = false;
             }
         }
 
         private void DetailSet_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            currentDetailSetIsLoaded = CheckDetailSetTextForMatches();
+            currentScrapSetIsLoaded = CheckDetailSetTextForMatches();
         }
 
         private bool CheckDetailSetTextForMatches()
         {
             foreach (string file in files)
             {
-                if (file == DetailSet.Text)
+                if (file == ScrapCodeSet.Text)
                 {
                     return false;
                 }
@@ -417,7 +415,7 @@ namespace FactoryOrganizerOfficeProgram
 
             if (changesWereMade)
             {
-                if (MessageBox.Show("Current changes affect the Detail Set '" + DetailSet.Text + "'.  Closing now won't save these changes.  Proceed?", "Unsaved Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                if (MessageBox.Show("Current changes affect the Detail Set '" + ScrapCodeSet.Text + "'.  Closing now won't save these changes.  Proceed?", "Unsaved Changes to " + ScrapCodeSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
                     //do nothing
                 }

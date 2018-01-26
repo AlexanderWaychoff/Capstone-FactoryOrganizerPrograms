@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace FactoryOrganizerOfficeProgram
 {
-    public class ProductBaseInformation
+    public class SetupInformation
     {
         public string Detail { get; set; }
 
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string DescriptionOfDetail { get; set; }
 
-        public ProductBaseInformation()
+        public SetupInformation()
         {
             DescriptionOfDetail = "-";
         }
