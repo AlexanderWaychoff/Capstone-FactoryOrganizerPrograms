@@ -83,6 +83,9 @@
       <DependentUpon>ProductRequirements.xaml</DependentUpon>
     </Compile>
     <Compile Include="ScaleUnit.cs" />
+    <Compile Include="SetScrapCodes.xaml.cs">
+      <DependentUpon>SetScrapCodes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ProductRequirements.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SetScrapCodes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

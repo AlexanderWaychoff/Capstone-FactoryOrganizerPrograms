@@ -25,7 +25,7 @@ namespace FactoryOrganizerOfficeProgram
     /// <summary>
     /// Interaction logic for ProductRequirements.xaml
     /// </summary>
-    public partial class ProductRequirements : Window
+    public partial class SetScrapCodes : Window
     {
         public ObservableCollection<ProductBaseInformation> ProductDetails { get; set; }
         public ObservableCollection<FileName> LoadedDetailSets { get; set; }
@@ -45,7 +45,7 @@ namespace FactoryOrganizerOfficeProgram
         bool checkedComboBoxTextOnceForNewDetailSet = false;
         bool isConfirmedToClose = false;
 
-        public ProductRequirements()
+        public SetScrapCodes()
         {
             InitializeComponent();
 
@@ -88,7 +88,7 @@ namespace FactoryOrganizerOfficeProgram
                 }
                 else
                 {
-                    if(!checkedComboBoxTextOnceForNewDetailSet)
+                    if (!checkedComboBoxTextOnceForNewDetailSet)
                     {
                         checkedComboBoxTextOnceForNewDetailSet = true;
                         DetailSet.IsEnabled = false;
@@ -137,7 +137,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            
+
             string detailSetName = DetailSet.Text;
             bool DetailSetExists = ExternalFile.CheckForFile(settingsFolder + @"\" + productBaseInformationFolder, DetailSet.Text);
             bool HasNullValue = CheckProductDetailsForNullValue();
@@ -147,7 +147,7 @@ namespace FactoryOrganizerOfficeProgram
                 if (DetailSetExists)
                 {
                     bool changesWereMade = CompareDuplicateAndProductDetails();
-                    
+
                     if (changesWereMade)
                     {
                         if (MessageBox.Show("Current changes affect the Detail Set '" + DetailSet.Text + "'.  Saved changes here will replace the previous entries.  Proceed?", "Changes to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
@@ -181,9 +181,9 @@ namespace FactoryOrganizerOfficeProgram
         private bool CheckProductDetailsForNullValue()
         {
             bool hasNullDetail = false;
-            for(int i = 0; i < ProductDetails.Count; i++)
+            for (int i = 0; i < ProductDetails.Count; i++)
             {
-                if(ProductDetails[i].Detail == null)
+                if (ProductDetails[i].Detail == null)
                 {
                     hasNullDetail = true;
                 }
@@ -197,7 +197,7 @@ namespace FactoryOrganizerOfficeProgram
             var sortedDetails = ProductDetails.OrderBy(x => x.Detail);
             sortedDetails.ToList();
 
-            foreach(ProductBaseInformation information in sortedDetails)
+            foreach (ProductBaseInformation information in sortedDetails)
             {
                 var detail = information.Detail;
                 var description = "-";
@@ -249,7 +249,7 @@ namespace FactoryOrganizerOfficeProgram
                     productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
                     currentDetailSetIsLoaded = true;
                     DetailSet.IsEnabled = false;
-                }                
+                }
             }
         }
 
@@ -257,7 +257,7 @@ namespace FactoryOrganizerOfficeProgram
         {
             ProductBaseInformation duplicate;
             DuplicateProductDetailsToVerifyChanges.Clear();
-            foreach(ProductBaseInformation detail in ProductDetails)
+            foreach (ProductBaseInformation detail in ProductDetails)
             {
                 duplicate = new ProductBaseInformation();
                 duplicate.Detail = detail.Detail;
@@ -387,7 +387,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void DetailSet_DropDownClosed(object sender, EventArgs e)
         {
-            if(DetailSet.Text != "" || CheckDetailSetTextForMatches())
+            if (DetailSet.Text != "" || CheckDetailSetTextForMatches())
             {
                 currentDetailSetIsLoaded = false;
             }
