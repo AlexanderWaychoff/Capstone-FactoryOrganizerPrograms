@@ -92,7 +92,7 @@ namespace FactoryOrganizerOfficeProgram
                     {
                         checkedComboBoxTextOnceForNewScrapSet = true;
                         ScrapCodeSet.IsEnabled = false;
-                        productDetailChanges.Items.Add("Changes made to " + ScrapCodeSet.Text + ":");
+                        scrapCodeChanges.Items.Add("Changes made to " + ScrapCodeSet.Text + ":");
                     }
                     for (int i = 0; i < ScrapCodes.Count; i++)
                     {
@@ -208,7 +208,7 @@ namespace FactoryOrganizerOfficeProgram
             }
             File.WriteAllText(baseDetailSetFilePath + @"\" + ScrapCodeSet.Text + ".csv", csv.ToString());
             DuplicateScrapCodesToVerifyChanges = ScrapCodes;
-            productDetailChanges.Items.Add("*" + ScrapCodeSet.Text + " Detail Set has been saved*");
+            scrapCodeChanges.Items.Add("*" + ScrapCodeSet.Text + " Detail Set has been saved*");
         }
 
         private void LoadDetails_Click(object sender, RoutedEventArgs e)
@@ -245,8 +245,8 @@ namespace FactoryOrganizerOfficeProgram
                         ScrapCodes.Add(productBaseInformation);
                     }
                     FillDuplicateProductDetailsToVerifyChanges();
-                    productDetailChanges.Items.Clear();
-                    productDetailChanges.Items.Add("Changes made to " + ScrapCodeSet.Text + ":");
+                    scrapCodeChanges.Items.Clear();
+                    scrapCodeChanges.Items.Add("Changes made to " + ScrapCodeSet.Text + ":");
                     currentScrapSetIsLoaded = true;
                     ScrapCodeSet.IsEnabled = false;
                 }
@@ -302,7 +302,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ChangeLogAddNewBlankDetail()
         {
-            productDetailChanges.Items.Add("::New blank detail added.");
+            scrapCodeChanges.Items.Add("::New blank detail added.");
         }
 
         private void ChangeLogAddRemoveDetail(object sender)
@@ -311,11 +311,11 @@ namespace FactoryOrganizerOfficeProgram
             inheritSender = ((sender as FrameworkElement).DataContext as SetupInformation);
             if (inheritSender.Detail != null)
             {
-                productDetailChanges.Items.Add("::" + inheritSender.Detail + " detail removed.");
+                scrapCodeChanges.Items.Add("::" + inheritSender.Detail + " detail removed.");
             }
             else
             {
-                productDetailChanges.Items.Add("::Blank detail removed.");
+                scrapCodeChanges.Items.Add("::Blank detail removed.");
             }
         }
 
@@ -323,15 +323,15 @@ namespace FactoryOrganizerOfficeProgram
         {
             if (logChange == null || logChange == "")
             {
-                productDetailChanges.Items.Add("::Blank Detail is now " + changedSender.Detail + ".");
+                scrapCodeChanges.Items.Add("::Blank Detail is now " + changedSender.Detail + ".");
             }
             else if (changedSender.Detail == "")
             {
-                productDetailChanges.Items.Add("::Detail " + logChange + " is now Blank.");
+                scrapCodeChanges.Items.Add("::Detail " + logChange + " is now Blank.");
             }
             else
             {
-                productDetailChanges.Items.Add("::" + logChange + " changed to " + changedSender.Detail + ".");
+                scrapCodeChanges.Items.Add("::" + logChange + " changed to " + changedSender.Detail + ".");
             }
         }
 
@@ -339,15 +339,15 @@ namespace FactoryOrganizerOfficeProgram
         {
             if (logChange == null)
             {
-                productDetailChanges.Items.Add("::Blank Description is now " + changedSender.DescriptionOfDetail + ".");
+                scrapCodeChanges.Items.Add("::Blank Description is now " + changedSender.DescriptionOfDetail + ".");
             }
             else if (changedSender.DescriptionOfDetail == "")
             {
-                productDetailChanges.Items.Add("::Description " + logChange + " is now Blank.");
+                scrapCodeChanges.Items.Add("::Description " + logChange + " is now Blank.");
             }
             else
             {
-                productDetailChanges.Items.Add("::" + logChange + " changed to " + changedSender.DescriptionOfDetail + ".");
+                scrapCodeChanges.Items.Add("::" + logChange + " changed to " + changedSender.DescriptionOfDetail + ".");
             }
         }
 

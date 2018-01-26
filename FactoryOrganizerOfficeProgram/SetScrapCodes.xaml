@@ -22,9 +22,9 @@
         </Grid.RowDefinitions>
         <Border Grid.Column="1" Grid.Row="1">
             <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
-                 Text="Here you can enter any necessary information required to make the product.  Setting this up will be important for product creation later.  Detail describes an attribute your product has that is important.  Description is optional, but you might put a type/acronym here to be specific about your detail.
-                 &#x0a;&#x0a;Example: My product has a weight and I would like to save it's weight in pounds.
-                 &#x0a;Detail = Weight.    Description = Lbs"  />
+                 Text="Here you can enter any scrap types that floor employees might encounter.  Setting this up will be important for analytics later.  Code is what a floor employee will enter should they have scrap to report.  Description is optional, but you might put a explanation here to be specific about your scrap code.
+                 &#x0a;&#x0a;Example: My customers only take exact quantities, so I want a way to report extra parts we can't send.
+                 &#x0a;Code = EXTRA    Description = Overproduction of job"  />
             <!-- Hexidecimal &#x0a; will insert break -->
         </Border>
         <Grid Grid.Row="3" Grid.Column="1">
@@ -53,12 +53,11 @@
                                                 <RowDefinition Height="18"/>
                                                 <RowDefinition Height="18"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Detail" HorizontalAlignment="Center"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" Text="Code" HorizontalAlignment="Center"/>
                                             <TextBlock Grid.Row="0" Grid.Column="3" Text="Description" HorizontalAlignment="Center"/>
                                             <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource RedButton}" Click="OnDeleteMachineFunction">Remove</Button>
                                             <TextBox Name="detailTextBox" Grid.Row="1" Grid.Column="2" GotFocus="detailTextBox_GotFocus" LostFocus="detailTextBox_LostFocus"  Text="{Binding Detail}"/>
                                             <TextBox Name="descriptionOfDetailTextBox" Grid.Row="1" Grid.Column="3" GotFocus="descriptionOfDetailTextBox_GotFocus" LostFocus="descriptionOfDetailTextBox_LostFocus" Text="{Binding DescriptionOfDetail}"/>
-                                            <!--<Button Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" Click="OnAddScaleUnit">Add Printable File</Button>-->
 
                                         </Grid>
 
@@ -68,7 +67,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Button HorizontalAlignment="Center" Style="{StaticResource CyanButton}"  Click="OnAddMachineFunction">Add Product Detail</Button>
+                        <Button HorizontalAlignment="Center" Style="{StaticResource CyanButton}"  Click="OnAddMachineFunction">Add Scrap Code</Button>
                     </StackPanel>
                 </ScrollViewer>
             </Border>
@@ -86,7 +85,7 @@
                         <ColumnDefinition Width="130"/>
                         <ColumnDefinition Width="55"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Text="Detail Set:"/>
+                    <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Text="Scrap Set:"/>
                     <ComboBox Name="ScrapCodeSet" Grid.Row="0" Grid.Column="1" IsEditable="True" LostKeyboardFocus="DetailSet_LostKeyboardFocus" DropDownClosed="DetailSet_DropDownClosed" TextSearch.TextPath ="Name">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -101,11 +100,11 @@
                         <TextBlock Text="Load"/>
                     </Button>
                 </Grid>
-                <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Text="Detail Changes:"/>
+                <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Text="Scrap Code Changes:"/>
                 <Border Grid.Row="2">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-                        <ListBox Name="productDetailChanges" />
+                        <ListBox Name="scrapCodeChanges" />
                     </ScrollViewer>
                 </Border>
                 <Grid Grid.Row="5">

@@ -239,7 +239,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void SubmitBaseInformation_Click(object sender, RoutedEventArgs e)
         {
-
+            var submitBaseInformation = new SubmitBaseInformation();
+            submitBaseInformation.ShowDialog();
         }
     }
 }

@@ -31,7 +31,7 @@ namespace FactoryOrganizerOfficeProgram
         public ObservableCollection<FileName> LoadedDetailSets { get; set; }
         public ObservableCollection<SetupInformation> DuplicateProductDetailsToVerifyChanges = new ObservableCollection<SetupInformation>();
 
-        public FileName FileForDetailSet;
+        FileName FileForDetailSet;
         SetupInformation inheritSender;
 
         string baseDetailSetFilePath;

@@ -12,6 +12,7 @@ namespace FactoryOrganizerOfficeProgram
         public string Detail { get; set; }
 
         public string DescriptionOfDetail { get; set; }
+        public string SaveValue { get; set; }
 
         public SetupInformation()
         {
