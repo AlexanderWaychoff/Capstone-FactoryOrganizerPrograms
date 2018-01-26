@@ -82,7 +82,14 @@ namespace FactoryOrganizerOfficeProgram
                         }
                         productBaseInformation = new SetupInformation();
                         productBaseInformation.Detail = fields[0];
-                        productBaseInformation.DescriptionOfDetail = fields[1];
+                        if (fields[1] == "-")
+                        {
+                            productBaseInformation.DescriptionOfDetail = "";
+                        }
+                        else
+                        {
+                            productBaseInformation.DescriptionOfDetail = fields[1];
+                        }
                         ProductDetails.Add(productBaseInformation);
                     }
                     DetailSet.IsEnabled = false;
