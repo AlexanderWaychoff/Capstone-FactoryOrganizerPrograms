@@ -289,5 +289,20 @@ namespace FactoryOrganizerOfficeProgram
                 }
             }
         }
+
+        private void NewCustomer_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadCustomerPresets_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PopulateCellTemplate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

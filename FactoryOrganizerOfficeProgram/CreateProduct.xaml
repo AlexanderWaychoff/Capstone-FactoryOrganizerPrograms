@@ -25,6 +25,42 @@
         <Button Name="Info" Style="{StaticResource TurquoiseButton}" Grid.Row="0" Grid.Column="5" Click="Info_Click">
             <TextBlock Text="Help" FontWeight="Bold" FontSize="17"/>
         </Button>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="225"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Customer:" TextWrapping="Wrap" HorizontalAlignment="Left" />
+            <ComboBox Name="CustomerList" Grid.Row="1" Grid.Column="1" TextSearch.TextPath ="Name" KeyDown="CustomerList_KeyDown">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Name}" Width="16" Height="16" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="140"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="NewCustomer" Grid.Column="1" Style="{StaticResource DodgerBlueButton}" Click="NewCustomer_Click">New</Button>
+                <Button Name="LoadCustomerPresets" Grid.Column="3" Style="{StaticResource GreenButton}" Click="LoadCustomerPresets_Click">Load Customer Presets</Button>
+            </Grid>
+            
+            
+        </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70"/>
@@ -37,8 +73,8 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Customer:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="CustomerList" Grid.Row="0" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name" KeyDown="CustomerList_KeyDown">
+            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Cell:" TextWrapping="Wrap" HorizontalAlignment="Left" />
+            <ComboBox Name="everyCustomerCell" Grid.Row="0" Grid.Column="1" TextSearch.TextPath ="Name" KeyDown="CustomerList_KeyDown">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -49,7 +85,7 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Product ID:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="CustomerProducts" Grid.Row="2" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="ProductID" KeyDown="ProductID_KeyDown">
+            <ComboBox Name="CustomerProducts" Grid.Row="2" Grid.Column="1" IsEditable="True" Text="-Enter New ID-" TextSearch.TextPath ="ProductID" KeyDown="ProductID_KeyDown">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -59,6 +95,16 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+
+            <Grid Grid.Row="0" Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="140"/>
+                </Grid.ColumnDefinitions>
+                <Button Name="PopulateCellTemplate" Grid.Column="3" Style="{StaticResource RedButton}" Click="PopulateCellTemplate_Click">Populate Cell Template</Button>
+            </Grid>
 
             <Grid Grid.Row="2" Grid.Column="3">
                 <Grid.ColumnDefinitions>
@@ -163,7 +209,7 @@
             Grid.Row="1"
             >
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                    <ListBox Name="baseInformation" Height="155">
+                    <ListBox Name="baseInformation" Height="158">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding JoinedString}" FontSize="20"/>
