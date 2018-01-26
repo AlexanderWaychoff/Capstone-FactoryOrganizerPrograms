@@ -65,7 +65,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void SetScrap_Click(object sender, RoutedEventArgs e)
         {
-
+            var setScrapCodes = new SetScrapCodes();
+            setScrapCodes.ShowDialog();
         }
     }
 }

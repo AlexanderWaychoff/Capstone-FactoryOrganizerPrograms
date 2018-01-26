@@ -207,6 +207,8 @@ namespace FactoryOrganizerOfficeProgram
                 csv.AppendLine(newLine);
             }
             File.WriteAllText(baseDetailSetFilePath + @"\" + ScrapCodeSet.Text + ".csv", csv.ToString());
+            DuplicateScrapCodesToVerifyChanges = ScrapCodes;
+            productDetailChanges.Items.Add("*" + ScrapCodeSet.Text + " Detail Set has been saved*");
         }
 
         private void LoadDetails_Click(object sender, RoutedEventArgs e)
