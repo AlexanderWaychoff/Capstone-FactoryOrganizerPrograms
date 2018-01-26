@@ -30,12 +30,19 @@ namespace FactoryOrganizerOfficeProgram
 
         FileName FileForDetailSet;
 
+        string csvName = "temporary";
+
         string baseDetailSetFilePath;
+        string baseCustomerTemporaryFilePath;
+        //base folder Settings
         string settingsFolder = "Settings";
         string productBaseInformationFolder = "Base Detail Sets";
-        string productsFolder = "Products";
-        string customerFolder = "Customer";
+        //base folder Customers
+        string customerFolder = "Customers";
+        string unassignedProductsFolder = "Unassigned Products";
         string temporaryFolder = "Temporary Create Holder";
+
+
 
         string[] files;
 
@@ -47,9 +54,14 @@ namespace FactoryOrganizerOfficeProgram
             DetailSet.ItemsSource = LoadedDetailSets = new ObservableCollection<FileName>();
 
             baseDetailSetFilePath = @".\" + settingsFolder + @"\" + productBaseInformationFolder;
+            baseCustomerTemporaryFilePath = @".\" + customerFolder + @"\" + temporaryFolder;
 
             ExternalFile.CheckForDirectory(settingsFolder);
             ExternalFile.CheckForDirectory(settingsFolder + @"\" + productBaseInformationFolder);
+
+            ExternalFile.CheckForDirectory(customerFolder);
+            ExternalFile.CheckForDirectory(customerFolder + @"\" + unassignedProductsFolder);
+            ExternalFile.CheckForDirectory(customerFolder + @"\" + temporaryFolder);
 
             LoadDetailSets();
         }
@@ -114,16 +126,20 @@ namespace FactoryOrganizerOfficeProgram
             foreach (SetupInformation information in sortedDetails)
             {
                 var detail = information.Detail;
-                var description = "-";
-                if (information.DescriptionOfDetail != "")
+                var description = information.DescriptionOfDetail;
+                if (information.DescriptionOfDetail == null || information.DescriptionOfDetail == "")
                 {
-                    description = information.DescriptionOfDetail;
+                    description = "-";
                 }
                 var saveInformation = information.SaveValue;
+                if(information.SaveValue == null || information.SaveValue == "")
+                {
+                    saveInformation = "-";
+                }
                 var newLine = string.Format("{0},{1},{2}", detail, description, saveInformation);
                 csv.AppendLine(newLine);
             }
-            File.WriteAllText(baseDetailSetFilePath + @"\" + DetailSet.Text + ".csv", csv.ToString());
+            File.WriteAllText(baseCustomerTemporaryFilePath + @"\" + csvName + ".csv", csv.ToString());
 
         }
     }
