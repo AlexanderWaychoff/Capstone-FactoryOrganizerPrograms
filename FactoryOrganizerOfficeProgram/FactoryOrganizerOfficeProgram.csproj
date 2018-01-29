@@ -73,9 +73,6 @@
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateProductInformation.xaml.cs">
-      <DependentUpon>CreateProductInformation.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Customer.xaml.cs">
       <DependentUpon>Customer.xaml</DependentUpon>
     </Compile>
@@ -84,6 +81,9 @@
     <Compile Include="FileName.cs" />
     <Compile Include="FolderNames.cs" />
     <Compile Include="Folder.cs" />
+    <Compile Include="HelpCreateProduct.xaml.cs">
+      <DependentUpon>HelpCreateProduct.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SetupInformation.cs" />
     <Compile Include="ProductProductionCode.cs" />
     <Compile Include="ProductOperation.cs" />
@@ -109,11 +109,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreateProductInformation.xaml">
+    <Page Include="Customer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Customer.xaml">
+    <Page Include="HelpCreateProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

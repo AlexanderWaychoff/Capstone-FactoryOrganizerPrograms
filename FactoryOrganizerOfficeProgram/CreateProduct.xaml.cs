@@ -71,12 +71,13 @@ namespace FactoryOrganizerOfficeProgram
 
         private void RetrieveAllCustomers()
         {
+            AllCustomers.Clear();
             folders = ExternalFile.RetrieveAllFolderNamesInDirectory(allFolderNames.CustomersFolder);
             foreach (string folder in folders)
             {
                 customerFolderName = new FileName();
                 customerFolderName.Name = folder;
-                if (folder != allFolderNames.TemporaryFolder && folder != allFolderNames.UnassignedProductsFolder)
+                if (folder != allFolderNames.TemporaryFolder)
                 {
                     AllCustomers.Add(customerFolderName);
                 }
@@ -154,8 +155,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void Info_Click(object sender, RoutedEventArgs e)
         {
-            var createProductInformation = new CreateProductInformation();
-            createProductInformation.ShowDialog();
+            var createHelpInformation = new HelpCreateProduct();
+            createHelpInformation.ShowDialog();
         }
 
         //private void CustomerList_KeyDown(object sender, KeyEventArgs e)

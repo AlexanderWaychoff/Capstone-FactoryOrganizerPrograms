@@ -65,6 +65,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void RetrieveAllCustomers()
         {
+            AllCustomers.Clear();
             folders = ExternalFile.RetrieveAllFolderNamesInDirectory(allFolderNames.CustomersFolder);
             foreach (string folder in folders)
             {
@@ -96,12 +97,23 @@ namespace FactoryOrganizerOfficeProgram
             int indexOfProductOperations = ProductOperations.ToList().FindIndex(x => x == ((sender as FrameworkElement).DataContext as ProductOperation));
             string operationNumber = ProductOperations[indexOfProductOperations].Operation.ToString();
             ProductOperations.Remove((sender as FrameworkElement).DataContext as ProductOperation);
-
+            if(ProductOperations.Count == 0)
+            {
+                CustomerList.IsEnabled = true;
+            }
         }
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
         {
-            ProductOperations.Add(new ProductOperation());
+            if (CustomerList.Text == "" || CustomerList.Text == null)
+            {
+                MessageBox.Show("No Customer is selected.  Select one from the drop down list or click new to add a Customer.  A cell must be assigned to a customer.", "No Customer Selected");
+            }
+            else
+            {
+                CustomerList.IsEnabled = false;
+                ProductOperations.Add(new ProductOperation());
+            }
         }
 
     }

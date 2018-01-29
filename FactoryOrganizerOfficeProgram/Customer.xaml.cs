@@ -48,7 +48,7 @@ namespace FactoryOrganizerOfficeProgram
             {
                 customerFolderName = new FileName();
                 customerFolderName.Name = folder;
-                if (folder != filterTemporaryCreateHolder && folder != filterUnassignedProducts)
+                if (folder != filterTemporaryCreateHolder)
                 {
                     LoadedCustomers.Add(customerFolderName);
                 }

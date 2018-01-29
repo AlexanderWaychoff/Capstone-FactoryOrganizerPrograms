@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerOfficeProgram\App.xaml
-91186110665
+9-330304562
 
-281191731805
+28-1048119793
 18-606389251
-CellManager.xaml;CreateProduct.xaml;CreateProductInformation.xaml;Customer.xaml;MainWindow.xaml;ProductRequirements.xaml;SetScrapCodes.xaml;Settings.xaml;SubmitBaseInformation.xaml;
+CellManager.xaml;CreateProduct.xaml;Customer.xaml;HelpCreateProduct.xaml;MainWindow.xaml;ProductRequirements.xaml;SetScrapCodes.xaml;Settings.xaml;SubmitBaseInformation.xaml;
 
-True
+False
 

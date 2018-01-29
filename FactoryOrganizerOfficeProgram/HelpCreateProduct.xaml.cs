@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace FactoryOrganizerOfficeProgram
 {
     /// <summary>
-    /// Interaction logic for CreateProductInformation.xaml
+    /// Interaction logic for HelpCreateProduct.xaml
     /// </summary>
-    public partial class CreateProductInformation : Window
+    public partial class HelpCreateProduct : Window
     {
-        public CreateProductInformation()
+        public HelpCreateProduct()
         {
             InitializeComponent();
         }
