@@ -16,6 +16,7 @@ namespace FactoryOrganizerOfficeProgram
         string customersFolder = "Customers";
         string unassignedProductsFolder = "Unassigned Products";
         string temporaryFolder = "Temporary Create Holder";
+        string cellsFolder = "Cells";
 
         public string SettingsFolder { get; set; }
         public string CustomersFolder { get; set; }
@@ -23,6 +24,7 @@ namespace FactoryOrganizerOfficeProgram
         public string UnassignedProductsFolder { get; set; }
         public string TemporaryFolder { get; set; }
         public string ScrapCodeFolder { get; set; }
+        public string CellsFolder { get; set; }
 
         public FolderNames()
         {
@@ -32,6 +34,7 @@ namespace FactoryOrganizerOfficeProgram
             UnassignedProductsFolder = unassignedProductsFolder;
             TemporaryFolder = temporaryFolder;
             ScrapCodeFolder = scrapCodeFolder;
+            CellsFolder = cellsFolder;
         }
     }
 }

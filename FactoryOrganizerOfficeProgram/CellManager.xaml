@@ -5,22 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Cell Manager" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Cell Manager" Height="550" Width="580" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Background="AntiqueWhite">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="475"/>
             <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="390"/>
-            <ColumnDefinition Width="40"/>
+            <!--<ColumnDefinition Width="390"/>
+            <ColumnDefinition Width="40"/>-->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="360"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Column="1" Grid.Row="0">
@@ -71,7 +72,7 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Cell:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="everyCustomerCell" Grid.Row="2" Grid.Column="1" IsEditable="False" TextSearch.TextPath ="Name">
+            <ComboBox Name="everyCustomerCell" Grid.Row="2" Grid.Column="1" IsEditable="True" TextSearch.TextPath ="Name">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -153,5 +154,18 @@
             </ScrollViewer>
         </Border>
 
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="230"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Save" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Width="95" Click="Save_Click">
+                <TextBlock Text="Save" VerticalAlignment="Center" FontSize="40"/>
+            </Button>
+            <Button Name="CloseButton" Grid.Column="2" Style="{StaticResource RedButton}" Width="105" Click="CloseButton_Click">
+                <TextBlock Text="Close" VerticalAlignment="Center" FontSize="40"/>
+            </Button>
+        </Grid>
     </Grid>
 </Window>
