@@ -35,7 +35,8 @@ namespace FactoryOrganizerOfficeProgram
         public FolderNames allFolderNames = new FolderNames();
         FileName customerFolderName;
 
-        bool HasWebsiteImage = false;
+        bool hasWebsiteImage = false;
+        bool hasWebsiteDescription = false;
         string websiteFileString;
 
         int productWasAdded = 0;
@@ -44,6 +45,7 @@ namespace FactoryOrganizerOfficeProgram
         string csvName = "temporary";
 
         string basePathForTemporaryFolder;
+        string basePathForTemporaryFolder2;
         //base folder Customers
         string customerFolder = "Customers";
         string unassignedProductsFolder = "Unassigned Products";
@@ -64,6 +66,7 @@ namespace FactoryOrganizerOfficeProgram
             everyCustomerCell.ItemsSource = AllCells = new ObservableCollection<FileName>();
 
             basePathForTemporaryFolder = @".\" + customerFolder + @"\" + temporaryFolder;
+            basePathForTemporaryFolder2 = @"\" + customerFolder + @"\" + temporaryFolder;
 
             ExternalFile.CheckForDirectory(customerFolder);
             ExternalFile.CheckForDirectory(customerFolder + @"\" + unassignedProductsFolder);
@@ -143,6 +146,8 @@ namespace FactoryOrganizerOfficeProgram
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt;*.rtf)|*.txt;*rtf|All files (*.*)|*.*";
             openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            ExternalFile.CheckForDirectory(basePathForTemporaryFolder + @"\" + allFolderNames.OperationDocumentationFolder);
             if (openFileDialog.ShowDialog() == true)
             {
                 foreach (string filename in openFileDialog.FileNames)
@@ -155,6 +160,10 @@ namespace FactoryOrganizerOfficeProgram
                         "    File: " +
                         System.IO.Path.GetFileName(filename));
                 }
+                int indexOfProductOperations = ProductOperations.ToList().FindIndex(x => x == ((sender as FrameworkElement).DataContext as ProductOperation));
+                string operationNumber = ProductOperations[indexOfProductOperations].Operation.ToString();
+
+                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.OperationDocumentationFolder, "Operation" + operationNumber + ".txt");
             }
         }
 
@@ -243,10 +252,33 @@ namespace FactoryOrganizerOfficeProgram
 
         }
 
+        private void SubmitWebsiteDescription_Click(object sender, RoutedEventArgs e)
+        {
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteDescriptionFolder);
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files (*.txt;*.rtf)|*.txt;*rtf";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                hasWebsiteImage = true;
+                foreach (string filename in openFileDialog.FileNames)
+                {
+                    websiteFileString = System.IO.Path.GetFileName(filename);
+                    filesForOperations.Items.Add("Website Image: " +
+                        System.IO.Path.GetFileName(filename));
+                }
+
+                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteDescriptionFolder);
+            }
+        }
+
         private void SubmitImage_Click(object sender, RoutedEventArgs e)
         {
-            if (HasWebsiteImage)
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteImageFolder);
+            if (hasWebsiteImage)
             {
+                ExternalFile.RemoveAllFilesFromFolder(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteImageFolder);
                 ReplaceWebsiteImage(sender);
             }
             else
@@ -256,13 +288,15 @@ namespace FactoryOrganizerOfficeProgram
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    HasWebsiteImage = true;
+                    hasWebsiteImage = true;
                     foreach (string filename in openFileDialog.FileNames)
                     {
                         websiteFileString = System.IO.Path.GetFileName(filename);
                         filesForOperations.Items.Add("Website Image: " +
                             System.IO.Path.GetFileName(filename));
                     }
+
+                    ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteImageFolder);
                 }
             }
         }
@@ -288,6 +322,8 @@ namespace FactoryOrganizerOfficeProgram
                     filesForOperations.Items.Add("Website Image: " +
                         System.IO.Path.GetFileName(filename));
                 }
+
+                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteImageFolder);
             }
         }
 
@@ -436,9 +472,14 @@ namespace FactoryOrganizerOfficeProgram
             everyCustomerCell.IsEnabled = false;
         }
 
-        private void SubmitWebsiteDescription_Click(object sender, RoutedEventArgs e)
+        private string SeeIfProductIsUnassigned()
         {
-
+            string customerName = customerList.Text;
+            if (customerName == null || customerName == "")
+            {
+                customerName = allFolderNames.UnassignedProductsFolder;
+            }
+            return customerName;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -450,6 +491,11 @@ namespace FactoryOrganizerOfficeProgram
         {
 
             string productName = customerProducts.Text;
+            string customerName = SeeIfProductIsUnassigned();
+            if(customerName == null || customerName == "")
+            {
+                customerName = allFolderNames.UnassignedProductsFolder;
+            }
             bool HasNullValue = CheckOperationNumberForNullValue();
 
             if (!HasNullValue)
@@ -460,14 +506,21 @@ namespace FactoryOrganizerOfficeProgram
 
                 if (changesWereMade)
                 {
-                    if (MessageBox.Show("New product " + everyCustomerCell.Text + " will be added for " + customerList.Text + ".  Proceed?", "New Cell: " + everyCustomerCell.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    if (MessageBox.Show("New product " + everyCustomerCell.Text + " will be added for " + customerName + ".  Proceed?", "New Product: " + customerProducts.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                     {
                         //do no stuff
                     }
                     else
                     {
-                        SaveDetailsToCSV();
-                        MessageBox.Show("New cell saved.", "Save Confirmation");
+                        if (everyCustomerCell.Text == null || everyCustomerCell.Text == "")
+                        {
+                            SaveDetailsToCSVGeneral();
+                        }
+                        else
+                        {
+                            SaveDetailsToCSVForCell();
+                        }
+                        MessageBox.Show("New product operation saved.", "Save Confirmation");
                     }
                 }
                 else
@@ -501,7 +554,7 @@ namespace FactoryOrganizerOfficeProgram
             return hasNullOperation;
         }
 
-        private void SaveDetailsToCSV()
+        private void SaveDetailsToCSVForCell()
         {
             var csv = new StringBuilder();
             var sortedDetails = ProductOperations.OrderBy(x => x.Operation);
@@ -533,6 +586,55 @@ namespace FactoryOrganizerOfficeProgram
                 csv.AppendLine(newLine);
             }
             File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + ".csv", csv.ToString());
+
+        }
+
+        private void SaveDetailsToCSVGeneral()
+        {
+            var csv = new StringBuilder();
+            var sortedDetails = ProductOperations.OrderBy(x => x.Operation);
+            sortedDetails.ToList();
+            string customerName = SeeIfProductIsUnassigned();
+
+
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerName);
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text);
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
+
+            foreach (ProductOperation operation in sortedDetails)
+            {
+                var customer = customerName;
+                var operationNumber = operation.Operation;
+                var description = "-";
+                if (operation.Description != "")
+                {
+                    description = operation.Description;
+                }
+                var cycleTime = "null";
+                float j;
+                if (operation.CycleTime != null && float.TryParse(operation.CycleTime.ToString(), out j))
+                {
+                    cycleTime = operation.CycleTime.ToString();
+                }
+                var requiredToReport = "true";
+                if (operation.RequiredToReport == false)
+                {
+                    requiredToReport = "false";
+                }
+                var newLine = string.Format("{0},{1},{2},{3},{4}", customer, operationNumber, description, cycleTime, requiredToReport);
+                csv.AppendLine(newLine);
+            }
+            File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + customerProducts.Text + ".csv", csv.ToString());
+
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            foreach (ConcatenateString x in BaseInformation)
+            {
+                sb.Append(x + "\n");
+            }
+            ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text);
+
+            ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
+            //ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
         }
 
     }
