@@ -1,13 +1,13 @@
-﻿<Window x:Class="FactoryOrganizerOfficeProgram.CreateProduct"
+﻿<Window x:Class="FactoryOrganizerOfficeProgram.CellManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
-        Title="Create Product" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
-
+        Title="Cell Manager" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Background="AntiqueWhite">
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="475"/>
@@ -17,14 +17,12 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="35"/>
             <RowDefinition Height="360"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Button Name="Info" Style="{StaticResource TurquoiseButton}" Grid.Row="0" Grid.Column="5" Click="Info_Click">
-            <TextBlock Text="Help" FontWeight="Bold" FontSize="17"/>
-        </Button>
+
         <Grid Grid.Column="1" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70"/>
@@ -56,10 +54,9 @@
                     <ColumnDefinition Width="140"/>
                 </Grid.ColumnDefinitions>
                 <Button Name="NewCustomer" Grid.Column="1" Style="{StaticResource DodgerBlueButton}" Click="NewCustomer_Click">New</Button>
-                <Button Name="LoadCustomerPresets" Grid.Column="3" Style="{StaticResource GreenButton}" Click="LoadCustomerPresets_Click">Load Customer Presets</Button>
             </Grid>
-            
-            
+
+
         </Grid>
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -68,29 +65,18 @@
                 <ColumnDefinition Width="225"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="5"/>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="Cell:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="everyCustomerCell" Grid.Row="0" Grid.Column="1" TextSearch.TextPath ="Name">
+            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Cell:" TextWrapping="Wrap" HorizontalAlignment="Left" />
+            <ComboBox Name="everyCustomerCell" Grid.Row="2" Grid.Column="1" IsEditable="False" TextSearch.TextPath ="Name">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <Rectangle Fill="{Binding Name}" Width="16" Height="16" />
                             <TextBlock Text="{Binding Name}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Product ID:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="CustomerProducts" Grid.Row="2" Grid.Column="1" IsEditable="True" Text="-Enter New ID-" TextSearch.TextPath ="ProductID" KeyDown="ProductID_KeyDown">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Fill="{Binding ProductID}" Width="16" Height="16" />
-                            <TextBlock Text="{Binding ProductID}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -103,7 +89,6 @@
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="140"/>
                 </Grid.ColumnDefinitions>
-                <Button Name="PopulateCellTemplate" Grid.Column="3" Style="{StaticResource RedButton}" Click="PopulateCellTemplate_Click">Populate Cell Template</Button>
             </Grid>
 
             <Grid Grid.Row="2" Grid.Column="3">
@@ -114,9 +99,9 @@
                     <ColumnDefinition Width="140"/>
                 </Grid.ColumnDefinitions>
                 <Button Name="Sort" Grid.Column="1" Style="{StaticResource DodgerBlueButton}" Click="Sort_Click">Sort</Button>
-                <Button Name="SubmitBaseInformation" Grid.Column="3" Style="{StaticResource GreenButton}" Click="SubmitBaseInformation_Click">Submit Base Information</Button>
             </Grid>
         </Grid>
+
         <Border 
             BorderBrush="Black"
             BorderThickness="1"
@@ -152,10 +137,9 @@
                                         <TextBlock Grid.Row="0" Grid.Column="4" Text="Required" HorizontalAlignment="Center"/>
                                         <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource RedButton}" Click="OnDeleteMachineFunction">Remove</Button>
                                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Operation}"/>
-                                        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Description}"/> 
+                                        <TextBox Grid.Row="1" Grid.Column="2"  Text="{Binding Description}"/>
                                         <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding CycleTime}"/>
                                         <CheckBox Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" IsChecked="{Binding RequiredToReport}"/>
-                                        <Button Grid.Column="5" Grid.Row="1" Style="{StaticResource DodgerBlueButton}" HorizontalAlignment="Right" Click="OnAddScaleUnit">Add Printable File</Button>
 
                                     </Grid>
 
@@ -168,45 +152,6 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-        <Grid Grid.Column="3" Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="160"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="160"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Base Information:" Grid.Row="0"/>
-            <Border 
-            BorderBrush="Black"
-            BorderThickness="1"
-            Background="White"
-            Grid.Row="1"
-            >
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
-                    <ListBox Name="baseInformation" Height="158">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding JoinedString}" FontSize="20"/>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </ScrollViewer>
-            </Border>
-            <TextBlock Text="Files Uploaded: " Grid.Row="2"/>
 
-            <Border 
-            BorderBrush="Black"
-            BorderThickness="1"
-            Background="White"
-            Grid.Row="3"
-            >
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3">
-
-                    <ListBox Name="filesForOperations" />
-                </ScrollViewer>
-            </Border>
-        </Grid>
-        <Button Name="SubmitFile" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="3" Style="{StaticResource DodgerBlueButton}" Width="100" Click="SubmitFile_Click">Submit File</Button>
-        <Button Name="SubmitImage" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Style="{StaticResource GreenButton}" Width="100" Click="SubmitImage_Click" Content="Submit Image &#x0a; For Website"/>
     </Grid>
 </Window>

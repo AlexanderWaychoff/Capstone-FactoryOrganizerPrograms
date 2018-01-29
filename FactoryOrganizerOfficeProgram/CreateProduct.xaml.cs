@@ -24,13 +24,15 @@ namespace FactoryOrganizerOfficeProgram
     public partial class CreateProduct : Window
     {
         public ObservableCollection<ProductOperation> ProductOperations { get; set; }
-        public ObservableCollection<CustomerInformation> AllCustomers { get; set; }
+        public ObservableCollection<FileName> AllCustomers { get; set; }
         public ObservableCollection<ProductProductionCode> AllProductsForCustomer { get; set; }
         public ObservableCollection<ConcatenateString> BaseInformation { get; set; }
 
         public CustomerInformation Customer;
         public CustomerInformation UserSubmittedCustomer;
         public ProductProductionCode UserSubmittedProductID = new ProductProductionCode();
+        public FolderNames allFolderNames = new FolderNames();
+        FileName customerFolderName;
 
         bool HasWebsiteImage = false;
         string websiteFileString;
@@ -46,13 +48,16 @@ namespace FactoryOrganizerOfficeProgram
         string unassignedProductsFolder = "Unassigned Products";
         string temporaryFolder = "Temporary Create Holder";
 
+        string[] folders;
+
+
 
         public CreateProduct()
         {
             InitializeComponent();
 
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
-            CustomerList.ItemsSource = AllCustomers = new ObservableCollection<CustomerInformation>();
+            CustomerList.ItemsSource = AllCustomers = new ObservableCollection<FileName>();
             CustomerProducts.ItemsSource = AllProductsForCustomer = new ObservableCollection<ProductProductionCode>();
             baseInformation.ItemsSource = BaseInformation = new ObservableCollection<ConcatenateString>();
 
@@ -66,11 +71,16 @@ namespace FactoryOrganizerOfficeProgram
 
         private void RetrieveAllCustomers()
         {
-            Customer = new CustomerInformation();
-            Customer.Name = "Baldor";
-            this.AllCustomers.Add(Customer);
-            //this.AllCustomers.Add("McMillan");
-            CustomerList.ItemsSource = AllCustomers;
+            folders = ExternalFile.RetrieveAllFolderNamesInDirectory(allFolderNames.CustomersFolder);
+            foreach (string folder in folders)
+            {
+                customerFolderName = new FileName();
+                customerFolderName.Name = folder;
+                if (folder != allFolderNames.TemporaryFolder && folder != allFolderNames.UnassignedProductsFolder)
+                {
+                    AllCustomers.Add(customerFolderName);
+                }
+            }
         }
         
         private void RetrieveAllProducts()
@@ -116,9 +126,6 @@ namespace FactoryOrganizerOfficeProgram
                         System.IO.Path.GetFileName(filename));
                 }
             }
-        //var mf = (sender as FrameworkElement).DataContext as ProductOperation;
-
-        //    mf.ScaleUnits.Add(new ScaleUnit(mf.ScaleUnits.Count));
         }
 
         private void OnDeleteScaleUnit(object sender, RoutedEventArgs e)
@@ -151,22 +158,22 @@ namespace FactoryOrganizerOfficeProgram
             createProductInformation.ShowDialog();
         }
 
-        private void CustomerList_KeyDown(object sender, KeyEventArgs e)
-        {
+        //private void CustomerList_KeyDown(object sender, KeyEventArgs e)
+        //{
 
-            if (e.Key == Key.Return)
-            {
-                UserSubmittedCustomer = new CustomerInformation();
-                string content = CustomerList.Text;
-                UserSubmittedCustomer.Name = content;
-                int indexTest = AllCustomers.IndexOf(UserSubmittedCustomer);
-                if(indexTest == -1 && !AllCustomers.Contains(UserSubmittedCustomer))
-                {
-                    AllCustomers.Add(UserSubmittedCustomer);
-                    CustomerList.ItemsSource = AllCustomers;
-                }
-            }
-        }
+        //    if (e.Key == Key.Return)
+        //    {
+        //        UserSubmittedCustomer = new CustomerInformation();
+        //        string content = CustomerList.Text;
+        //        UserSubmittedCustomer.Name = content;
+        //        int indexTest = AllCustomers.IndexOf(UserSubmittedCustomer);
+        //        if(indexTest == -1 && !AllCustomers.Contains(UserSubmittedCustomer))
+        //        {
+        //            AllCustomers.Add(UserSubmittedCustomer);
+        //            CustomerList.ItemsSource = AllCustomers;
+        //        }
+        //    }
+        //}
 
         private void ProductID_KeyDown(object sender, KeyEventArgs e)
         {
@@ -292,7 +299,9 @@ namespace FactoryOrganizerOfficeProgram
 
         private void NewCustomer_Click(object sender, RoutedEventArgs e)
         {
-
+            var customer = new Customer();
+            customer.ShowDialog();
+            RetrieveAllCustomers();
         }
 
         private void LoadCustomerPresets_Click(object sender, RoutedEventArgs e)

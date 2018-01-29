@@ -12,7 +12,7 @@ namespace FactoryOrganizerOfficeProgram
         /// <summary>
         /// Returns a bool.  Checks for a directory at specified path.  If one doesn't exist it creates one.
         /// </summary>
-        /// <param name="directoryPath">Enter file path here.  Seperate each directory with @"\".</param>
+        /// <param name="directoryPath">Enter file path here.  Seperate each directory with: @"\"</param>
         /// <returns></returns>
         public static bool CheckForDirectory(string directoryPath)
         {
@@ -34,7 +34,7 @@ namespace FactoryOrganizerOfficeProgram
         /// <summary>
         /// Returns a bool.  Check for specific file inside of a directory
         /// </summary>
-        /// <param name="filePath">Enter file path here.  Seperate each directory with @"\".</param>
+        /// <param name="filePath">Enter file path here.  Seperate each directory with: @"\"</param>
         /// <param name="fileName">File Name can contain full path; file name is extracted in this method (ComboBoxName.Text).</param>
         /// <returns></returns>
         public static bool CheckForFile(string filePath, string fileName)
@@ -82,6 +82,23 @@ namespace FactoryOrganizerOfficeProgram
             {
                 file.Delete();
             }
+        }
+
+        /// <summary>
+        /// Retrieves all folders in targeted directory, removes folder path from folder, then returns a string array.
+        /// </summary>
+        /// <param name="filePath">Enter folder path here.  Seperate each directory with @"\".</param>
+        /// <returns></returns>
+        public static string[] RetrieveAllFolderNamesInDirectory(string filePath)
+        {
+            string[] foldersWithPath = Directory.GetDirectories(@".\" + filePath);
+            List<string> filesNameOnly = new List<string>();
+            foreach (string folder in foldersWithPath)
+            {
+                string fileNameOnly = System.IO.Path.GetFileNameWithoutExtension(folder);
+                filesNameOnly.Add(fileNameOnly);
+            }
+            return filesNameOnly.ToArray();
         }
     }
 }

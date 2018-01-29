@@ -60,7 +60,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ManageCells_Click(object sender, RoutedEventArgs e)
         {
-            //in CreateProduct add functionality to New Customer then make screen for cell template
+            var cellManager = new CellManager();
+            cellManager.ShowDialog();
         }
 
         private void SetScrap_Click(object sender, RoutedEventArgs e)

@@ -66,12 +66,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CellManager.xaml.cs">
+      <DependentUpon>CellManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConcatenateString.cs" />
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
     </Compile>
     <Compile Include="CreateProductInformation.xaml.cs">
       <DependentUpon>CreateProductInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Customer.xaml.cs">
+      <DependentUpon>Customer.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomerInformation.cs" />
     <Compile Include="ExternalFile.cs" />
@@ -95,11 +101,19 @@
     <Compile Include="SubmitBaseInformation.xaml.cs">
       <DependentUpon>SubmitBaseInformation.xaml</DependentUpon>
     </Compile>
+    <Page Include="CellManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateProduct.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CreateProductInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Customer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
