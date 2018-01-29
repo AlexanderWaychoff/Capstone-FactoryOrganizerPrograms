@@ -144,6 +144,7 @@ namespace FactoryOrganizerOfficeProgram
                         else
                         {
                             SaveDetailsToCSV();
+                        MessageBox.Show("New cell saved.", "Save Confirmation");
                         }
                     }
                     else

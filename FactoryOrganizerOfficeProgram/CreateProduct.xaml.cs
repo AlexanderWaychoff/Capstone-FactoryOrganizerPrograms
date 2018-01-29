@@ -25,12 +25,13 @@ namespace FactoryOrganizerOfficeProgram
     {
         public ObservableCollection<ProductOperation> ProductOperations { get; set; }
         public ObservableCollection<FileName> AllCustomers { get; set; }
-        public ObservableCollection<ProductProductionCode> AllProductsForCustomer { get; set; }
+        public ObservableCollection<FileName> AllProductsForCustomer { get; set; }
+        public ObservableCollection<FileName> AllCells { get; set; }
         public ObservableCollection<ConcatenateString> BaseInformation { get; set; }
 
         public CustomerInformation Customer;
         public CustomerInformation UserSubmittedCustomer;
-        public ProductProductionCode UserSubmittedProductID = new ProductProductionCode();
+        public FileName UserSubmittedProductID = new FileName();
         public FolderNames allFolderNames = new FolderNames();
         FileName customerFolderName;
 
@@ -57,9 +58,10 @@ namespace FactoryOrganizerOfficeProgram
             InitializeComponent();
 
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
-            CustomerList.ItemsSource = AllCustomers = new ObservableCollection<FileName>();
-            CustomerProducts.ItemsSource = AllProductsForCustomer = new ObservableCollection<ProductProductionCode>();
+            customerList.ItemsSource = AllCustomers = new ObservableCollection<FileName>();
+            customerProducts.ItemsSource = AllProductsForCustomer = new ObservableCollection<FileName>();
             baseInformation.ItemsSource = BaseInformation = new ObservableCollection<ConcatenateString>();
+            everyCustomerCell.ItemsSource = AllCells = new ObservableCollection<FileName>();
 
             basePathForTemporaryFolder = @".\" + customerFolder + @"\" + temporaryFolder;
 
@@ -86,7 +88,17 @@ namespace FactoryOrganizerOfficeProgram
         
         private void RetrieveAllProducts()
         {
-
+            AllProductsForCustomer.Clear();
+            folders = ExternalFile.RetrieveAllFolderNamesInDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text);
+            foreach (string folder in folders)
+            {
+                customerFolderName = new FileName();
+                customerFolderName.Name = folder;
+                if (folder != allFolderNames.TemporaryFolder && folder != "Cells")
+                {
+                    AllProductsForCustomer.Add(customerFolderName);
+                }
+            }
         }
 
         private void OnDeleteMachineFunction(object sender, RoutedEventArgs e)
@@ -102,11 +114,28 @@ namespace FactoryOrganizerOfficeProgram
                     filesForOperations.Items.RemoveAt(n);
                 }
             }
+            if(ProductOperations.Count == 0)
+            {
+                customerList.IsEnabled = true;
+                everyCustomerCell.IsEnabled = true;
+                customerProducts.IsEnabled = true;
+                addProductOperation.Visibility = Visibility.Visible;
+            }
         }
 
         private void OnAddMachineFunction(object sender, RoutedEventArgs e)
         {
-            ProductOperations.Add(new ProductOperation());
+            if (customerProducts.Text == "" || customerProducts.Text == null || customerProducts.Text == "-Enter New ID-")
+            {
+                MessageBox.Show("To make operations for a product, a new Product ID is required.  If this product is for a specific customer, Load Customer Presets first along with a Product ID that is new.  If this product will be made in a cell select it from the dropdown menu and click Populate Cell Template.", "No Product ID entered");
+            }
+            else
+            {
+                customerList.IsEnabled = false;
+                everyCustomerCell.IsEnabled = false;
+                customerProducts.IsEnabled = false;
+                ProductOperations.Add(new ProductOperation());
+            }
         }
 
         private void OnAddScaleUnit(object sender, RoutedEventArgs e)
@@ -180,22 +209,22 @@ namespace FactoryOrganizerOfficeProgram
         {
             if(productWasAdded == 1)
             {
-                string content = CustomerProducts.Text;
+                string content = customerProducts.Text;
                 int index = AllProductsForCustomer.IndexOf(UserSubmittedProductID);
-                AllProductsForCustomer[index].ProductID = content;
+                AllProductsForCustomer[index].Name = content;
                 //UserSubmittedProductID.ProductID = content;
-                CustomerProducts.ItemsSource = AllProductsForCustomer;
+                customerProducts.ItemsSource = AllProductsForCustomer;
             }
             if (e.Key == Key.Return)
             {
-                string content = CustomerProducts.Text;
-                UserSubmittedProductID.ProductID = content;
+                string content = customerProducts.Text;
+                UserSubmittedProductID.Name = content;
                 int indexTest = AllProductsForCustomer.IndexOf(UserSubmittedProductID);
                 if (indexTest == -1 && productWasAdded < 1)
                 {
                     saveProductID = content;
                     AllProductsForCustomer.Add(UserSubmittedProductID);
-                    CustomerProducts.ItemsSource = AllProductsForCustomer;
+                    customerProducts.ItemsSource = AllProductsForCustomer;
                     productWasAdded++;
                 }
                 else if(saveProductID == null)
@@ -307,12 +336,204 @@ namespace FactoryOrganizerOfficeProgram
 
         private void LoadCustomerPresets_Click(object sender, RoutedEventArgs e)
         {
+            AllCells.Clear();
+            folders = ExternalFile.RetrieveAllFileNamesInDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder);
+            foreach (string folder in folders)
+            {
+                customerFolderName = new FileName();
+                customerFolderName.Name = folder;
+                if (folder != allFolderNames.TemporaryFolder)
+                {
+                    AllCells.Add(customerFolderName);
+                }
+            }
 
+            RetrieveAllProducts();
         }
 
         private void PopulateCellTemplate_Click(object sender, RoutedEventArgs e)
         {
+            string cellProductsDirectoryPath = allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder;
+            string cellProductsFolderName = @"\" + everyCustomerCell.Text + " Products";
+            ExternalFile.CheckForDirectory(cellProductsDirectoryPath + cellProductsFolderName);
+            folders = ExternalFile.RetrieveAllFolderNamesInDirectory(cellProductsDirectoryPath + cellProductsFolderName);
+            foreach (string folder in folders)
+            {
+                customerFolderName = new FileName();
+                customerFolderName.Name = folder;
+                if (folder != allFolderNames.TemporaryFolder && folder != "Cells")
+                {
+                    AllProductsForCustomer.Add(customerFolderName);
+                }
+            }
+            ProductOperations.Clear();
+            LoadOperationsCSV(cellProductsDirectoryPath);
+            customerList.IsEnabled = false;
+            everyCustomerCell.IsEnabled = false;
+            //customerProducts.IsEnabled = false;
+            addProductOperation.Visibility = Visibility.Hidden;
 
         }
+        private void LoadOperationsCSV(string baseFilePath)
+        {
+            bool fileExists = File.Exists(baseFilePath + @"\" + everyCustomerCell.Text + ".csv");
+            if (fileExists)
+            {
+                //bool changesWereMade = CompareDuplicateAndProductDetails();
+
+                //if (changesWereMade)
+                //{
+                //    if (MessageBox.Show("Changes were made to ' " + DetailSet.Text + "' that weren't saved.  Loading a Detail Set will undo any entries/deletions done.  Proceed?", "Load attempt with edit done to " + DetailSet.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                //    {
+                //        return;
+                //    }
+                //}
+                ProductOperations.Clear();
+                using (TextFieldParser parser = new TextFieldParser(baseFilePath + @"\" + everyCustomerCell.Text + ".csv"))
+                {
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters(",");
+                    ProductOperation productBaseInformation;
+                    while (!parser.EndOfData)
+                    {
+                        string[] fields = parser.ReadFields();
+                        if (fields.Any(x => x.Length == 0))
+                        {
+                            Console.WriteLine("We found an empty value in your CSV. Please check your file and try again.\nPress any key to return to main menu.");
+                            Console.ReadKey(true);
+                        }
+                        productBaseInformation = new ProductOperation();
+                        productBaseInformation.Operation = Convert.ToInt32(fields[1]);
+                        productBaseInformation.Description = fields[2];
+
+                        if (fields[3] == "null")
+                        {
+                            productBaseInformation.CycleTime = null;
+                        }
+                        else
+                        {
+                            productBaseInformation.CycleTime = float.Parse(fields[3]);
+                        }
+
+                        if(fields[4] == "true")
+                        {
+                            productBaseInformation.RequiredToReport = true;
+                        }
+                        else
+                        {
+                            productBaseInformation.RequiredToReport = false;
+                        }
+                        ProductOperations.Add(productBaseInformation);
+                    }
+                    //FillDuplicateProductDetailsToVerifyChanges();
+                    //productDetailChanges.Items.Clear();
+                    //productDetailChanges.Items.Add("Changes made to " + DetailSet.Text + ":");
+                    //currentDetailSetIsLoaded = true;
+                    //DetailSet.IsEnabled = false;
+                }
+            }
+            customerList.IsEnabled = false;
+            everyCustomerCell.IsEnabled = false;
+        }
+
+        private void SubmitWebsiteDescription_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+            string productName = customerProducts.Text;
+            bool HasNullValue = CheckOperationNumberForNullValue();
+
+            if (!HasNullValue)
+            {
+                //if (DetailSetExists)
+                //{
+                bool changesWereMade = true;//CompareDuplicateAndProductDetails();
+
+                if (changesWereMade)
+                {
+                    if (MessageBox.Show("New product " + everyCustomerCell.Text + " will be added for " + customerList.Text + ".  Proceed?", "New Cell: " + everyCustomerCell.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    {
+                        //do no stuff
+                    }
+                    else
+                    {
+                        SaveDetailsToCSV();
+                        MessageBox.Show("New cell saved.", "Save Confirmation");
+                    }
+                }
+                else
+                {
+                    //MessageBox.Show("No changes are being made to '" + DetailSet.Text + "'.  Save canceled.", "Nothing to Save.");
+                }
+                //}
+                //else
+                //{
+                //    SaveDetailsToCSV();
+                //    MessageBox.Show("Your details have been saved as '" + detailSetName + "'.  If you would like to edit these in the future select this detail set from the Product Requirement's Detail Set dropbox and load it.", "Product Detail Information Saved");
+                //}
+            }
+            else
+            {
+                MessageBox.Show("At least one Operation field is empty.  Please enter a value in that field before saving or remove it.", "Empty Operation Value");
+            }
+        }
+
+        private bool CheckOperationNumberForNullValue()
+        {
+            bool hasNullOperation = false;
+            for (int i = 0; i < ProductOperations.Count; i++)
+            {
+                int j;
+                if (!int.TryParse(ProductOperations[i].Operation.ToString(), out j) || ProductOperations[i].Operation == 0)
+                {
+                    hasNullOperation = true;
+                }
+            }
+            return hasNullOperation;
+        }
+
+        private void SaveDetailsToCSV()
+        {
+            var csv = new StringBuilder();
+            var sortedDetails = ProductOperations.OrderBy(x => x.Operation);
+            sortedDetails.ToList();
+
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder);
+
+            foreach (ProductOperation operation in sortedDetails)
+            {
+                var customer = customerList.Text;
+                var operationNumber = operation.Operation;
+                var description = "-";
+                if (operation.Description != "")
+                {
+                    description = operation.Description;
+                }
+                var cycleTime = "null";
+                float j;
+                if (operation.CycleTime != null && float.TryParse(operation.CycleTime.ToString(), out j))
+                {
+                    cycleTime = operation.CycleTime.ToString();
+                }
+                var requiredToReport = "true";
+                if (operation.RequiredToReport == false)
+                {
+                    requiredToReport = "false";
+                }
+                var newLine = string.Format("{0},{1},{2},{3},{4}", customer, operationNumber, description, cycleTime, requiredToReport);
+                csv.AppendLine(newLine);
+            }
+            File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + ".csv", csv.ToString());
+        }
+
     }
 }

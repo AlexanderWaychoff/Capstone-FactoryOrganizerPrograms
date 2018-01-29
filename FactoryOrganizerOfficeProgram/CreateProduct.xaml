@@ -38,7 +38,7 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Text="Customer:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="CustomerList" Grid.Row="1" Grid.Column="1" TextSearch.TextPath ="Name">
+            <ComboBox Name="customerList" Grid.Row="1" Grid.Column="1" TextSearch.TextPath ="Name">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -85,12 +85,12 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
             <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Text="Product ID:" TextWrapping="Wrap" HorizontalAlignment="Left" />
-            <ComboBox Name="CustomerProducts" Grid.Row="2" Grid.Column="1" IsEditable="True" Text="-Enter New ID-" TextSearch.TextPath ="ProductID" KeyDown="ProductID_KeyDown">
+            <ComboBox Name="customerProducts" Grid.Row="2" Grid.Column="1" IsEditable="True" Text="-Enter New ID-" TextSearch.TextPath ="Name" KeyDown="ProductID_KeyDown">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Rectangle Fill="{Binding ProductID}" Width="16" Height="16" />
-                            <TextBlock Text="{Binding ProductID}" />
+                            <Rectangle Fill="{Binding Name}" Width="16" Height="16" />
+                            <TextBlock Text="{Binding Name}" />
                         </StackPanel>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
@@ -164,7 +164,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <Button HorizontalAlignment="Center" Style="{StaticResource CyanButton}" Click="OnAddMachineFunction">Add Product Operation</Button>
+                    <Button Name="addProductOperation" HorizontalAlignment="Center" Style="{StaticResource CyanButton}" Click="OnAddMachineFunction">Add Product Operation</Button>
                 </StackPanel>
             </ScrollViewer>
         </Border>
@@ -206,7 +206,21 @@
                 </ScrollViewer>
             </Border>
         </Grid>
+        <Grid Grid.Row="4" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="230"/>
+                <ColumnDefinition Width="120"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="Save" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Width="95" Click="Save_Click">
+                <TextBlock Text="Save" VerticalAlignment="Center" FontSize="40"/>
+            </Button>
+            <Button Name="CloseButton" Grid.Column="2" Style="{StaticResource RedButton}" Width="105" Click="CloseButton_Click">
+                <TextBlock Text="Close" VerticalAlignment="Center" FontSize="40"/>
+            </Button>
+        </Grid>
         <Button Name="SubmitFile" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="3" Style="{StaticResource DodgerBlueButton}" Width="100" Click="SubmitFile_Click">Submit File</Button>
+        <Button Name="SubmitWebsiteDescription" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3" Style="{StaticResource GreenButton}" Width="110" Click="SubmitWebsiteDescription_Click" Content="Submit Description &#x0a;      For Website"/>
         <Button Name="SubmitImage" HorizontalAlignment="Left" Grid.Row="3" Grid.Column="3" Style="{StaticResource GreenButton}" Width="100" Click="SubmitImage_Click" Content="Submit Image &#x0a; For Website"/>
     </Grid>
 </Window>
