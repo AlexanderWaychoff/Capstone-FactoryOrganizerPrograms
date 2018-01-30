@@ -48,7 +48,7 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        public void SubmitFolderLocation()
+        public void SubmitProgramFolderLocation()
         {
             string sqlQuery = "INSERT INTO dbo.FilePathToPrograms VALUES(@ProgramType, @FilePath);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
             using (SqlConnection openCon = new SqlConnection(connectionUsed))
@@ -79,7 +79,41 @@ namespace FactoryOrganizerOfficeProgram
                             openCon.Close();
                         }
                     }
+                }
+            }
+        }
 
+        public void SubmitFileLocationForProduct(string customerName, bool isAssignedToCell)
+        {
+            string sqlQuery = "INSERT INTO dbo.FilePathToWebsiteInformationForProducts VALUES(@CustomerName, @IsAssignedToCell);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            using (SqlConnection openCon = new SqlConnection(connectionUsed))
+            {
+
+                using (SqlCommand querySaveStaff = new SqlCommand(sqlQuery))
+                {
+                    //office program, file path to files
+                    try
+                    {
+                        //
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+                        //querySaveStaff.Parameters.Add("@FilePathToProgramID", SqlDbType.Int, 50).Value = 1;
+                        querySaveStaff.Parameters.Add("@CustomerName", SqlDbType.VarChar, 50).Value = customerName;
+                        querySaveStaff.Parameters.Add("@IsAssignedToCell", SqlDbType.Bit).Value = isAssignedToCell;
+
+                        querySaveStaff.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
                 }
             }
         }

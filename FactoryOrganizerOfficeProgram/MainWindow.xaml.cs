@@ -43,13 +43,13 @@ namespace FactoryOrganizerOfficeProgram
         private void CreateProduct_Click(object sender, RoutedEventArgs e)
         {
             ExternalFile.RemoveAllFilesFromFolder(@".\" + folderNames.CustomersFolder + @"\" + folderNames.TemporaryFolder);
-            var createProduct = new CreateProduct();
+            var createProduct = new CreateProduct(databaseControl);
             createProduct.ShowDialog();
         }
 
         private void SubmitToDatabase()
         {
-            databaseControl.SubmitFolderLocation();
+            databaseControl.SubmitProgramFolderLocation();
         }
     }
 }

@@ -34,6 +34,7 @@ namespace FactoryOrganizerOfficeProgram
         public FileName UserSubmittedProductID = new FileName();
         public FolderNames allFolderNames = new FolderNames();
         FileName customerFolderName;
+        DatabaseControl DatabaseControl;
 
         bool hasWebsiteImage = false;
         bool hasWebsiteDescription = false;
@@ -55,9 +56,11 @@ namespace FactoryOrganizerOfficeProgram
 
 
 
-        public CreateProduct()
+        public CreateProduct(DatabaseControl databaseControl)
         {
             InitializeComponent();
+
+            DatabaseControl = databaseControl;
 
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
             customerList.ItemsSource = AllCustomers = new ObservableCollection<FileName>();
@@ -569,6 +572,7 @@ namespace FactoryOrganizerOfficeProgram
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + @"\" + customerProducts.Text);
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
+            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, true); 
         }
 
         private void SaveDetailsToCSVGeneral()
@@ -617,6 +621,7 @@ namespace FactoryOrganizerOfficeProgram
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
             //ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
+            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, false);
         }
     }
 }
