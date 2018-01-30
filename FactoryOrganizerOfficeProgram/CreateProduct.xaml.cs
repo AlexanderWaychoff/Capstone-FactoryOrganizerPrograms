@@ -567,12 +567,14 @@ namespace FactoryOrganizerOfficeProgram
             ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text);
             ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + @"\" + customerProducts.Text);
 
+            //put csv reader back in, redirect it to product number instead of replacing cell settings (change commented out line below)
+
             //File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + ".csv", csv.ToString());
 
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + @"\" + customerProducts.Text);
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
-            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, true); 
+            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, true, everyCustomerCell.Text); 
         }
 
         private void SaveDetailsToCSVGeneral()

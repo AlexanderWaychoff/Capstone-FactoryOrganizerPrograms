@@ -83,9 +83,9 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        public void SubmitFileLocationForProduct(string customerName, bool isAssignedToCell)
+        public void SubmitFileLocationForProduct(string customerName, bool isAssignedToCell, string cellNumber = "")
         {
-            string sqlQuery = "INSERT INTO dbo.FilePathToWebsiteInformationForProducts VALUES(@CustomerName, @IsAssignedToCell);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            string sqlQuery = "INSERT INTO dbo.FilePathToWebsiteInformationForProducts VALUES(@CustomerName, @IsAssignedToCell, @CellNumber);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
             using (SqlConnection openCon = new SqlConnection(connectionUsed))
             {
 
@@ -100,6 +100,10 @@ namespace FactoryOrganizerOfficeProgram
                         //querySaveStaff.Parameters.Add("@FilePathToProgramID", SqlDbType.Int, 50).Value = 1;
                         querySaveStaff.Parameters.Add("@CustomerName", SqlDbType.VarChar, 50).Value = customerName;
                         querySaveStaff.Parameters.Add("@IsAssignedToCell", SqlDbType.Bit).Value = isAssignedToCell;
+                        if (cellNumber != "" && cellNumber != null)
+                        {
+                            querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar).Value = cellNumber;
+                        }
 
                         querySaveStaff.ExecuteNonQuery();
                     }
