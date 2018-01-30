@@ -390,7 +390,7 @@ namespace FactoryOrganizerOfficeProgram
         private void PopulateCellTemplate_Click(object sender, RoutedEventArgs e)
         {
             string cellProductsDirectoryPath = allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder;
-            string cellProductsFolderName = @"\" + everyCustomerCell.Text + " Products";
+            string cellProductsFolderName = @"\" + everyCustomerCell.Text;
             ExternalFile.CheckForDirectory(cellProductsDirectoryPath + cellProductsFolderName);
             folders = ExternalFile.RetrieveAllFolderNamesInDirectory(cellProductsDirectoryPath + cellProductsFolderName);
             foreach (string folder in folders)
@@ -506,7 +506,7 @@ namespace FactoryOrganizerOfficeProgram
 
                 if (changesWereMade)
                 {
-                    if (MessageBox.Show("New product " + everyCustomerCell.Text + " will be added for " + customerName + ".  Proceed?", "New Product: " + customerProducts.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    if (MessageBox.Show("New product " + customerProducts.Text + " will be added for " + customerName + ".  Proceed?", "New Product: " + customerProducts.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                     {
                         //do no stuff
                     }
@@ -518,7 +518,7 @@ namespace FactoryOrganizerOfficeProgram
                         }
                         else
                         {
-                            SaveDetailsToCSVForCell();
+                            SaveDetailsForCell();
                         }
                         MessageBox.Show("New product operation saved.", "Save Confirmation");
                     }
@@ -554,39 +554,21 @@ namespace FactoryOrganizerOfficeProgram
             return hasNullOperation;
         }
 
-        private void SaveDetailsToCSVForCell()
+        private void SaveDetailsForCell()
         {
             var csv = new StringBuilder();
             var sortedDetails = ProductOperations.OrderBy(x => x.Operation);
             sortedDetails.ToList();
 
             ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder);
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text);
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + @"\" + customerProducts.Text);
 
-            foreach (ProductOperation operation in sortedDetails)
-            {
-                var customer = customerList.Text;
-                var operationNumber = operation.Operation;
-                var description = "-";
-                if (operation.Description != "")
-                {
-                    description = operation.Description;
-                }
-                var cycleTime = "null";
-                float j;
-                if (operation.CycleTime != null && float.TryParse(operation.CycleTime.ToString(), out j))
-                {
-                    cycleTime = operation.CycleTime.ToString();
-                }
-                var requiredToReport = "true";
-                if (operation.RequiredToReport == false)
-                {
-                    requiredToReport = "false";
-                }
-                var newLine = string.Format("{0},{1},{2},{3},{4}", customer, operationNumber, description, cycleTime, requiredToReport);
-                csv.AppendLine(newLine);
-            }
-            File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + ".csv", csv.ToString());
+            //File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + ".csv", csv.ToString());
 
+            ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + @"\" + customerProducts.Text);
+
+            ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
         }
 
         private void SaveDetailsToCSVGeneral()
