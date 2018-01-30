@@ -574,7 +574,7 @@ namespace FactoryOrganizerOfficeProgram
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerList.Text + @"\" + allFolderNames.CellsFolder + @"\" + everyCustomerCell.Text + @"\" + customerProducts.Text);
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
-            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, true, everyCustomerCell.Text); 
+            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, customerProducts.Text, true, everyCustomerCell.Text); 
         }
 
         private void SaveDetailsToCSVGeneral()
@@ -623,7 +623,7 @@ namespace FactoryOrganizerOfficeProgram
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
             //ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
-            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, false);
+            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, customerProducts.Text, false);
         }
     }
 }
