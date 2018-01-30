@@ -77,6 +77,7 @@
       <DependentUpon>Customer.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomerInformation.cs" />
+    <Compile Include="DatabaseControl.cs" />
     <Compile Include="ExternalFile.cs" />
     <Compile Include="FileName.cs" />
     <Compile Include="FolderNames.cs" />

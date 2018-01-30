@@ -104,7 +104,7 @@ namespace FactoryOrganizerOfficeProgram
             return filesNameOnly.ToArray();
         }
 
-        public static void CopyFile(OpenFileDialog openFileDialog, string programFilePath)
+        public static void CopyWebsiteImageFile(OpenFileDialog openFileDialog, string programFilePath)
         {
             var filePath = openFileDialog.FileName;
             string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
@@ -112,7 +112,7 @@ namespace FactoryOrganizerOfficeProgram
 
             try
             {
-                System.IO.File.Copy(filePath.ToString(), exePath + @"\" + programFilePath + @"\" + fileName);
+                System.IO.File.Copy(filePath.ToString(), exePath + @"\" + programFilePath + @"\" + "Image.png");
             }
             catch
             {
@@ -120,15 +120,22 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        public static void CopyFile(OpenFileDialog openFileDialog, string programFilePath, string fileName)
+        public static void CopyFile(OpenFileDialog openFileDialog, string programFilePath, string description = "")
         {
             var filePath = openFileDialog.FileName;
-            //string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
+            string fileName = System.IO.Path.GetFileName(openFileDialog.FileName);
             string exePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
             try
             {
-                System.IO.File.Copy(filePath.ToString(), exePath + @"\" + programFilePath + @"\" + fileName);
+                if (description == "")
+                {
+                    System.IO.File.Copy(filePath.ToString(), exePath + @"\" + programFilePath + @"\" + fileName);
+                }
+                else
+                {
+                    System.IO.File.Copy(filePath.ToString(), exePath + @"\" + programFilePath + @"\" + description + ".txt");
+                }
             }
             catch
             {

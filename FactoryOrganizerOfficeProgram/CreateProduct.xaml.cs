@@ -254,7 +254,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void SubmitWebsiteDescription_Click(object sender, RoutedEventArgs e)
         {
-            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteDescriptionFolder);
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteFolder);
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Text files (*.txt;*.rtf)|*.txt;*rtf";
@@ -268,17 +268,17 @@ namespace FactoryOrganizerOfficeProgram
                     filesForOperations.Items.Add("Website Image: " +
                         System.IO.Path.GetFileName(filename));
                 }
-
-                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteDescriptionFolder);
+                string websiteDescriptionName = "Description";
+                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteFolder, websiteDescriptionName);
             }
         }
 
         private void SubmitImage_Click(object sender, RoutedEventArgs e)
         {
-            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteImageFolder);
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteFolder);
             if (hasWebsiteImage)
             {
-                ExternalFile.RemoveAllFilesFromFolder(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteImageFolder);
+                ExternalFile.RemoveAllFilesFromFolder(allFolderNames.CustomersFolder + @"\" + allFolderNames.TemporaryFolder + @"\" + allFolderNames.WebsiteFolder);
                 ReplaceWebsiteImage(sender);
             }
             else
@@ -296,7 +296,7 @@ namespace FactoryOrganizerOfficeProgram
                             System.IO.Path.GetFileName(filename));
                     }
 
-                    ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteImageFolder);
+                    ExternalFile.CopyWebsiteImageFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteFolder);
                 }
             }
         }
@@ -323,7 +323,7 @@ namespace FactoryOrganizerOfficeProgram
                         System.IO.Path.GetFileName(filename));
                 }
 
-                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteImageFolder);
+                ExternalFile.CopyFile(openFileDialog, basePathForTemporaryFolder2 + @"\" + allFolderNames.WebsiteFolder);
             }
         }
 
@@ -636,6 +636,5 @@ namespace FactoryOrganizerOfficeProgram
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
             //ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
         }
-
     }
 }

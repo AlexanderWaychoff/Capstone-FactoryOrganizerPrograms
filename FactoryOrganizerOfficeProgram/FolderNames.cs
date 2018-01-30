@@ -17,8 +17,7 @@ namespace FactoryOrganizerOfficeProgram
         string unassignedProductsFolder = "Unassigned Products";
         string temporaryFolder = "Temporary Create Holder";
         string cellsFolder = "Cells";
-        string websiteImageFolder = "Website Image";
-        string websiteDescriptionFolder = "Website Description";
+        string websiteFolder = "Website";
         string printableFileFolder = "Printable File";
         string operationDocumentationFolder = "Operation Documentation";
 
@@ -29,8 +28,7 @@ namespace FactoryOrganizerOfficeProgram
         public string TemporaryFolder { get; set; }
         public string ScrapCodeFolder { get; set; }
         public string CellsFolder { get; set; }
-        public string WebsiteImageFolder { get; set; }
-        public string WebsiteDescriptionFolder { get; set; }
+        public string WebsiteFolder { get; set; }
         public string PrintableFileFolder { get; set; }
         public string OperationDocumentationFolder { get; set; }
 
@@ -43,8 +41,8 @@ namespace FactoryOrganizerOfficeProgram
             TemporaryFolder = temporaryFolder;
             ScrapCodeFolder = scrapCodeFolder;
             CellsFolder = cellsFolder;
-            WebsiteImageFolder = websiteImageFolder;
-            WebsiteDescriptionFolder = websiteDescriptionFolder;
+            WebsiteFolder = websiteFolder;
+            WebsiteFolder = websiteFolder;
             PrintableFileFolder = printableFileFolder;
             OperationDocumentationFolder = operationDocumentationFolder;
         }

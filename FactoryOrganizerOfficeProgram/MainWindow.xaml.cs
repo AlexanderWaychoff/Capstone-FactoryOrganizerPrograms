@@ -21,9 +21,12 @@ namespace FactoryOrganizerOfficeProgram
     public partial class MainWindow : Window
     {
         FolderNames folderNames = new FolderNames();
+        DatabaseControl databaseControl = new DatabaseControl();
         public MainWindow()
         {
             InitializeComponent();
+
+            SubmitToDatabase();
         }
         //MenuSettings_Click
         private void MenuSettings_Click(object sender, RoutedEventArgs e)
@@ -42,6 +45,11 @@ namespace FactoryOrganizerOfficeProgram
             ExternalFile.RemoveAllFilesFromFolder(@".\" + folderNames.CustomersFolder + @"\" + folderNames.TemporaryFolder);
             var createProduct = new CreateProduct();
             createProduct.ShowDialog();
+        }
+
+        private void SubmitToDatabase()
+        {
+            databaseControl.SubmitFolderLocation();
         }
     }
 }
