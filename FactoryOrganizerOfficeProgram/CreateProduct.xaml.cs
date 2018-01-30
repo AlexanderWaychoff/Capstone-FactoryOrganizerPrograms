@@ -614,11 +614,11 @@ namespace FactoryOrganizerOfficeProgram
             }
             File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + customerProducts.Text + ".csv", csv.ToString());
 
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            foreach (ConcatenateString x in BaseInformation)
-            {
-                sb.Append(x + "\n");
-            }
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            //foreach (ConcatenateString x in BaseInformation)
+            //{
+            //    sb.Append(x + "\n");
+            //}
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text);
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);

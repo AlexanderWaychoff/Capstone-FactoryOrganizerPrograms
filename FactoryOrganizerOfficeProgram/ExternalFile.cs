@@ -143,6 +143,20 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
+        public static void CopyFileForWebsite(string websiteImagePath, string baseImageFilePath)
+        {;
+            //string exePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
+            try
+            {
+                System.IO.File.Copy(baseImageFilePath, websiteImagePath);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("This file already exists.  Application may have closed prematurely.  Try again.", "Duplicate File Error");
+            }
+        }
+
         public static void CombineFilesForPrint(StringBuilder sb, string filePath)
         {
             string[] fileNames = Directory.GetFiles(@".\" + filePath, "*.txt");

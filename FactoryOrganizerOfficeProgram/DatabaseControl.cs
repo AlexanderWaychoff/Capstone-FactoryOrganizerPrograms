@@ -18,6 +18,7 @@ namespace FactoryOrganizerOfficeProgram
         public SqlCommandBuilder scb;
         public SqlCommand mySqlCommand;
         DataTable fillerTable;
+        FolderNames folderNames = new FolderNames();
 
 
         string alexConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=aspnet-FactoryOrganizerWebsite-20180119012225;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
@@ -25,7 +26,6 @@ namespace FactoryOrganizerOfficeProgram
         string exePath;
         public DatabaseControl()
         {
-            exePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string path = (System.IO.Path.GetDirectoryName(executable));
@@ -85,7 +85,15 @@ namespace FactoryOrganizerOfficeProgram
 
         public void SubmitFileLocationForProduct(string customerName, string itemNumber, bool isAssignedToCell, string cellNumber = "")
         {
-            string sqlQuery = "INSERT INTO dbo.FilePathToWebsiteInformationForProducts VALUES(@CustomerName, @ItemNumber ,@IsAssignedToCell, @CellNumber);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            exePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            exePath += @"\" + folderNames.CustomersFolder + @"\" + customerName;
+            if (isAssignedToCell == true)
+            {
+                exePath += @"\" + folderNames.CellsFolder + @"\" + cellNumber;
+            }
+            exePath += @"\" + itemNumber + @"\" + folderNames.WebsiteFolder + @"\";
+            //C:\Users\Andross\Desktop\school_projects\C#\FactoryOrganizerOfficeAndFloorPrograms\FactoryOrganizerOfficeProgram\bin\Debug\Customers\Cells\210\4774\Website\
+            string sqlQuery = "INSERT INTO dbo.FilePathToWebsiteInformationForProducts VALUES(@CustomerName, @ItemNumber ,@IsAssignedToCell, @CellNumber, @WholeFilePath);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
             using (SqlConnection openCon = new SqlConnection(connectionUsed))
             {
 
@@ -105,6 +113,11 @@ namespace FactoryOrganizerOfficeProgram
                         {
                             querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar).Value = cellNumber;
                         }
+                        else
+                        {
+                            querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar).Value = "";
+                        }
+                        querySaveStaff.Parameters.Add("@WholeFilePath", SqlDbType.VarChar).Value = exePath;
 
                         querySaveStaff.ExecuteNonQuery();
                     }
