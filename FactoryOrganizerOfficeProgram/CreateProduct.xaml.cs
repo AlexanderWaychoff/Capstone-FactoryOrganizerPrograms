@@ -623,7 +623,7 @@ namespace FactoryOrganizerOfficeProgram
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
             //ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
-            DatabaseControl.SubmitFileLocationForProduct(customerList.Text, customerProducts.Text, false);
+            DatabaseControl.SubmitFileLocationForProduct(customerName, customerProducts.Text, false);
         }
     }
 }

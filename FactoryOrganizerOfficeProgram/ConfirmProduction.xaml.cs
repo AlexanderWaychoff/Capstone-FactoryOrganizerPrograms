@@ -41,18 +41,34 @@ namespace FactoryOrganizerOfficeProgram
 
             foreach(StashConfirmProduction product in productsToConfirm)
             {
-                if(product.CellNumber == null || product.CellNumber == "")
+                if (product.CellNumber == null || product.CellNumber == "")
                 {
-
+                    stashConfirmProduction.Add(product);
                 }
-                stashConfirmProduction.Add(product);
+                else
+                {
+                    product.ButtonVisibility = "Hidden";
+                    stashConfirmProduction.Add(product);
+                }
 
             }
         }
 
         private void ConfirmProduct_Click(object sender, RoutedEventArgs e)
         {
+            StashConfirmProduction removedConfirmation = ((sender as FrameworkElement).DataContext as StashConfirmProduction);
 
+            if (removedConfirmation.ButtonVisibility == "Hidden")
+            {
+                //product is ran in a cell, send to separate database table and delete entry from data table and observable productsToConfirm
+                databaseControl.SubmitCellJob(removedConfirmation);
+
+                MessageBox.Show("Product " + removedConfirmation.ItemNumber + " sent out to cell " + removedConfirmation.CellNumber + " for production. ", "Cell Product sent for Production");
+            }
+            else
+            {
+                //do checks for filled in Report Code
+            }
         }
 
         private void RandomizeCode_Click(object sender, RoutedEventArgs e)

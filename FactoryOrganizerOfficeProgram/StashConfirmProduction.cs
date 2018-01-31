@@ -14,11 +14,11 @@ namespace FactoryOrganizerOfficeProgram
         public string CellNumber { get; set; }
         public int TotalOrder { get; set; }
         public string ReportCode { get; set; }
-        public bool IsButtonVisible { get; set; }
+        public string ButtonVisibility { get; set; }
 
         public StashConfirmProduction()
         {
-            IsButtonVisible = true;
+            ButtonVisibility = "Visible";
         }
     }
 }

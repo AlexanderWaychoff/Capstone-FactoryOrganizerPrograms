@@ -51,9 +51,9 @@
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="40"/>
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="110"/>
@@ -87,26 +87,26 @@
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="50"/>
-                                            <ColumnDefinition Width="90"/>
+                                            <ColumnDefinition Width="110"/>
                                             <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="60"/>
+                                            <ColumnDefinition Width="40"/>
                                             <ColumnDefinition Width="60"/>
                                             <ColumnDefinition Width="110"/>
                                             <ColumnDefinition Width="110"/>
                                             <ColumnDefinition Width="120"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="18"/>
+                                            <RowDefinition Height="22"/>
                                         </Grid.RowDefinitions> 
-                                        <Button Name="ConfirmProduct" Grid.Row="0" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Click="ConfirmProduct_Click">Confirm</Button>
+                                        <Button Name="ConfirmProduct" Grid.Row="0" Grid.Column="0" Style="{StaticResource DodgerBlueButton}" Height="18" Click="ConfirmProduct_Click" HorizontalAlignment="Center">Confirm</Button>
                                         <!--Change to TextBlock, make text bind to information; move Textblocks above to above the white box as columns -->
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Customer}"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="2"  Text="{Binding ItemNumber}"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CellNumber}"/>
-                                        <TextBlock Name="TotalAmount" Grid.Row="0" Grid.Column="4" Text="{Binding TotalOrder}"/>
-                                        <TextBox Name="ReportCode" Grid.Row="0" Grid.Column="5" Text="{Binding ReportCode}"/>
-                                        <Button Name="RandomizeCode" Visibility="{Binding IsButtonVisible}" Grid.Row="0" Grid.Column="6" Style="{StaticResource CyanButton}" Click="RandomizeCode_Click">Randomize Code</Button>
-                                        <Button Name="CheckFloorStatus" Grid.Row="0" Grid.Column="7" Style="{StaticResource GreenButton}" Click="CheckFloorStatus_Click">Floor Status</Button>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Customer}" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="2"  Text="{Binding ItemNumber}" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CellNumber}" HorizontalAlignment="Center"/>
+                                        <TextBlock Name="TotalAmount" Grid.Row="0" Grid.Column="4" Text="{Binding TotalOrder}" HorizontalAlignment="Center"/>
+                                        <TextBox Name="ReportCode" Grid.Row="0" Grid.Column="5" Visibility="{Binding ButtonVisibility}" Text="{Binding ReportCode}"/>
+                                        <Button Name="RandomizeCode" Grid.Row="0" Grid.Column="6" Visibility="{Binding ButtonVisibility}" Style="{StaticResource CyanButton}" Width="100" Height="18" Click="RandomizeCode_Click" HorizontalAlignment="Center">Randomize Code</Button>
+                                        <Button Name="CheckFloorStatus" Grid.Row="0" Grid.Column="7" Style="{StaticResource GreenButton}" Width="80" Height="18" Click="CheckFloorStatus_Click" HorizontalAlignment="Center">Floor Status</Button>
                                     </Grid>
                                 </StackPanel>
 

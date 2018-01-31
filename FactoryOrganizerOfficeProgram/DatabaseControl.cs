@@ -21,7 +21,8 @@ namespace FactoryOrganizerOfficeProgram
         FolderNames folderNames = new FolderNames();
 
 
-        string alexConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=aspnet-FactoryOrganizerWebsite-20180119012225;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        string websiteConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=aspnet-FactoryOrganizerWebsite-20180119012225;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        string factoryConnection = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=GenericFactory;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         string connectionUsed;
         string exePath;
         public DatabaseControl()
@@ -33,10 +34,10 @@ namespace FactoryOrganizerOfficeProgram
 
             try
             {
-                conn = new SqlConnection(alexConnection);
+                conn = new SqlConnection(websiteConnection);
                 conn.Open();
                 conn.Close();
-                connectionUsed = alexConnection;
+                connectionUsed = websiteConnection;
             }
             catch
             {
@@ -175,6 +176,44 @@ namespace FactoryOrganizerOfficeProgram
             return confirmProductionList;
         }
 
+        public void SubmitCellJob(StashConfirmProduction job)
+        {
+            string sqlQuery = "INSERT INTO dbo.Cells VALUES(@Customer, @CellNumber, @ItemNumber, @TotalPieces, @ReportedPieces, @EmployeesInCell);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            using (SqlConnection openCon = new SqlConnection(factoryConnection))
+            {
+
+                using (SqlCommand querySaveStaff = new SqlCommand(sqlQuery))
+                {
+                    //office program, file path to files
+                    try
+                    {
+                        //
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+                        querySaveStaff.Parameters.Add("@FilePathToProgramID", SqlDbType.Int, 50).Value = 1;
+                        querySaveStaff.Parameters.Add("@Customer", SqlDbType.VarChar, 50).Value = job.Customer;
+                        querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar, 50).Value = job.CellNumber;
+                        querySaveStaff.Parameters.Add("@ItemNumber", SqlDbType.VarChar, 50).Value = job.ItemNumber;
+                        querySaveStaff.Parameters.Add("@TotalPieces", SqlDbType.Int).Value = job.TotalOrder;
+                        querySaveStaff.Parameters.Add("@ReportedPieces", SqlDbType.Int).Value = 0;
+                        querySaveStaff.Parameters.Add("@EmployeesInCell", SqlDbType.VarChar, 50).Value = "";
+
+                        querySaveStaff.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+        }
 
     }
 }
