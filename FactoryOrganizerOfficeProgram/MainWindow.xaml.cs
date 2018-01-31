@@ -54,7 +54,8 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ConfirmProduction_Click(object sender, RoutedEventArgs e)
         {
-
+            var confirmProduction = new ConfirmProduction(databaseControl);
+            confirmProduction.ShowDialog();
         }
     }
 }

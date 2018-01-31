@@ -70,6 +70,9 @@
       <DependentUpon>CellManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConcatenateString.cs" />
+    <Compile Include="ConfirmProduction.xaml.cs">
+      <DependentUpon>ConfirmProduction.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CreateProduct.xaml.cs">
       <DependentUpon>CreateProduct.xaml</DependentUpon>
     </Compile>
@@ -103,6 +106,10 @@
       <DependentUpon>SubmitBaseInformation.xaml</DependentUpon>
     </Compile>
     <Page Include="CellManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfirmProduction.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

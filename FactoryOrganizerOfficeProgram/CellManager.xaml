@@ -103,13 +103,7 @@
             </Grid>
         </Grid>
 
-        <Border 
-            BorderBrush="Black"
-            BorderThickness="1"
-            Background="White"
-            Grid.Column="1"
-            Grid.Row="2"
-        >
+        <Border Grid.Column="1" Grid.Row="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="2" Background="White">
 
                 <StackPanel>
