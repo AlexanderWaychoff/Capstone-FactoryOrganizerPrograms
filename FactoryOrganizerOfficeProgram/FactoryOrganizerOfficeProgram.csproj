@@ -102,6 +102,7 @@
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="SQLConnection.cs" />
+    <Compile Include="StashConfirmProduction.cs" />
     <Compile Include="SubmitBaseInformation.xaml.cs">
       <DependentUpon>SubmitBaseInformation.xaml</DependentUpon>
     </Compile>

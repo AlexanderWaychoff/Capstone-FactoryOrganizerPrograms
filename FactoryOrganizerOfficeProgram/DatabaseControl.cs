@@ -135,5 +135,46 @@ namespace FactoryOrganizerOfficeProgram
                 }
             }
         }
+
+        public List<StashConfirmProduction> RetrieveProductsToConfirm()
+        {
+            List<StashConfirmProduction> confirmProductionList = new List<StashConfirmProduction>();
+            try
+            {
+                SqlConnection mySqlConnection = new SqlConnection(connectionUsed);
+                mySqlCommand = new SqlCommand("SELECT * FROM dbo.ProductAwaitingConfirmations ORDER BY CustomerName DESC", mySqlConnection); //put table name to search from, specify search
+                mySqlConnection.Open();
+                myDataReader = mySqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (myDataReader.Read())
+                {
+                    StashConfirmProduction confirmProduction = new StashConfirmProduction();
+                    confirmProduction.Customer = myDataReader.GetString(1);
+                    confirmProduction.ItemNumber = myDataReader.GetString(2);
+                    confirmProduction.TotalOrder = myDataReader.GetInt32(3);
+                    if (myDataReader.IsDBNull(4))
+                    {
+                        confirmProduction.CellNumber = null;
+                    }
+                    else
+                    {
+                        confirmProduction.CellNumber = myDataReader.GetString(4);
+                    }
+
+                    confirmProductionList.Add(confirmProduction);
+                }
+                myDataReader.Close();
+                conn.Close();
+
+                return confirmProductionList;
+            }
+            catch
+            {
+
+            }
+            return confirmProductionList;
+        }
+
+
     }
 }
