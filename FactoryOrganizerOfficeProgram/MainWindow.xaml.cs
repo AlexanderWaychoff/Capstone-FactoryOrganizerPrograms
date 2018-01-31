@@ -51,5 +51,10 @@ namespace FactoryOrganizerOfficeProgram
         {
             databaseControl.SubmitProgramFolderLocation();
         }
+
+        private void ConfirmProduction_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

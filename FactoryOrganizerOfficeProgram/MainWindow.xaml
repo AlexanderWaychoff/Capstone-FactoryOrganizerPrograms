@@ -6,13 +6,11 @@
         xmlns:local="clr-namespace:FactoryOrganizerOfficeProgram"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
-    <Grid Background="LemonChiffon">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+    <Grid Background="Moccasin">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="550"/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
@@ -22,10 +20,48 @@
                     <MenuItem Header="_Exit" Click="MenuExit_Click"/>
                 </MenuItem>
             </Menu>
-            <TextBox AcceptsReturn="True" Name="txtEditor" />
         </DockPanel>
-        <Button Name="CreateProduct" Grid.Row="1" Width="150" Height="100" Content="Create Product" Click="CreateProduct_Click"/>
-
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="940"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Button Name="CreateProduct" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="0" Width="150" Height="100" Click="CreateProduct_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text=" Create Product" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Name="EditProduct" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="1" Width="150" Height="100">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="   Edit   Product" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Name="ConfirmProduction" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="2" Width="150" Height="100" Click="ConfirmProduction_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="  Confirm Production"/>
+                </Button>
+                <Button Name="CustomerComplaints" Style="{StaticResource CyanButton}" Grid.Row="1" Grid.Column="0" Width="150" Height="100">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="  Manage Complaints"/>
+                </Button>
+                <Button Name="EmployeeAnalytics" Style="{StaticResource CyanButton}" Grid.Row="1" Grid.Column="1" Width="150" Height="100">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="Employee Analytics"/>
+                </Button>
+                <Button Name="CustomWorkOrder" Style="{StaticResource CyanButton}" Grid.Row="1" Grid.Column="2" Width="150" Height="100">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="   Custom Work Order"/>
+                </Button>
+            </Grid>
+        </Grid>
 
 
 
