@@ -22,6 +22,7 @@ namespace FactoryOrganizerOfficeProgram
     {
         FolderNames folderNames = new FolderNames();
         DatabaseControl databaseControl = new DatabaseControl();
+        CsvReader csvReader = new CsvReader();
         public MainWindow()
         {
             InitializeComponent();
@@ -54,7 +55,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ConfirmProduction_Click(object sender, RoutedEventArgs e)
         {
-            var confirmProduction = new ConfirmProduction(databaseControl);
+            var confirmProduction = new ConfirmProduction(databaseControl, csvReader, folderNames);
             confirmProduction.ShowDialog();
         }
     }

@@ -150,6 +150,7 @@ namespace FactoryOrganizerOfficeProgram
                 while (myDataReader.Read())
                 {
                     StashConfirmProduction confirmProduction = new StashConfirmProduction();
+                    confirmProduction.ProductAwaitingConfirmationID = myDataReader.GetInt32(0);
                     confirmProduction.Customer = myDataReader.GetString(1);
                     confirmProduction.ItemNumber = myDataReader.GetString(2);
                     confirmProduction.TotalOrder = myDataReader.GetInt32(3);
@@ -178,7 +179,7 @@ namespace FactoryOrganizerOfficeProgram
 
         public void SubmitCellJob(StashConfirmProduction job)
         {
-            string sqlQuery = "INSERT INTO dbo.Cells VALUES(@Customer, @CellNumber, @ItemNumber, @TotalPieces, @ReportedPieces, @EmployeesInCell);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            string sqlQuery = "INSERT INTO dbo.CellProducts VALUES(@Customer, @CellNumber, @ItemNumber, @TotalPieces, @ReportedPieces, @EmployeesInCell, @TimeOfReporting);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
             using (SqlConnection openCon = new SqlConnection(factoryConnection))
             {
 
@@ -190,15 +191,115 @@ namespace FactoryOrganizerOfficeProgram
                         //
                         openCon.Open();
                         querySaveStaff.Connection = openCon;
-                        querySaveStaff.Parameters.Add("@FilePathToProgramID", SqlDbType.Int, 50).Value = 1;
                         querySaveStaff.Parameters.Add("@Customer", SqlDbType.VarChar, 50).Value = job.Customer;
                         querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar, 50).Value = job.CellNumber;
                         querySaveStaff.Parameters.Add("@ItemNumber", SqlDbType.VarChar, 50).Value = job.ItemNumber;
                         querySaveStaff.Parameters.Add("@TotalPieces", SqlDbType.Int).Value = job.TotalOrder;
                         querySaveStaff.Parameters.Add("@ReportedPieces", SqlDbType.Int).Value = 0;
-                        querySaveStaff.Parameters.Add("@EmployeesInCell", SqlDbType.VarChar, 50).Value = "";
+                        querySaveStaff.Parameters.Add("@EmployeesInCell", SqlDbType.VarChar, 50).Value = null;
+                        querySaveStaff.Parameters.Add("@TimeOfReporting", SqlDbType.DateTime).Value = job.TimeOfReporting;
 
                         querySaveStaff.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void SubmitUnassignedJob(StashConfirmProduction job)
+        {
+            string sqlQuery = "INSERT INTO dbo.JobProductions VALUES(@Customer, @ReportCode, @ItemNumber, @TotalPieces, @ReportedPieces, @Operation, @RequiredOperation, @TimeOfReporting);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            using (SqlConnection openCon = new SqlConnection(factoryConnection))
+            {
+
+                using (SqlCommand querySaveStaff = new SqlCommand(sqlQuery))
+                {
+                    //office program, file path to files
+                    try
+                    {
+                        //
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+                        querySaveStaff.Parameters.Add("@Customer", SqlDbType.VarChar, 50).Value = job.Customer;
+                        querySaveStaff.Parameters.Add("@ReportCode", SqlDbType.VarChar, 50).Value = job.ReportCode;
+                        querySaveStaff.Parameters.Add("@ItemNumber", SqlDbType.VarChar, 50).Value = job.ItemNumber;
+                        querySaveStaff.Parameters.Add("@TotalPieces", SqlDbType.Int).Value = job.TotalOrder;
+                        querySaveStaff.Parameters.Add("@ReportedPieces", SqlDbType.Int).Value = 0;
+                        querySaveStaff.Parameters.Add("@Operation", SqlDbType.Int).Value = job.Operation;
+                        querySaveStaff.Parameters.Add("@RequiredOperation", SqlDbType.VarChar, 50).Value = job.RequiredOperations;
+                        querySaveStaff.Parameters.Add("@TimeOfReporting", SqlDbType.DateTime).Value = job.TimeOfReporting;
+
+                        querySaveStaff.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ChangeSingleValue<T>(string tableName, string columnValueToChange, T valueToInsert, string columnToVerifyWith, T verifyColumnValue)
+        {
+            string queryToLaunch = "UPDATE dbo." + tableName + " SET " + columnValueToChange + " = " + valueToInsert + " WHERE " + columnToVerifyWith + " = " + verifyColumnValue + ";";
+            using (SqlConnection openCon = new SqlConnection(factoryConnection))
+            {
+                using (SqlCommand querySaveStaff = new SqlCommand(queryToLaunch))
+                {
+                    try
+                    {
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+
+                        querySaveStaff.ExecuteNonQuery();
+                        openCon.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+        }
+
+        public void DeleteDefinedRow<T>(string tableName, string columnToVerifyWith, T verifyColumnValue)
+        {
+            string queryToLaunch = "DELETE dbo." + tableName + " WHERE " + columnToVerifyWith + " = " + verifyColumnValue + ";";
+            using (SqlConnection openCon = new SqlConnection(connectionUsed))
+            {
+                using (SqlCommand querySaveStaff = new SqlCommand(queryToLaunch))
+                {
+                    try
+                    {
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+
+                        querySaveStaff.ExecuteNonQuery();
+                        openCon.Close();
                     }
                     catch (Exception e)
                     {

@@ -614,15 +614,32 @@ namespace FactoryOrganizerOfficeProgram
             }
             File.WriteAllText(allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + customerProducts.Text + ".csv", csv.ToString());
 
-            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            //foreach (ConcatenateString x in BaseInformation)
-            //{
-            //    sb.Append(x + "\n");
-            //}
+            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            foreach (ConcatenateString x in BaseInformation)
+            {
+                sb.Append(x.JoinedString + "\n");
+            }
+            string requiredOperation;
+            sb.Append("\n          ////////////////////////////////////////////");
+            for (int i = 0; i < ProductOperations.Count; i++)
+            {
+                if(ProductOperations[i].RequiredToReport)
+                {
+                    requiredOperation = "   **Required to report**   //\n";
+                }
+                else
+                {
+                    requiredOperation = "                            //\n";
+                }
+                sb.Append("          //   " + ProductOperations[i].Operation + ": " + ProductOperations[i].Description + requiredOperation);
+            }
+            sb.Append("\n          ////////////////////////////////////////////");
+
+
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text);
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
-            //ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
+            ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
             DatabaseControl.SubmitFileLocationForProduct(customerName, customerProducts.Text, false);
         }
     }

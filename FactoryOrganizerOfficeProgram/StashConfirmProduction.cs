@@ -15,6 +15,10 @@ namespace FactoryOrganizerOfficeProgram
         public int TotalOrder { get; set; }
         public string ReportCode { get; set; }
         public string ButtonVisibility { get; set; }
+        public int ProductAwaitingConfirmationID { get; set; }
+        public int Operation { get; set; }
+        public string RequiredOperations { get; set; }
+        public DateTime TimeOfReporting { get; set; }
 
         public StashConfirmProduction()
         {

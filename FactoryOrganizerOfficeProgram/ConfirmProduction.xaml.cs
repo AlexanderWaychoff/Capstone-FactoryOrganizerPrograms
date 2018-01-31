@@ -22,12 +22,17 @@ namespace FactoryOrganizerOfficeProgram
     {
         public ObservableCollection<StashConfirmProduction> stashConfirmProduction;
 
+        DateTime today;
         DatabaseControl databaseControl;
-        public ConfirmProduction(DatabaseControl databaseController)
+        CsvReader csvReader;
+        FolderNames folderNames;
+        public ConfirmProduction(DatabaseControl databaseController, CsvReader csvRead, FolderNames allFolders)
         {
             InitializeComponent();
 
             databaseControl = databaseController;
+            csvReader = csvRead;
+            folderNames = allFolders;
 
             confirmProductionList.ItemsSource = stashConfirmProduction = new ObservableCollection<StashConfirmProduction>();
 
@@ -41,6 +46,7 @@ namespace FactoryOrganizerOfficeProgram
 
             foreach(StashConfirmProduction product in productsToConfirm)
             {
+                
                 if (product.CellNumber == null || product.CellNumber == "")
                 {
                     stashConfirmProduction.Add(product);
@@ -60,14 +66,52 @@ namespace FactoryOrganizerOfficeProgram
 
             if (removedConfirmation.ButtonVisibility == "Hidden")
             {
-                //product is ran in a cell, send to separate database table and delete entry from data table and observable productsToConfirm
+                //yes/no confirm user wants to send to production
                 databaseControl.SubmitCellJob(removedConfirmation);
+                databaseControl.DeleteDefinedRow("ProductAwaitingConfirmations", "ProductAwaitingConfirmationID", removedConfirmation.ProductAwaitingConfirmationID);
 
-                MessageBox.Show("Product " + removedConfirmation.ItemNumber + " sent out to cell " + removedConfirmation.CellNumber + " for production. ", "Cell Product sent for Production");
+                stashConfirmProduction.Remove((sender as FrameworkElement).DataContext as StashConfirmProduction);
+
+                MessageBox.Show("Product " + removedConfirmation.ItemNumber + " sent out to cell " + removedConfirmation.CellNumber + " for production. ", "Cell Job sent for Production");
             }
             else
             {
-                //do checks for filled in Report Code
+                if(removedConfirmation.ReportCode == "" || removedConfirmation.ReportCode == null)
+                {
+                    MessageBox.Show("Report code cannot be empty on a job that doesn't go to a cell.  This is required for employees to enter pieces they have done.", "Report Code empty");
+                }
+                else
+                {
+                    string folderPath = folderNames.CustomersFolder + @"\" + removedConfirmation.Customer + @"\" + removedConfirmation.ItemNumber;
+                    List<string> requiredOperations = csvReader.LoadRequiredOperationsCSV(folderPath, removedConfirmation.ItemNumber);
+                    string firstRequiredOperation;
+                    string allRequiredOperations = String.Join(",", requiredOperations);
+
+                    try
+                    {
+                        firstRequiredOperation = requiredOperations[0];
+
+                        today =  DateTime.Now;
+
+                        removedConfirmation.Operation = Convert.ToInt32(firstRequiredOperation);
+                        removedConfirmation.RequiredOperations = allRequiredOperations;
+                        removedConfirmation.TimeOfReporting = today;
+                        databaseControl.SubmitUnassignedJob(removedConfirmation);
+                        databaseControl.DeleteDefinedRow("ProductAwaitingConfirmations", "ProductAwaitingConfirmationID", removedConfirmation.ProductAwaitingConfirmationID);
+
+                        stashConfirmProduction.Remove((sender as FrameworkElement).DataContext as StashConfirmProduction);
+
+                        MessageBox.Show("Product " + removedConfirmation.ItemNumber + " sent out for production.  Printable document is now available until entire job is completed.", "Job sent for Production");
+                    }
+                    catch
+                    {
+                        MessageBox.Show("The job you're trying to confirm doesn't have any required operations when it needs at least one.  Edit the operations for " + removedConfirmation.ItemNumber + ".", "No Required Operations");
+                    }
+
+                    
+                    //yes/no confirm user wants to send to production
+                    //make database entries
+                }
             }
         }
 
