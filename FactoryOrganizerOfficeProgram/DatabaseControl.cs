@@ -177,6 +177,40 @@ namespace FactoryOrganizerOfficeProgram
             return confirmProductionList;
         }
 
+        public List<StashConfirmProduction> RetrieveProductsForPrint()
+        {
+            List<StashConfirmProduction> printList = new List<StashConfirmProduction>();
+            try
+            {
+                SqlConnection mySqlConnection = new SqlConnection(factoryConnection);
+                mySqlCommand = new SqlCommand("SELECT * FROM dbo.JobProductions ORDER BY Customer DESC", mySqlConnection); //put table name to search from, specify search
+                mySqlConnection.Open();
+                myDataReader = mySqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (myDataReader.Read())
+                {
+                    StashConfirmProduction confirmProduction = new StashConfirmProduction();
+                    confirmProduction.ProductAwaitingConfirmationID = myDataReader.GetInt32(0);
+                    confirmProduction.Customer = myDataReader.GetString(1);
+                    confirmProduction.ReportCode = myDataReader.GetString(2);
+                    confirmProduction.ItemNumber = myDataReader.GetString(3);
+                    confirmProduction.TotalOrder = myDataReader.GetInt32(4);
+                    confirmProduction.CellNumber = "-";
+
+                    printList.Add(confirmProduction);
+                }
+                myDataReader.Close();
+                conn.Close();
+
+                return printList;
+            }
+            catch
+            {
+
+            }
+            return printList;
+        }
+
         public void SubmitCellJob(StashConfirmProduction job)
         {
             string sqlQuery = "INSERT INTO dbo.CellProducts VALUES(@Customer, @CellNumber, @ItemNumber, @TotalPieces, @ReportedPieces, @EmployeesInCell, @TimeOfReporting);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms

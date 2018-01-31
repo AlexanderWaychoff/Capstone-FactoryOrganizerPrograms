@@ -157,9 +157,9 @@ namespace FactoryOrganizerOfficeProgram
             }
         }
 
-        public static void CombineFilesForPrint(StringBuilder sb, string filePath)
+        public static void CombineFilesForPrint(StringBuilder sb, string printFilePath, string operationDescriptionFilePath)
         {
-            string[] fileNames = Directory.GetFiles(@".\" + filePath, "*.txt");
+            string[] fileNames = Directory.GetFiles(@".\" + operationDescriptionFilePath, "*.txt");
 
             string fileTitle;
 
@@ -169,21 +169,47 @@ namespace FactoryOrganizerOfficeProgram
             {
                 fileTitle = Path.GetFileNameWithoutExtension(fileNames[nCount]);
 
-                sb.Append("\n\n**" + fileTitle + "**\n\n");
+                sb.Append("\n\n\n**" + fileTitle + "**\n\n\n\n");
 
                 sb.Append(System.IO.File.ReadAllText(fileNames[nCount]));
             }
 
             string output = sb.ToString();
 
-            string outputFilePath = @".\" + filePath + @"\" + "Print.rtf";
+            string outputFilePath = @".\" + printFilePath + @"\" + "Print.rtf";
+            System.IO.File.WriteAllText(outputFilePath, output);
+        }
+
+        public static void OpenFileForPrint(string printFilePath, StashConfirmProduction fileToPrint)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("Production information for Job: " + fileToPrint.ReportCode + "\n\n");
+            sb.Append("Pieces to report: " + fileToPrint.TotalOrder + "\n\n\n\n\n");
+
+            string[] fileNames = Directory.GetFiles(@".\" + printFilePath, "Print.rtf");
+
+            string fileTitle;
+
+            //System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+            for (int nCount = 0; nCount < fileNames.Count(); nCount++)
+            {
+                fileTitle = Path.GetFileNameWithoutExtension(fileNames[nCount]);
+
+                sb.Append(System.IO.File.ReadAllText(fileNames[nCount]));
+            }
+
+            string output = sb.ToString();
+
+            string outputFilePath = @".\" + printFilePath + @"\" + "Print2.rtf";
             System.IO.File.WriteAllText(outputFilePath, output);
 
             Process proc = new Process();
-            proc.StartInfo = new ProcessStartInfo(@".\" + filePath + @"\" + "Print.rtf");
+            proc.StartInfo = new ProcessStartInfo(@".\" + printFilePath + @"\" + "Print2.rtf");
             proc.Start();
-        }    
-        
+        }
+
         public static void MoveFilesAndFoldersFromTemporary(string STABLE_FOLDER, string UPDATE_FOLDER)
         {
             // This can be handled any way you want, I prefer constants

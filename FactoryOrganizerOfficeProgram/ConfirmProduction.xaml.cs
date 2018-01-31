@@ -127,12 +127,13 @@ namespace FactoryOrganizerOfficeProgram
 
         private void Print_Click(object sender, RoutedEventArgs e)
         {
-
+            var printProductRequirements = new PrintProductRequirement(databaseControl, csvReader, folderNames);
+            printProductRequirements.ShowDialog();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
     }
 }

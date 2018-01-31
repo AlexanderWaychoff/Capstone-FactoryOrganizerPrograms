@@ -620,26 +620,33 @@ namespace FactoryOrganizerOfficeProgram
                 sb.Append(x.JoinedString + "\n");
             }
             string requiredOperation;
-            sb.Append("\n          ////////////////////////////////////////////");
+            sb.Append("\n      //////////////////////////////////////////////////\n");
             for (int i = 0; i < ProductOperations.Count; i++)
             {
                 if(ProductOperations[i].RequiredToReport)
                 {
-                    requiredOperation = "   **Required to report**   //\n";
+                    requiredOperation = "   **Required to report**   \n";
                 }
                 else
                 {
-                    requiredOperation = "                            //\n";
+                    requiredOperation = "                            \n";
                 }
-                sb.Append("          //   " + ProductOperations[i].Operation + ": " + ProductOperations[i].Description + requiredOperation);
+                sb.Append("               " + ProductOperations[i].Operation + ": " + ProductOperations[i].Description + requiredOperation);
             }
-            sb.Append("\n          ////////////////////////////////////////////");
+            sb.Append("\n      //////////////////////////////////////////////////");
 
 
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text);
 
             ExternalFile.RemoveAllFoldersAndFilesInDirectory(basePathForTemporaryFolder);
-            ExternalFile.CombineFilesForPrint(sb, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder);
+
+            ExternalFile.CheckForDirectory(allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.PrintableFileFolder);
+
+            string printFilePath = allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.PrintableFileFolder;
+            string descriptionFilePath = allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text + @"\" + allFolderNames.OperationDocumentationFolder;
+
+            ExternalFile.CombineFilesForPrint(sb, printFilePath, descriptionFilePath);
+
             DatabaseControl.SubmitFileLocationForProduct(customerName, customerProducts.Text, false);
         }
     }
