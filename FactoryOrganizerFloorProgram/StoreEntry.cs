@@ -55,6 +55,9 @@ namespace FactoryOrganizerFloorProgram
         public int Operation { get; set; }
         public string RequiredOperations { get; set; }
         public bool IsCellActive { get; set; }
+        public int ScrapAmount { get; set; }
+        public string ScrapReason { get; set; }
+        public int AmountCompleted { get; set; }
         public DateTime TimeOfReporting { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;

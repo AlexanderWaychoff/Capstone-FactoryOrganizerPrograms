@@ -65,12 +65,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseControl.cs" />
+    <Compile Include="EndCellRun.xaml.cs">
+      <DependentUpon>EndCellRun.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderNames.cs" />
     <Compile Include="JoinCell.xaml.cs">
       <DependentUpon>JoinCell.xaml</DependentUpon>
     </Compile>
     <Compile Include="JoinLeaveCell.xaml.cs">
       <DependentUpon>JoinLeaveCell.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveCell.xaml.cs">
+      <DependentUpon>LeaveCell.xaml</DependentUpon>
     </Compile>
     <Compile Include="StoreEntry.cs" />
     <Compile Include="Settings.xaml.cs">
@@ -83,11 +89,19 @@
     <Compile Include="ValidationPrompt.xaml.cs">
       <DependentUpon>ValidationPrompt.xaml</DependentUpon>
     </Compile>
+    <Page Include="EndCellRun.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JoinCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="JoinLeaveCell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LeaveCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

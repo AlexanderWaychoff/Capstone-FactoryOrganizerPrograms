@@ -33,7 +33,8 @@ namespace FactoryOrganizerFloorProgram
 
         private void EndCellRun_Click(object sender, RoutedEventArgs e)
         {
-
+            EndCellRun endCellRun = new EndCellRun();
+            endCellRun.ShowDialog();
         }
 
         private void JoinLeaveCell_Click(object sender, RoutedEventArgs e)

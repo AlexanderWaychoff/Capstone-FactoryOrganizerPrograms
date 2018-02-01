@@ -211,6 +211,35 @@ namespace FactoryOrganizerFloorProgram
             return printList;
         }
 
+        public List<StoreEntry> RetrieveScrapCodes()
+        {
+            List<StoreEntry> printList = new List<StoreEntry>();
+            try
+            {
+                SqlConnection mySqlConnection = new SqlConnection(factoryConnection);
+                mySqlCommand = new SqlCommand("SELECT * FROM dbo.ScrapCodes", mySqlConnection); //put table name to search from, specify search
+                mySqlConnection.Open();
+                myDataReader = mySqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                while (myDataReader.Read())
+                {
+                    StoreEntry confirmProduction = new StoreEntry();
+                    confirmProduction.ScrapReason = myDataReader.GetString(1);
+
+                    printList.Add(confirmProduction);
+                }
+                myDataReader.Close();
+                conn.Close();
+
+                return printList;
+            }
+            catch
+            {
+
+            }
+            return printList;
+        }
+
         public void SubmitCell(StoreEntry job)
         {
             string sqlQuery = "INSERT INTO dbo.AllCells VALUES(@CellNumber, @EmployeesInCell, @IsCellActive, @CellStartTime);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
@@ -286,9 +315,9 @@ namespace FactoryOrganizerFloorProgram
             }
         }
 
-        public void SubmitUnassignedJob(StoreEntry job)
+        public void SubmitCellEntry(StoreEntry job)
         {
-            string sqlQuery = "INSERT INTO dbo.JobProductions VALUES(@Customer, @ReportCode, @ItemNumber, @TotalPieces, @ReportedPieces, @Operation, @RequiredOperation, @TimeOfReporting);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            string sqlQuery = "INSERT INTO dbo.CellEntries VALUES(@CellNumber, @EmployeesInCell, @ItemNumber, @AmountReported, @ScrapAmount, @ScrapReason, @TimeOfCompletion);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
             using (SqlConnection openCon = new SqlConnection(factoryConnection))
             {
 
@@ -300,14 +329,13 @@ namespace FactoryOrganizerFloorProgram
                         //
                         openCon.Open();
                         querySaveStaff.Connection = openCon;
-                        querySaveStaff.Parameters.Add("@Customer", SqlDbType.VarChar, 50).Value = job.Customer;
-                        querySaveStaff.Parameters.Add("@ReportCode", SqlDbType.VarChar, 50).Value = job.ReportCode;
+                        querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar, 50).Value = job.CellNumber;
+                        querySaveStaff.Parameters.Add("@EmployeesInCell", SqlDbType.VarChar, 100).Value = job.AllEmployeesInCell;
                         querySaveStaff.Parameters.Add("@ItemNumber", SqlDbType.VarChar, 50).Value = job.ItemNumber;
-                        querySaveStaff.Parameters.Add("@TotalPieces", SqlDbType.Int).Value = job.TotalOrder;
-                        querySaveStaff.Parameters.Add("@ReportedPieces", SqlDbType.Int).Value = 0;
-                        querySaveStaff.Parameters.Add("@Operation", SqlDbType.Int).Value = job.Operation;
-                        querySaveStaff.Parameters.Add("@RequiredOperation", SqlDbType.VarChar, 50).Value = job.RequiredOperations;
-                        querySaveStaff.Parameters.Add("@TimeOfReporting", SqlDbType.DateTime).Value = job.TimeOfReporting;
+                        querySaveStaff.Parameters.Add("@AmountReported", SqlDbType.Int).Value = job.AmountCompleted;
+                        querySaveStaff.Parameters.Add("@ScrapAmount", SqlDbType.Int).Value = job.ScrapAmount;
+                        querySaveStaff.Parameters.Add("@ScrapReason", SqlDbType.VarChar, 50).Value = job.ScrapReason;
+                        querySaveStaff.Parameters.Add("@TimeOfCompletion", SqlDbType.DateTime).Value = job.TimeOfReporting;
 
                         querySaveStaff.ExecuteNonQuery();
                     }
@@ -379,7 +407,15 @@ namespace FactoryOrganizerFloorProgram
                         {
                             cellCheck.AllEmployeesInCell = myDataReader.GetString(2);
                         }
-                        cellCheck.IsCellActive = myDataReader.GetBoolean(3);
+                        try
+                        {
+                            cellCheck.IsCellActive = myDataReader.GetBoolean(3);
+                        }
+                        catch
+                        {
+                            cellCheck.ItemNumber = myDataReader.GetString(3);
+                            cellCheck.TotalOrder = myDataReader.GetInt32(4);
+                        }
                         //cellCheck.TimeOfReporting = myDataReader.GetDateTime(4);
                     }
                     myDataReader.Close();
@@ -398,7 +434,44 @@ namespace FactoryOrganizerFloorProgram
                 }
             }
             return cellCheck;
+        }
 
+        public StoreEntry CheckSingleRowForCellRun<T>(StoreEntry cellCheck, string tableName, string columnToVerifyWith, T verifyColumnValue)
+        {
+            string queryToLaunch = "SELECT * FROM dbo." + tableName + " WHERE " + columnToVerifyWith + " = " + verifyColumnValue + ";";
+            using (SqlConnection openCon = new SqlConnection(factoryConnection))
+            {
+                try
+                {
+                    mySqlCommand = new SqlCommand(queryToLaunch, openCon); //put table name to search from, specify search
+                    openCon.Open();
+                    myDataReader = mySqlCommand.ExecuteReader(CommandBehavior.CloseConnection);
+
+                    while (myDataReader.Read())
+                    {
+                        cellCheck.Customer = myDataReader.GetString(1);
+                        
+                        cellCheck.ItemNumber = myDataReader.GetString(3);
+                        cellCheck.TotalOrder = myDataReader.GetInt32(4);
+                        
+                        //cellCheck.TimeOfReporting = myDataReader.GetDateTime(4);
+                    }
+                    myDataReader.Close();
+                    openCon.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred: '{0}'", e);
+                }
+                finally
+                {
+                    if (openCon.State == System.Data.ConnectionState.Open)
+                    {
+                        openCon.Close();
+                    }
+                }
+            }
+            return cellCheck;
         }
 
         public void DeleteDefinedRow<T>(string tableName, string columnToVerifyWith, T verifyColumnValue)

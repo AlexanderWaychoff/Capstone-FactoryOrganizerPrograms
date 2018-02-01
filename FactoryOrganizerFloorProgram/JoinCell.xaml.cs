@@ -73,7 +73,7 @@ namespace FactoryOrganizerFloorProgram
                     {
                         string leadEmployee = allEmployees[0];
 
-                        if (MessageBox.Show("Cell " + CellNumber.Text + " will now have workers: \n" + "Lead Employee: " + leadEmployee + "\n\n Helper Employee(s): " + string.Join(", ", allEmployees.Where(x => x != leadEmployee)) + ", " + EmployeeNumber.Text + ".  \n\nProceed?", "Cell Worker Update for " + CellNumber.Text, MessageBoxButton.YesNo) == MessageBoxResult.No)
+                        if (MessageBox.Show("Cell " + CellNumber.Text + " will now have workers: \n\n" + "Lead Employee: " + leadEmployee + "\n\n Helper Employee(s): " + string.Join(", ", allEmployees.Where(x => x != leadEmployee)) + ", " + EmployeeNumber.Text + ".  \n\nProceed?", "Cell Worker Update for " + CellNumber.Text, MessageBoxButton.YesNo) == MessageBoxResult.No)
                         {
                             //do no stuff
                         }

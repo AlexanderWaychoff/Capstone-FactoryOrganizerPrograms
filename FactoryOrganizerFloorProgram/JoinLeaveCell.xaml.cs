@@ -33,7 +33,9 @@ namespace FactoryOrganizerFloorProgram
 
         private void LeaveCell_Click(object sender, RoutedEventArgs e)
         {
-
+            LeaveCell leaveCell = new LeaveCell();
+            leaveCell.ShowDialog();
+            Close();
         }
     }
 }
