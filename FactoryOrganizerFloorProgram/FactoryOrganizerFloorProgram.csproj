@@ -64,6 +64,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DatabaseControl.cs" />
+    <Compile Include="FolderNames.cs" />
     <Compile Include="StoreEntry.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>

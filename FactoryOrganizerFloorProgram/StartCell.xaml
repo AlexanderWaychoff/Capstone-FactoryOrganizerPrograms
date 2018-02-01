@@ -47,8 +47,8 @@
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Lead Worker:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Name="EmployeeNumber" IsEnabled="False" Text="{Binding EmployeeNumber}"/>
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Lead" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="LeadEmployeeNumber" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="LeadEmployeeNumber_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Lead" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
         <Border Grid.Row="5" Grid.Column="1" >
@@ -62,7 +62,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
+                                            <ColumnDefinition Width="110"/>
                                             <ColumnDefinition Width="60"/>
                                             <ColumnDefinition Width="120"/>
                                             <ColumnDefinition Width="80"/>
@@ -71,7 +71,7 @@
                                             <RowDefinition Height="25"/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Employee Number:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Name="EmployeeNumber" Text="{Binding EmployeeNumber}"/>
+                                        <TextBox Grid.Row="0" Grid.Column="1" Name="HelperNumber" Text="{Binding EmployeeNumber}" IsEnabled="{Binding IsTextBoxVisibleString}" KeyDown="HelperNumber_KeyDown"/>
                                         <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
 
@@ -83,7 +83,7 @@
                 </StackPanel>
             </ScrollViewer>
         </Border>
-        <Button Grid.Row="7" Grid.Column="1" Name="StartCell" Style="{StaticResource DodgerBlueButton}" Width="90" HorizontalAlignment="Left" Click="StartCell_Click">
+        <Button Grid.Row="7" Grid.Column="1" Name="StartCellButton" Style="{StaticResource DodgerBlueButton}" Width="90" HorizontalAlignment="Left" Click="StartCellButton_Click">
             <TextBlock FontSize="18" Text="Start Cell"/>
         </Button>
         <Button Grid.Row="7" Grid.Column="1" Name="Cancel" Style="{StaticResource RedButton}" Width="65" HorizontalAlignment="Right" Click="Cancel_Click">

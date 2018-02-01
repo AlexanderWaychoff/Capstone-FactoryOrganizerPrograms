@@ -27,7 +27,8 @@ namespace FactoryOrganizerFloorProgram
 
         private void StartCell_Click(object sender, RoutedEventArgs e)
         {
-
+            StartCell startCell = new StartCell();
+            startCell.ShowDialog();
         }
 
         private void EndCellRun_Click(object sender, RoutedEventArgs e)
