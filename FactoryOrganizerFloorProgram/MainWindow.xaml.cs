@@ -57,12 +57,15 @@ namespace FactoryOrganizerFloorProgram
 
         private void MenuSettings_Click(object sender, RoutedEventArgs e)
         {
+            Settings settings = new Settings();
 
+            ValidationPrompt validationPrompt = new ValidationPrompt(settings);
+            validationPrompt.Show();
         }
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
     }
