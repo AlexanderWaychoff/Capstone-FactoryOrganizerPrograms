@@ -25,6 +25,8 @@ namespace FactoryOrganizerFloorProgram
 
         ObservableCollection<StoreEntry> startCellEntry;
 
+        List<int> allEmployees = new List<int>();
+
         int cellNumber;
         int leadEmployee;
         int helperEmployee;
@@ -33,7 +35,6 @@ namespace FactoryOrganizerFloorProgram
         {
             InitializeComponent();
 
-            cellEmployees.ItemsSource = startCellEntry = new ObservableCollection<StoreEntry>();
         }
 
         private void CellNumber_KeyDown(object sender, KeyEventArgs e)
@@ -61,35 +62,13 @@ namespace FactoryOrganizerFloorProgram
         {
             if (e.Key == Key.Enter)
             {
-                if (int.TryParse(CellNumber.Text, out leadEmployee))
+                if (int.TryParse(LeadEmployeeNumber.Text, out leadEmployee))
                 {
                     LeadEmployeeNumber.IsEnabled = false;
-                    StoreEntry helperEmployee = new StoreEntry();
-                    startCellEntry.Add(helperEmployee);
+                    HelperEmployee1.IsEnabled = true;
+                    allEmployees.Add(leadEmployee);
                 }
                 else
-                {
-                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
-                }
-            }
-        }
-
-        private void HelperNumber_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                StoreEntry helperNumber = new StoreEntry();
-                try
-                {
-                    helperNumber.EmployeeNumber = ((sender as FrameworkElement).DataContext as StoreEntry).EmployeeNumber;
-                    helperNumber.IsTextBoxVisibleString = "False";
-
-                    //((sender as FrameworkElement).DataContext as StoreEntry).IsTextBoxVisible = false;
-                    StoreEntry helperEmployee = new StoreEntry();
-                    startCellEntry.Add(helperEmployee);
-
-                }
-                catch
                 {
                     MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
                 }
@@ -103,8 +82,208 @@ namespace FactoryOrganizerFloorProgram
 
         private void StartCellButton_Click(object sender, RoutedEventArgs e)
         {
-
+            bool areValuesValid;
+            foreach(StoreEntry helper in startCellEntry)
+            {
+                //if (int.TryParse(helper.EmployeeNumber.ToString(), out helperEmployee) || helper.EmployeeNumber == null)
+            }
         }
 
+        public bool CheckForDuplicateEmployee(int employeeNumber)
+        {
+            foreach(int employee in allEmployees)
+            {
+                if(employee == employeeNumber)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void HelperEmployee1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee1.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee1.IsEnabled = false;
+                        HelperEmployee2.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+
+        private void HelperEmployee2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee2.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee2.IsEnabled = false;
+                        HelperEmployee3.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+        private void HelperEmployee3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee3.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee3.IsEnabled = false;
+                        HelperEmployee4.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+        private void HelperEmployee4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee4.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee4.IsEnabled = false;
+                        HelperEmployee5.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+        private void HelperEmployee5_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee5.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee5.IsEnabled = false;
+                        HelperEmployee6.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+        private void HelperEmployee6_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee6.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee6.IsEnabled = false;
+                        HelperEmployee7.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+        private void HelperEmployee7_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee7.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee7.IsEnabled = false;
+                        HelperEmployee8.IsEnabled = true;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
+        private void HelperEmployee8_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (int.TryParse(HelperEmployee8.Text, out helperEmployee))
+                {
+                    if (CheckForDuplicateEmployee(helperEmployee))
+                    {
+                        HelperEmployee8.IsEnabled = false;
+                        allEmployees.Add(helperEmployee);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The employee number entered has already been submitted.", "Duplicate Employee Number");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The value entered isn't a number.", "Entry Isn't a Number");
+                }
+            }
+        }
     }
 }

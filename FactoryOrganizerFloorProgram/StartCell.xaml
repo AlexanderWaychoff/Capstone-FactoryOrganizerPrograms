@@ -13,9 +13,27 @@
             <RowDefinition Height="5"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="330"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -44,49 +62,130 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="60"/>
-                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Lead Worker:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="1" Name="LeadEmployeeNumber" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="LeadEmployeeNumber_KeyDown"/>
             <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Lead" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
 
-        <Border Grid.Row="5" Grid.Column="1" >
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="2" Background="White">
+        <Grid Grid.Row="7" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee1" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee1_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
 
-                <StackPanel Background="BurlyWood">
+        <Grid Grid.Row="9" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee2" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee2_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
 
-                    <ItemsControl Name="cellEmployees">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="110"/>
-                                            <ColumnDefinition Width="60"/>
-                                            <ColumnDefinition Width="120"/>
-                                            <ColumnDefinition Width="80"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="25"/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Employee Number:" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <TextBox Grid.Row="0" Grid.Column="1" Name="HelperNumber" Text="{Binding EmployeeNumber}" IsEnabled="{Binding IsTextBoxVisibleString}" KeyDown="HelperNumber_KeyDown"/>
-                                        <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
+        <Grid Grid.Row="11" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee3" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee3_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
 
-                                </StackPanel>
+        <Grid Grid.Row="13" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee4" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee4_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
 
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
-            </ScrollViewer>
-        </Border>
-        <Button Grid.Row="7" Grid.Column="1" Name="StartCellButton" Style="{StaticResource DodgerBlueButton}" Width="90" HorizontalAlignment="Left" Click="StartCellButton_Click">
+        <Grid Grid.Row="15" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee5" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee5_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="17" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee6" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee6_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="19" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee7" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee7_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid Grid.Row="21" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="140"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Helper:" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="HelperEmployee8" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="HelperEmployee8_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status: Helper" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+
+        <Button Grid.Row="25" Grid.Column="1" Name="StartCellButton" Style="{StaticResource DodgerBlueButton}" Width="90" HorizontalAlignment="Left" Click="StartCellButton_Click">
             <TextBlock FontSize="18" Text="Start Cell"/>
         </Button>
-        <Button Grid.Row="7" Grid.Column="1" Name="Cancel" Style="{StaticResource RedButton}" Width="65" HorizontalAlignment="Right" Click="Cancel_Click">
+        <Button Grid.Row="25" Grid.Column="1" Name="Cancel" Style="{StaticResource RedButton}" Width="65" HorizontalAlignment="Right" Click="Cancel_Click">
             <TextBlock FontSize="18" Text="Cancel"/>
         </Button>
     </Grid>
