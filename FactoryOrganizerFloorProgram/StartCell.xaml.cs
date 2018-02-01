@@ -90,6 +90,10 @@ namespace FactoryOrganizerFloorProgram
                 }
                 else
                 {
+                    string allEmployeesEntry = string.Join(",", allEmployees);
+                    databaseControl.ChangeSingleValue("AllCells", "EmployeesInCell", "\'" + allEmployeesEntry + "\'", "CellNumber", CellNumber.Text);
+                    databaseControl.ChangeSingleValue("AllCells", "IsCellActive", "1", "CellNumber", CellNumber.Text);
+                    databaseControl.ChangeSingleValue("AllCells", "CellStartTime", "\'" + DateTime.Now.ToString() + "\'", "CellNumber", CellNumber.Text);
                     //update database string.join(",", allEmployees)
                 }
             }

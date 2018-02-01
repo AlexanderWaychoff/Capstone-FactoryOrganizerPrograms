@@ -336,26 +336,9 @@ namespace FactoryOrganizerFloorProgram
                     try
                     {
                         openCon.Open();
-                        myDataReader = querySaveStaff.ExecuteReader(CommandBehavior.CloseConnection);
+                        querySaveStaff.Connection = openCon;
 
-                        while (myDataReader.Read())
-                        {
-                            StoreEntry confirmProduction = new StoreEntry();
-
-                            confirmProduction.CellNumber = myDataReader.GetString(1);
-                            if (myDataReader.IsDBNull(2))
-                            {
-                                confirmProduction.AllEmployeesInCell = "";
-                            }
-                            else
-                            {
-                                confirmProduction.AllEmployeesInCell = myDataReader.GetString(2);
-                            }
-                            confirmProduction.IsCellActive = myDataReader.GetBoolean(3);
-                            confirmProduction.TimeOfReporting = myDataReader.GetDateTime(4);
-                            confirmProduction.CellNumber = "-";
-                        }
-                        myDataReader.Close();
+                        querySaveStaff.ExecuteNonQuery();
                         openCon.Close();
                     }
                     catch (Exception e)

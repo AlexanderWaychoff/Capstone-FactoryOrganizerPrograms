@@ -38,7 +38,8 @@ namespace FactoryOrganizerFloorProgram
 
         private void JoinLeaveCell_Click(object sender, RoutedEventArgs e)
         {
-
+            JoinLeaveCell joinLeaveCell = new JoinLeaveCell();
+            joinLeaveCell.ShowDialog();
         }
 
         private void ReportCellScrap_Click(object sender, RoutedEventArgs e)
