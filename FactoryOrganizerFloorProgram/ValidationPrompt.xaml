@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerFloorProgram"
         mc:Ignorable="d"
-        Title="ValidationPrompt" Height="200" Width="300" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="Validation Prompt" Height="200" Width="300" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Background="AntiqueWhite">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>

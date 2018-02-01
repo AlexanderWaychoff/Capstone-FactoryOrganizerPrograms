@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace FactoryOrganizerFloorProgram
 {
-    public class ReportItem
+    public class StoreEntry
     {
         public string Customer { get; set; }
+        public int EmployeeNumber { get; set; }
         public string ItemNumber { get; set; }
         public string CellNumber { get; set; }
         public int TotalOrder { get; set; }
@@ -19,7 +20,7 @@ namespace FactoryOrganizerFloorProgram
         public string RequiredOperations { get; set; }
         public DateTime TimeOfReporting { get; set; }
 
-        public ReportItem()
+        public StoreEntry()
         {
             ButtonVisibility = "Visible";
         }
