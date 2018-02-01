@@ -82,10 +82,20 @@ namespace FactoryOrganizerFloorProgram
 
         private void StartCellButton_Click(object sender, RoutedEventArgs e)
         {
-            bool areValuesValid;
-            foreach(StoreEntry helper in startCellEntry)
+            if (allEmployees.Count != 0)
             {
-                //if (int.TryParse(helper.EmployeeNumber.ToString(), out helperEmployee) || helper.EmployeeNumber == null)
+                if (MessageBox.Show("Cell " + CellNumber.Text + " will now start with: \n" + "Lead Employee: " + LeadEmployeeNumber.Text + "\n\n Helper Employee(s): " + string.Join(", ", allEmployees.Where(x => x != leadEmployee)) + ".  \n\nProceed?", "Cell Start: " + CellNumber.Text, MessageBoxButton.YesNo) == MessageBoxResult.No)
+                {
+                    //do no stuff
+                }
+                else
+                {
+                    //update database string.join(",", allEmployees)
+                }
+            }
+            else
+            {
+                MessageBox.Show("No employees have been entered, cell cannot be started.  Click the 'Cancel' button to terminate starting a cell.", "No Employees Entered");
             }
         }
 
