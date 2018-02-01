@@ -21,9 +21,13 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class Settings : Window
     {
+        FolderNames folderNames = new FolderNames();
+        DatabaseControl databaseControl = new DatabaseControl();
+        CsvReader csvReader = new CsvReader();
+
         public string localConnection = "Data Source=(localdb)\\MSSQLLocalDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public ObservableCollection<string> GatheredConnections = new ObservableCollection<string>();
-        public Settings()
+        public Settings(DatabaseControl databaseController, CsvReader csvRead, FolderNames allFolders)
         {
             InitializeComponent();
             AvailableConnections.ItemsSource = GatheredConnections;
@@ -60,7 +64,7 @@ namespace FactoryOrganizerOfficeProgram
 
         private void ManageCells_Click(object sender, RoutedEventArgs e)
         {
-            var cellManager = new CellManager();
+            var cellManager = new CellManager(databaseControl, csvReader, folderNames);
             cellManager.ShowDialog();
         }
 

@@ -24,5 +24,46 @@ namespace FactoryOrganizerFloorProgram
         {
             InitializeComponent();
         }
+
+        private void StartCell_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EndCellRun_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void JoinLeaveCell_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ReportCellScrap_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EndJob_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ReportJobScrap_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuSettings_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

@@ -211,6 +211,42 @@ namespace FactoryOrganizerOfficeProgram
             return printList;
         }
 
+        public void SubmitCell(StashConfirmProduction job)
+        {
+            string sqlQuery = "INSERT INTO dbo.AllCells VALUES(@CellNumber, @EmployeesInCell, @IsCellActive, @CellStartTime);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms
+            using (SqlConnection openCon = new SqlConnection(factoryConnection))
+            {
+
+                using (SqlCommand querySaveStaff = new SqlCommand(sqlQuery))
+                {
+                    //office program, file path to files
+                    try
+                    {
+                        //
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+                        querySaveStaff.Parameters.Add("@CellNumber", SqlDbType.VarChar, 50).Value = job.CellNumber;
+                        querySaveStaff.Parameters.Add("@EmployeesInCell", SqlDbType.VarChar, 50).Value = "";
+                        querySaveStaff.Parameters.Add("@IsCellActive", SqlDbType.Bit).Value = 0;
+                        querySaveStaff.Parameters.Add("@CellStartTime", SqlDbType.DateTime).Value = job.TimeOfReporting;
+  
+                        querySaveStaff.ExecuteNonQuery();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+        }
+
         public void SubmitCellJob(StashConfirmProduction job)
         {
             string sqlQuery = "INSERT INTO dbo.CellProducts VALUES(@Customer, @CellNumber, @ItemNumber, @TotalPieces, @ReportedPieces, @EmployeesInCell, @TimeOfReporting);"; //put name of table here (dbo.HighScores) and change @'s to appropriate terms

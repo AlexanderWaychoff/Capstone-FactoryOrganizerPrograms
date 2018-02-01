@@ -5,8 +5,73 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerFloorProgram"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+Title="Generic Factory" Height="600" Width="1000" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Grid Background="Moccasin">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="550"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Settings" Click="MenuSettings_Click" />
+                    <Separator />
+                    <MenuItem Header="_Exit" Click="MenuExit_Click"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="940"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="500"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Cell" FontSize="30"/>
+                <Button Name="StartCell" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="0" Width="150" Height="100" Click="StartCell_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="Start Cell" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Name="EndCellRun" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="1" Width="150" Height="100" Click="EndCellRun_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="End Run" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Name="JoinLeaveCell" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="2" Width="150" Height="100" Click="JoinLeaveCell_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" TextAlignment="Center" Text="Join/Leave Cell"/>
+                </Button>
+                <Button Name="ReportCellScrap" Style="{StaticResource CyanButton}" Grid.Row="0" Grid.Column="3" Width="160" Height="100" Click="ReportCellScrap_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" TextAlignment="Center" Text="Report Cell Scrap"/>
+                </Button>
+
+                <Border Background="Black" Grid.Row="1" Grid.Column="0"/>
+                <Border Background="Black" Grid.Row="1" Grid.Column="1"/>
+                <Border Background="Black" Grid.Row="1" Grid.Column="2"/>
+                <Border Background="Black" Grid.Row="1" Grid.Column="3"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Job" FontSize="30"/>
+                <Button Name="EndJob" Style="{StaticResource CyanButton}" Grid.Row="2" Grid.Column="1" Width="150" Height="100" Click="EndJob_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" Text="End Job"/>
+                </Button>
+                <Button Name="ReportJobScrap" Style="{StaticResource CyanButton}" Grid.Row="2" Grid.Column="3" Width="150" Height="100" Click="ReportJobScrap_Click">
+                    <TextBlock FontSize="25" TextWrapping="Wrap" TextAlignment="Center" Text="Report Job Scrap"/>
+                </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

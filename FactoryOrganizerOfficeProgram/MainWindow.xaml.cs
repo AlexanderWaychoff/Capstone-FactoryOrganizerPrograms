@@ -32,7 +32,7 @@ namespace FactoryOrganizerOfficeProgram
         //MenuSettings_Click
         private void MenuSettings_Click(object sender, RoutedEventArgs e)
         {
-            var settings = new Settings();
+            var settings = new Settings(databaseControl, csvReader, folderNames);
             settings.ShowDialog();
         }
 

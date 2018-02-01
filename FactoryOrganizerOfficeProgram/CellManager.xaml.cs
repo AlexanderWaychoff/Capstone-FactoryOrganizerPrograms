@@ -21,6 +21,9 @@ namespace FactoryOrganizerOfficeProgram
     /// </summary>
     public partial class CellManager : Window
     {
+        FolderNames folderNames = new FolderNames();
+        DatabaseControl databaseControl = new DatabaseControl();
+        CsvReader csvReader = new CsvReader();
 
         public ObservableCollection<ProductOperation> ProductOperations { get; set; }
         public ObservableCollection<FileName> AllCustomers { get; set; }
@@ -43,9 +46,13 @@ namespace FactoryOrganizerOfficeProgram
 
         string[] folders;
 
-        public CellManager()
+        public CellManager(DatabaseControl databaseController, CsvReader csvRead, FolderNames allFolders)
         {
             InitializeComponent();
+
+            databaseControl = databaseController;
+            csvReader = csvRead;
+            folderNames = allFolders;
 
             lstMachineFunctions.ItemsSource = ProductOperations = new ObservableCollection<ProductOperation>();
             CustomerList.ItemsSource = AllCustomers = new ObservableCollection<FileName>();
@@ -133,24 +140,30 @@ namespace FactoryOrganizerOfficeProgram
             {
                 //if (DetailSetExists)
                 //{
-                    bool changesWereMade = true;//CompareDuplicateAndProductDetails();
+                bool changesWereMade = true;//CompareDuplicateAndProductDetails();
 
-                    if (changesWereMade)
+                if (changesWereMade)
+                {
+                    if (MessageBox.Show("New operation " + everyCustomerCell.Text + " will be added for " + CustomerList.Text + ".  Proceed?", "New Cell: " + everyCustomerCell.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                     {
-                        if (MessageBox.Show("New operation " + everyCustomerCell.Text + " will be added for " + CustomerList.Text + ".  Proceed?", "New Cell: " + everyCustomerCell.Text, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                        {
-                            //do no stuff
-                        }
-                        else
-                        {
-                            SaveDetailsToCSV();
-                        MessageBox.Show("New cell saved.", "Save Confirmation");
-                        }
+                        //do no stuff
                     }
                     else
                     {
-                        //MessageBox.Show("No changes are being made to '" + DetailSet.Text + "'.  Save canceled.", "Nothing to Save.");
+                        StashConfirmProduction cellInfo = new StashConfirmProduction();
+                        cellInfo.CellNumber = everyCustomerCell.Text;
+                        cellInfo.TimeOfReporting = DateTime.Now;
+
+                        databaseControl.SubmitCell(cellInfo);
+                    //make database query to factoryConnection to save cell
+                        SaveDetailsToCSV();
+                        MessageBox.Show("New cell saved.", "Save Confirmation");
                     }
+                }
+                else
+                {
+                    //MessageBox.Show("No changes are being made to '" + DetailSet.Text + "'.  Save canceled.", "Nothing to Save.");
+                }
                 //}
                 //else
                 //{

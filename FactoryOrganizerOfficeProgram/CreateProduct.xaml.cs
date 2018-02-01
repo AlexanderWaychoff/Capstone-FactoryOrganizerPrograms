@@ -633,7 +633,7 @@ namespace FactoryOrganizerOfficeProgram
                 }
                 sb.Append("               " + ProductOperations[i].Operation + ": " + ProductOperations[i].Description + requiredOperation);
             }
-            sb.Append("\n      //////////////////////////////////////////////////");
+            sb.Append("\n      //////////////////////////////////////////////////\n");
 
 
             ExternalFile.MoveFilesAndFoldersFromTemporary(basePathForTemporaryFolder, allFolderNames.CustomersFolder + @"\" + customerName + @"\" + customerProducts.Text);

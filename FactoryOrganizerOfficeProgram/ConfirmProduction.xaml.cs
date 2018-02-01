@@ -26,6 +26,8 @@ namespace FactoryOrganizerOfficeProgram
         DatabaseControl databaseControl;
         CsvReader csvReader;
         FolderNames folderNames;
+        Random random = new Random();
+
         public ConfirmProduction(DatabaseControl databaseController, CsvReader csvRead, FolderNames allFolders)
         {
             InitializeComponent();
@@ -117,9 +119,13 @@ namespace FactoryOrganizerOfficeProgram
 
         private void RandomizeCode_Click(object sender, RoutedEventArgs e)
         {
+            var randomizedCode = ((sender as FrameworkElement).DataContext as StashConfirmProduction);
 
+            string randomCode = randomizedCode.ItemNumber + "-" + random.Next(0, 999999).ToString("000000");
+            randomizedCode.ReportCode = randomCode;
+            
         }
-
+        // TextSearch.TextPath="ReportCode"
         private void CheckFloorStatus_Click(object sender, RoutedEventArgs e)
         {
 

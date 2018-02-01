@@ -104,8 +104,8 @@
                                         <TextBlock Grid.Row="0" Grid.Column="2"  Text="{Binding ItemNumber}" HorizontalAlignment="Center"/>
                                         <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding CellNumber}" HorizontalAlignment="Center"/>
                                         <TextBlock Name="TotalAmount" Grid.Row="0" Grid.Column="4" Text="{Binding TotalOrder}" HorizontalAlignment="Center"/>
-                                        <TextBox Name="ReportCode" Grid.Row="0" Grid.Column="5" Visibility="{Binding ButtonVisibility}" Text="{Binding ReportCode}"/>
-                                        <Button Name="RandomizeCode" Grid.Row="0" Grid.Column="6" Visibility="{Binding ButtonVisibility}" Style="{StaticResource CyanButton}" Width="100" Height="18" Click="RandomizeCode_Click" HorizontalAlignment="Center">Randomize Code</Button>
+                                        <TextBox Name="ReportCode" Grid.Row="0" Grid.Column="5" Visibility="{Binding ButtonVisibility}" Text="{Binding ReportCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        <Button Name="RandomizeCode" Grid.Row="0" Grid.Column="6" Command="{Binding ReportCode}" Visibility="{Binding ButtonVisibility}" Style="{StaticResource CyanButton}" Width="100" Height="18" Click="RandomizeCode_Click" HorizontalAlignment="Center">Randomize Code</Button>
                                         <Button Name="CheckFloorStatus" Grid.Row="0" Grid.Column="7" Style="{StaticResource GreenButton}" Width="80" Height="18" Click="CheckFloorStatus_Click" HorizontalAlignment="Center">Floor Status</Button>
                                     </Grid>
                                 </StackPanel>
