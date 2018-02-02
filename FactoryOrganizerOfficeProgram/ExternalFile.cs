@@ -144,7 +144,7 @@ namespace FactoryOrganizerOfficeProgram
         }
 
         public static void CopyFileForWebsite(string websiteImagePath, string baseImageFilePath)
-        {;
+        {
             //string exePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
             try

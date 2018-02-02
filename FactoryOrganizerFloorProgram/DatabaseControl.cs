@@ -424,6 +424,36 @@ namespace FactoryOrganizerFloorProgram
             }
         }
 
+        public void ChangeSingleValueInt(string tableName, string columnValueToChange, int valueToInsert, string columnToVerifyWith, string verifyColumnValue)
+        {
+            string queryToLaunch = "UPDATE dbo." + tableName + " SET " + columnValueToChange + " = " + valueToInsert + " WHERE " + columnToVerifyWith + " = " + verifyColumnValue + ";";
+            using (SqlConnection openCon = new SqlConnection(factoryConnection))
+            {
+                using (SqlCommand querySaveStaff = new SqlCommand(queryToLaunch))
+                {
+                    try
+                    {
+                        openCon.Open();
+                        querySaveStaff.Connection = openCon;
+
+                        querySaveStaff.ExecuteNonQuery();
+                        openCon.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("An error occurred: '{0}'", e);
+                    }
+                    finally
+                    {
+                        if (openCon.State == System.Data.ConnectionState.Open)
+                        {
+                            openCon.Close();
+                        }
+                    }
+                }
+            }
+        }
+
         public void ChangeSingleValueOperation(string tableName, string columnValueToChange, int valueToInsert, string columnToVerifyWith, string verifyColumnValue)
         {
             string queryToLaunch = "UPDATE dbo." + tableName + " SET " + columnValueToChange + " = " + valueToInsert + " WHERE " + columnToVerifyWith + " = " + verifyColumnValue + ";";

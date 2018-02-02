@@ -65,7 +65,7 @@ namespace FactoryOrganizerFloorProgram
         {
             if (e.Key == Key.Enter)
             {
-                retrieveJobProduction = databaseControl.CheckSingleRowForJob("JobProductions", "ReportCode", ProductCode.Text.ToString());
+                retrieveJobProduction = databaseControl.CheckSingleRowForJob("JobProductions", "ReportCode", "'" + ProductCode.Text + "'");
                 retrieveJobProduction.EmployeeNumber = storeNumber;
                 //retrieveJobProduction = databaseControl.CheckSingleRowForCellRun(retrieveJobProduction, "CellProductions", "ItemNumber", ItemNumber.Text);
                 try
@@ -175,7 +175,7 @@ namespace FactoryOrganizerFloorProgram
                 saveEntry.TimeOfReporting = DateTime.Now;
 
                 //databaseControl.ChangeSingleValue("CellProductions", "TotalPieces", saveEntry.TotalOrder.ToString(), "ItemNumber", saveEntry.ItemNumber.ToString());
-                databaseControl.ChangeSingleValue("JobProductions", "ReportedPieces", saveEntry.AmountCompleted.ToString(), "ReportCode", saveEntry.ReportCode.ToString());
+                databaseControl.ChangeSingleValueInt("JobProductions", "ReportedPieces", saveEntry.AmountCompleted, "ReportCode", "'" + saveEntry.ReportCode + "'");
 
                 //if reportedpieces == totalpieces, remove operation
                 if(saveEntry.AmountCompleted == saveEntry.TotalOrder)
@@ -184,9 +184,9 @@ namespace FactoryOrganizerFloorProgram
                     int newRequiredOperation = allOperations[0];
                     string allRequiredOperationsLeftEntry = string.Join(",", allOperations);
                     int reportedPieces = 0;
-                    databaseControl.ChangeSingleValue("JobProductions", "RequiredOperation", "\'" + allRequiredOperationsLeftEntry + "\'", "ReportCode", ProductCode.Text);
-                    databaseControl.ChangeSingleValueOperation("JobProductions", "Operation", newRequiredOperation, "ReportCode", ProductCode.Text);
-                    databaseControl.ChangeSingleValueOperation("JobProductions", "ReportedPieces", reportedPieces, "ReportCode", ProductCode.Text);
+                    databaseControl.ChangeSingleValue("JobProductions", "RequiredOperation", "\'" + allRequiredOperationsLeftEntry + "\'", "ReportCode", "'" + ProductCode.Text + "'");
+                    databaseControl.ChangeSingleValueOperation("JobProductions", "Operation", newRequiredOperation, "ReportCode", "'" + ProductCode.Text + "'");
+                    databaseControl.ChangeSingleValueOperation("JobProductions", "ReportedPieces", reportedPieces, "ReportCode", "'" + ProductCode.Text + "'");
                 }
                 saveEntry.AmountCompleted = amountCompleted;
                 databaseControl.SubmitJobEntry(saveEntry);
