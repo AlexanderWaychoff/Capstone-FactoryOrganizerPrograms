@@ -27,7 +27,7 @@ namespace FactoryOrganizerOfficeProgram
         string exePath;
         public DatabaseControl()
         {
-
+            exePath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             string executable = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string path = (System.IO.Path.GetDirectoryName(executable));
             AppDomain.CurrentDomain.SetData("DataDirectory", path);
