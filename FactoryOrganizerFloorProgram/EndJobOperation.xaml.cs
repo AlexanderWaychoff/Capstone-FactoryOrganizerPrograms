@@ -119,7 +119,7 @@ namespace FactoryOrganizerFloorProgram
                 {
                     if (amountCompleted > retrieveJobProduction.TotalOrder - retrieveJobProduction.AmountCompleted)
                     {
-                        MessageBox.Show("The amount entered is greater than the amount needed for production: " + (retrieveJobProduction.TotalOrder - retrieveJobProduction.AmountCompleted).ToString() + "  .  Make sure the amount is correct or contact a supervisor if this problem persists.", "Overran Production");
+                        MessageBox.Show("The amount entered is greater than the amount needed for production: \n\n" + (retrieveJobProduction.TotalOrder - retrieveJobProduction.AmountCompleted).ToString() + " parts. \n\n Make sure the amount is correct or contact a supervisor if this problem persists.", "Overran Production");
                     }
                     else
                     {
