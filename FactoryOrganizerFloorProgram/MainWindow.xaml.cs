@@ -50,7 +50,8 @@ namespace FactoryOrganizerFloorProgram
 
         private void EndJob_Click(object sender, RoutedEventArgs e)
         {
-
+            EndJobOperation endJobOperation = new EndJobOperation();
+            endJobOperation.ShowDialog();
         }
 
         private void ReportJobScrap_Click(object sender, RoutedEventArgs e)

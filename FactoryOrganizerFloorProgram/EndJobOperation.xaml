@@ -1,11 +1,11 @@
-﻿<Window x:Class="FactoryOrganizerFloorProgram.EndCellRun"
+﻿<Window x:Class="FactoryOrganizerFloorProgram.EndJobOperation"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FactoryOrganizerFloorProgram"
         mc:Ignorable="d"
-Title="End Cell Run" Height="505" Width="500" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        Title="End Job Operation" Height="505" Width="500" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid Background="AntiqueWhite">
         <Grid.RowDefinitions>
             <RowDefinition Height="5"/>
@@ -33,8 +33,8 @@ Title="End Cell Run" Height="505" Width="500" ResizeMode="CanMinimize" WindowSta
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="120"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Cell Number:" FontSize="22" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Name="CellNumber" Text="{Binding CellNumber}" KeyDown="CellNumber_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Employee Number:" FontSize="22" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="EmployeeNumber" Text="{Binding CellNumber}" KeyDown="EmployeeNumber_KeyDown"/>
         </Grid>
 
         <Grid Grid.Row="3" Grid.Column="1">
@@ -46,8 +46,21 @@ Title="End Cell Run" Height="505" Width="500" ResizeMode="CanMinimize" WindowSta
                 <ColumnDefinition Width="60"/>
                 <ColumnDefinition Width="170"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Employee Number:" FontSize="22" VerticalAlignment="Center"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Name="ItemNumber" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="ItemNumber_KeyDown"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Product Code:" FontSize="22" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="ProductCode" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="ProductCode_KeyDown"/>
+        </Grid>
+
+        <Grid Grid.Row="5" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Operation:" FontSize="22" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="OperationNumber" IsEnabled="False" Text="{Binding EmployeeNumber}" KeyDown="OperationNumber_KeyDown"/>
         </Grid>
 
         <Grid Grid.Row="5" Grid.Column="1">
@@ -57,7 +70,7 @@ Title="End Cell Run" Height="505" Width="500" ResizeMode="CanMinimize" WindowSta
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Grid.Row="2" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -84,7 +97,7 @@ Title="End Cell Run" Height="505" Width="500" ResizeMode="CanMinimize" WindowSta
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Total Scrap:" FontSize="20" VerticalAlignment="Center"/>
                 <TextBox Grid.Row="0" Grid.Column="1" Name="ScrapAmount" IsEnabled="False" Text="{Binding EmployeeNumber}"/>
-                
+
                 <TextBlock Grid.Row="0" Grid.Column="3" Text="Reason:" FontSize="20" VerticalAlignment="Center"/>
                 <ComboBox Name="scrapReasonList" Grid.Row="0" Grid.Column="5" IsEnabled="False" TextSearch.TextPath ="ScrapReason">
                     <ComboBox.ItemTemplate>
@@ -99,7 +112,7 @@ Title="End Cell Run" Height="505" Width="500" ResizeMode="CanMinimize" WindowSta
             </Grid>
 
         </Grid>
-        
+
         <Button Grid.Row="7" Grid.Column="1" Name="Submit" Style="{StaticResource DodgerBlueButton}" Width="65" HorizontalAlignment="Left" Click="Submit_Click">
             <TextBlock FontSize="18" Text="Submit"/>
         </Button>

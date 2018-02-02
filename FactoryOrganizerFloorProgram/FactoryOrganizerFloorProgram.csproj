@@ -68,6 +68,9 @@
     <Compile Include="EndCellRun.xaml.cs">
       <DependentUpon>EndCellRun.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EndJobOperation.xaml.cs">
+      <DependentUpon>EndJobOperation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FolderNames.cs" />
     <Compile Include="JoinCell.xaml.cs">
       <DependentUpon>JoinCell.xaml</DependentUpon>
@@ -90,6 +93,10 @@
       <DependentUpon>ValidationPrompt.xaml</DependentUpon>
     </Compile>
     <Page Include="EndCellRun.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EndJobOperation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
